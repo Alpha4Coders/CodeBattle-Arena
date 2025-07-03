@@ -1,0 +1,46 @@
+/* Temporarily commenting out Tailwind directives to fix build */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --nav-bg: #1a1a2e;
+  --card-bg: #16213e;
+  --text-primary: #ffffff;
+  --text-secondary: #c9d1d9;
+  --border-color: #2d2d47;
+  --accent-green: #00ff00;
+  --accent-blue: #0096ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0f0f23;
+  color: #ffffff;
+}
+
+.dark-theme {
+  background-color: #0f0f23;
+  color: #ffffff;
+}
+
+.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.light-theme :root {
+  --nav-bg: #ffffff;
+  --card-bg: #f8f9fa;
+  --text-primary: #000000;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+}
