@@ -890,3 +890,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// Back to Challenges button logic (moved from HTML inline script)
+document.addEventListener('DOMContentLoaded', function() {
+  var backBtn = document.getElementById('back-to-challenges');
+  if (backBtn) {
+    backBtn.onclick = function() {
+      var difficulty = null;
+      if (window.currentProblem && window.currentProblem.difficulty) {
+        difficulty = window.currentProblem.difficulty;
+      } else if (localStorage.getItem('selectedProblem')) {
+        try {
+          var stored = JSON.parse(localStorage.getItem('selectedProblem'));
+          if (stored && stored.difficulty) difficulty = stored.difficulty;
+        } catch(e) {}
+      }
+      if (difficulty === 'easy') {
+        window.location.href = '../Easy/beginner.html';
+      } else if (difficulty === 'medium') {
+        window.location.href = '../Intermediate/Intermediate.html';
+      } else if (difficulty === 'hard') {
+        window.location.href = '../Advanced/Advanced.html';
+      } else if (
+        difficulty === 'realworld' ||
+        difficulty === 'real-world' ||
+        difficulty === 'real_world' ||
+        difficulty === 'project' ||
+        difficulty === 'projects'
+      ) {
+        window.location.href = '../Real-World/RealWorld.html';
+      } else {
+        window.location.href = '../HomePage/codigo.html#practice';
+      }
+    };
+  }
+});
