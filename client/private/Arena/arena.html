@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arena - Real-Time Coding Duels</title>
     <link rel="stylesheet" href="arena.css">
+    <link rel="stylesheet" href="arena-modern.css">
     <link rel="stylesheet" href="../common/navigation.css">
     <link rel="stylesheet" href="../common/problemStyles.css">
     
@@ -68,83 +69,83 @@
     <main id="app">
         <!-- Arena Menu -->
         <div id="arenaMenu" class="arena-screen active">
-            <div class="container">
-                <div class="arena-header">
-                    <h1>⚔️ CodeBattle Arena</h1>
-                    <p>Challenge players in real-time coding duels!</p>
-                </div>
-                
-                <div class="arena-stats">
-                    <div class="stat-card">
-                        <h3 id="onlineUsers">0</h3>
-                        <p>Online Users</p>
+            <div class="arena-header arena-header-center">
+                <h1>⚔️ CodeBattle Arena</h1>
+                <p>Challenge players in real-time coding duels!</p>
+            </div>
+            <div class="arena-menu-5050">
+                <div class="arena-menu-left">
+                    <div class="arena-stats">
+                        <div class="stat-card">
+                            <h3 id="onlineUsers">0</h3>
+                            <p>Online Users</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="activeMatches">0</h3>
+                            <p>Active Matches</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="totalMatches">0</h3>
+                            <p>Total Matches</p>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <h3 id="activeMatches">0</h3>
-                        <p>Active Matches</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="totalMatches">0</h3>
-                        <p>Total Matches</p>
-                    </div>
-                </div>
-
-                <div class="difficulty-selection">
-                    <h2>Select Your Battleground</h2>
-                    <div class="difficulty-buttons">
-                        <button class="difficulty-btn easy" data-difficulty="easy">
-                            <span class="difficulty-icon">🟢</span>
-                            <div class="difficulty-content">
-                                <h3>Easy</h3>
-                                <p>5 minutes per question</p>
+                    <div class="player-stats">
+                        <h2>Your Arena Stats</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Matches</span>
+                                <span class="stat-value" id="playerMatches">0</span>
                             </div>
-                        </button>
-                        <button class="difficulty-btn medium" data-difficulty="medium">
-                            <span class="difficulty-icon">🟡</span>
-                            <div class="difficulty-content">
-                                <h3>Medium</h3>
-                                <p>8 minutes per question</p>
+                            <div class="stat-item">
+                                <span class="stat-label">Wins</span>
+                                <span class="stat-value" id="playerWins">0</span>
                             </div>
-                        </button>
-                        <button class="difficulty-btn hard" data-difficulty="hard">
-                            <span class="difficulty-icon">🔴</span>
-                            <div class="difficulty-content">
-                                <h3>Hard</h3>
-                                <p>15 minutes per question</p>
+                            <div class="stat-item">
+                                <span class="stat-label">Win Rate</span>
+                                <span class="stat-value" id="playerWinRate">0%</span>
                             </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Current Streak</span>
+                                <span class="stat-value" id="playerStreak">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arena-actions">
+                        <button id="viewLeaderboardBtn" class="action-btn secondary">
+                            🏆 View Leaderboard
+                        </button>
+                        <button id="backToHomeBtn" class="action-btn secondary">
+                            🏠 Back to Home
                         </button>
                     </div>
                 </div>
-
-                <div class="player-stats">
-                    <h2>Your Arena Stats</h2>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Matches</span>
-                            <span class="stat-value" id="playerMatches">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Wins</span>
-                            <span class="stat-value" id="playerWins">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Win Rate</span>
-                            <span class="stat-value" id="playerWinRate">0%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Current Streak</span>
-                            <span class="stat-value" id="playerStreak">0</span>
+                <div class="arena-menu-right">
+                    <div class="difficulty-selection">
+                        <h2>Select Your Battleground</h2>
+                        <div class="difficulty-buttons">
+                            <button class="difficulty-btn easy" data-difficulty="easy">
+                                <span class="difficulty-icon">🟢</span>
+                                <div class="difficulty-content">
+                                    <h3>Easy</h3>
+                                    <p>5 minutes per question</p>
+                                </div>
+                            </button>
+                            <button class="difficulty-btn medium" data-difficulty="medium">
+                                <span class="difficulty-icon">🟡</span>
+                                <div class="difficulty-content">
+                                    <h3>Medium</h3>
+                                    <p>8 minutes per question</p>
+                                </div>
+                            </button>
+                            <button class="difficulty-btn hard" data-difficulty="hard">
+                                <span class="difficulty-icon">🔴</span>
+                                <div class="difficulty-content">
+                                    <h3>Hard</h3>
+                                    <p>15 minutes per question</p>
+                                </div>
+                            </button>
                         </div>
                     </div>
-                </div>
-
-                <div class="arena-actions">
-                    <button id="viewLeaderboardBtn" class="action-btn secondary">
-                        🏆 View Leaderboard
-                    </button>
-                    <button id="backToHomeBtn" class="action-btn secondary">
-                        🏠 Back to Home
-                    </button>
                 </div>
             </div>
         </div>

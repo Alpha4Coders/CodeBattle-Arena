@@ -1,0 +1,361 @@
+/* --- GAME LOBBY MODERN ARENA MENU --- */
+body {
+    background: linear-gradient(120deg, #181c2b 0%, #232946 100%);
+    min-height: 100vh;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 70% 20%, rgba(0,255,255,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(255,0,255,0.10) 0%, transparent 60%),
+                repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 40px);
+    animation: bgMove 18s linear infinite alternate;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 0%, 100% 100%, 0 0; }
+    100% { background-position: 100% 0%, 0% 100%, 100px 100px; }
+}
+
+.arena-menu-5050 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 70vh;
+    background: rgba(30,34,54,0.85);
+    border-radius: 28px;
+    box-shadow: 0 12px 48px 0 rgba(0,0,0,0.32), 0 1.5px 0 0 #0ff2  inset;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 2.5px solid rgba(0,255,255,0.08);
+    backdrop-filter: blur(12px) saturate(1.2);
+    animation: fadeInUp 0.7s cubic-bezier(.23,1.02,.32,1) 0.1s both;
+    position: relative;
+}
+.arena-header-center {
+    text-align: center;
+    margin-bottom: 36px;
+    padding: 56px 0 0 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    animation: fadeInDown 0.7s cubic-bezier(.23,1.02,.32,1) 0.05s both;
+    z-index: 2;
+}
+.arena-header h1 {
+    font-size: 3.6rem;
+    font-family: 'Orbitron', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    font-weight: 900;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #0ff 10%, #f0f 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    filter: drop-shadow(0 2px 16px #0ff6) drop-shadow(0 0px 8px #f0f4);
+    text-shadow: 0 2px 12px #0ff4, 0 0px 8px #f0f2;
+    text-transform: uppercase;
+}
+.arena-header p {
+    font-size: 1.25rem;
+    opacity: 0.85;
+    color: #e0e0f7;
+    margin-bottom: 0;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 8px #0ff2;
+}
+.arena-menu-left, .arena-menu-right {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 48px 36px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    z-index: 1;
+}
+.arena-menu-left {
+    border-right: 2px solid rgba(0,255,255,0.10);
+    max-width: 50%;
+    gap: 36px;
+}
+.arena-menu-right {
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 900px) {
+    .arena-menu-5050 {
+        flex-direction: column;
+    }
+    .arena-menu-left, .arena-menu-right {
+        max-width: 100%;
+        border-right: none;
+        border-bottom: 2px solid rgba(0,255,255,0.10);
+    }
+    .arena-menu-right {
+        border-bottom: none;
+    }
+}
+.arena-stats {
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+    margin-bottom: 36px;
+    justify-content: space-between;
+    animation: fadeInLeft 0.7s cubic-bezier(.23,1.02,.32,1) 0.2s both;
+}
+.stat-card {
+    background: rgba(255,255,255,0.10);
+    border: 1.5px solid rgba(0,255,255,0.13);
+    border-radius: 22px;
+    padding: 32px 22px;
+    text-align: center;
+    box-shadow: 0 4px 24px 0 #0ff2, 0 1.5px 0 0 #f0f2 inset;
+    transition: box-shadow 0.22s, transform 0.22s, border 0.22s;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(6px) saturate(1.2);
+}
+.stat-card:hover {
+    transform: translateY(-8px) scale(1.06) rotate(-1deg);
+    box-shadow: 0 12px 32px #0ff6, 0 1.5px 0 0 #f0f4 inset;
+    border: 2.5px solid #0ff;
+    background: rgba(0,255,255,0.13);
+    z-index: 2;
+}
+.stat-card h3 {
+    font-size: 2.3rem;
+    font-family: 'Orbitron', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #0ff;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    text-shadow: 0 2px 12px #0ff6;
+}
+.stat-card p {
+    font-size: 1.05rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 700;
+    color: #e0e0f7;
+    text-shadow: 0 1px 8px #0ff2;
+}
+.player-stats h2 {
+    font-family: 'Orbitron', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    color: #f0f;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    text-shadow: 0 1px 8px #f0f2;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 24px;
+}
+.stat-item {
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px #0ff2;
+    color: #fff;
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: box-shadow 0.22s, transform 0.22s;
+}
+.stat-item .stat-label {
+    color: #0ff;
+    font-size: 0.95rem;
+    text-shadow: 0 1px 8px #0ff2;
+}
+.stat-item .stat-value {
+    color: #f0f;
+    font-size: 1.2rem;
+    text-shadow: 0 1px 8px #f0f2;
+}
+.stat-item:hover {
+    box-shadow: 0 8px 24px #f0f4;
+    transform: scale(1.04) rotate(1deg);
+}
+.difficulty-selection {
+    text-align: center;
+    margin-bottom: 36px;
+    width: 100%;
+    animation: fadeInRight 0.7s cubic-bezier(.23,1.02,.32,1) 0.2s both;
+    z-index: 1;
+}
+.difficulty-selection h2 {
+    font-size: 1.7rem;
+    font-family: 'Orbitron', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    font-weight: 800;
+    margin-bottom: 28px;
+    color: #0ff;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 8px #0ff2;
+}
+.difficulty-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: center;
+}
+.difficulty-btn {
+    background: rgba(255,255,255,0.10);
+    border: 2px solid rgba(255,0,255,0.13);
+    border-radius: 18px;
+    padding: 26px 38px;
+    cursor: pointer;
+    transition: box-shadow 0.22s, transform 0.22s, background 0.22s, border 0.22s;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    box-shadow: 0 2px 12px #f0f2;
+    font-size: 1.18rem;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 8px #f0f2;
+}
+.difficulty-btn:hover {
+    transform: translateY(-8px) scale(1.07) rotate(1deg);
+    box-shadow: 0 12px 32px #f0f6, 0 1.5px 0 0 #0ff4 inset;
+    background: rgba(255,0,255,0.13);
+    border: 2.5px solid #f0f;
+    z-index: 2;
+    filter: brightness(1.10);
+}
+.difficulty-btn.easy:hover {
+    background: rgba(0,255,128,0.18);
+    border-color: #0f8;
+}
+.difficulty-btn.medium:hover {
+    background: rgba(255,255,0,0.18);
+    border-color: #ff0;
+}
+.difficulty-btn.hard:hover {
+    background: rgba(255,0,0,0.18);
+    border-color: #f00;
+}
+.difficulty-icon {
+    font-size: 2.3rem;
+    filter: drop-shadow(0 1px 4px #0ff4);
+    text-shadow: 0 1px 8px #f0f2;
+}
+.difficulty-content h3 {
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: #fff;
+    text-shadow: 0 1px 8px #0ff2;
+}
+.difficulty-content p {
+    font-size: 1.01rem;
+    opacity: 0.8;
+    color: #e0e0f7;
+    text-shadow: 0 1px 8px #f0f2;
+}
+.arena-actions {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    animation: fadeInUp 0.7s cubic-bezier(.23,1.02,.32,1) 0.3s both;
+}
+.action-btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: box-shadow 0.22s, transform 0.22s, background 0.22s, filter 0.22s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(90deg, #0ff2 0%, #f0f2 100%);
+    color: #232946;
+    box-shadow: 0 2px 8px #0ff2;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 8px #fff8;
+    letter-spacing: 0.5px;
+}
+.action-btn.primary {
+    background: linear-gradient(90deg, #0ff 0%, #f0f 100%);
+    color: #232946;
+    box-shadow: 0 2px 12px #f0f4;
+    font-weight: 900;
+    text-shadow: 0 1px 8px #fff8;
+}
+.action-btn.secondary {
+    background: linear-gradient(90deg, #232946 0%, #0ff2 100%);
+    color: #0ff;
+    border: 2px solid #0ff2;
+    font-weight: 700;
+}
+.action-btn.danger {
+    background: linear-gradient(90deg, #f00 0%, #f0f 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px #f004;
+    font-weight: 900;
+    text-shadow: 0 1px 8px #fff8;
+}
+.action-btn:hover {
+    transform: translateY(-6px) scale(1.08) rotate(-1deg);
+    box-shadow: 0 12px 32px #0ff6, 0 1.5px 0 0 #f0f4 inset;
+    background: linear-gradient(90deg, #f0f 0%, #0ff 100%);
+    z-index: 2;
+    filter: brightness(1.13) saturate(1.2);
+}
+/* Animations */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    0% { opacity: 0; transform: translateX(-40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    0% { opacity: 0; transform: translateX(-40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(40px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
