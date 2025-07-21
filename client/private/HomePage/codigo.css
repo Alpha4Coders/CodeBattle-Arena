@@ -2,10 +2,16 @@
 @import url('../common/navigation.css');
 /* Base Styles */
 :root {
+    --challenge-bg: rgba(255, 255, 255, 0.03);
+    --challenge-bg-hover: rgba(255, 255, 255, 0.05);
+    --action-bg: rgba(0, 255, 0, 0.05);
+    --action-bg-hover: rgba(0, 255, 0, 0.1);
     --bg-dark: #0d1117;
     --bg-light: #f5f5f5;
     --nav-bg: #191923;
     --card-bg: #21262d;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --card-color: #e0e0e0;
     --text-light: #e0e0e0;
     --text-dark: #333;
     --accent-green: #00ff00;
@@ -16,6 +22,18 @@
     --success: #238636;
     --success-hover: #2ea043;
     --transition: all 0.3s ease;
+}
+
+body.light-theme {
+    --challenge-bg: rgba(0, 0, 0, 0.03);
+    --challenge-bg-hover: rgba(0, 0, 0, 0.07);
+    --action-bg: rgba(0, 200, 0, 0.07);
+    --action-bg-hover: rgba(0, 200, 0, 0.15);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    --card-bg: #fff;
+    --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    --card-color: #333;
 }
 
 *{
@@ -52,69 +70,67 @@ main {
     display: none;
 }
 
-.section.active {
-    display: flex;
-}
-
-/* Home Section */
-.home-section {
-    flex-direction: row;
-    gap: 20px;
-    min-height: calc(100vh - 40px);
-}
-
-.home-content-left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    max-width: 40%;
-}
-
-.welcome-txt {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    /* justify-content: center; */
-    align-items: center;
-    /* margin-top: 10px; */
-    background-color: #191923;
-    border-radius: 20px;
-    padding: 20px 0;
-}
-
-.profile-icon-svg {
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: 6px;
-}
-
-.home-info {
-    background-color: var(--nav-bg);
-    border-radius: 20px;
-    padding: 20px;
-    width: 100%;
-}
-
-.home-info h2 {
+.arena-intro h3 {
+    font-size: 2.5rem;
     margin-bottom: 15px;
-    color: #e0e0e0;
+    color: var(--accent-blue);
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
 }
 
-.home-info ul {
-    list-style-type: none;
+.arena-intro p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.home-info li {
-    margin: 10px 0;
-    }
-.ai-chat {
-    flex: 1;
-    background-color: var(--nav-bg);
-    border-radius: 20px;
-    min-height: 100%;
+/* Arena Features */
+.arena-features {
+    margin-bottom: 40px;
 }
 
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: var(--card-color);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    color: var(--accent-blue);
+}
+
+.feature-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--accent-blue);
+}
+
+.feature-card p {
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
 /* Practice Section */
 .practice-section {
     display: flex;
@@ -232,7 +248,21 @@ main {
 .help-box p {
     margin: 10px auto 20px auto;
 }
-
+.dashboard-card.welcome-greeting-card {
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 18px;
+  box-shadow: var(--card-shadow);
+  background: var(--card-bg);
+  color: var(--card-color);
+  border-radius: 16px;
+  transition: var(--transition);
+}
 /* Contact Section */
 .contact-section {
     display: flex;
@@ -345,10 +375,11 @@ main {
 }
 
 .dashboard-card {
-    background-color: #191923;
+    background-color: var(--card-bg);
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--card-shadow);
+    color: var(--card-color);
     /* border-top: 3px solid #00ff00; */
 }
 
@@ -397,17 +428,17 @@ main {
 .metric .value {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--card-color);
     display: block;
 }
 
 .metric .label {
     font-size: 0.9rem;
-    color: #c9d1d9;
+    color: var(--text-light);
 }
 
 .language-item {
-    background-color: #21262d;
+    background-color: var(--card-bg);
     padding: 12px;
     border-radius: 20px;
     display: flex;
@@ -427,9 +458,11 @@ main {
 /* Problems Solved Card Styles */
 .problems-card {
     background: var(--card-bg);
+    color: var(--card-color);
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
 }
 
 .problems-stats {
@@ -443,7 +476,7 @@ main {
     padding: 15px;
     background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
     border-radius: 10px;
-    color: white;
+    color: var(--card-color);
 }
 
 .total-number {
@@ -472,6 +505,7 @@ main {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--card-color);
 }
 
 .difficulty-stat.easy {
@@ -506,23 +540,6 @@ main {
     color: var(--text-light);
     opacity: 0.7;
 }
-
-/* Light theme adjustments */
-.light-theme .problems-card {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.light-theme .difficulty-stat {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.light-theme .diff-count,
-.light-theme .diff-label {
-    color: var(--text-dark);
-}
-
 /* Responsive design for problems card */
 @media (max-width: 768px) {
     .difficulty-breakdown {
@@ -601,9 +618,49 @@ main {
 }
 
 /* Welcome Card */
+
 .welcome-card {
-    min-height: 300px;
+    background: var(--card-bg);
+    color: var(--card-color);
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    padding: 20px 14px 14px 14px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 2px;
+    transition: var(--transition);
 }
+
+.welcome-card #stats {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--card-color);
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+.welcome-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.welcome-card ul li {
+    padding: 12px 0 12px 0;
+    border-bottom: 1px solid rgba(83,155,245,0.08);
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.welcome-card ul li:last-child {
+    border-bottom: none;
+}
+
 
 /* Activity Card */
 .activity-card {
@@ -622,7 +679,7 @@ main {
 .action-item {
     padding: 15px;
     border-radius: 20px;
-    background: rgba(0, 255, 0, 0.05);
+    background: var(--action-bg);
     text-align: center;
     transition: var(--transition-fast);
     cursor: pointer;
@@ -630,7 +687,7 @@ main {
 
 .action-item:hover {
     transform: translateY(-3px);
-    background: rgba(0, 255, 0, 0.1);
+    background: var(--action-bg-hover);
 }
 
 .action-icon {
@@ -641,13 +698,14 @@ main {
 .action-text {
     font-weight: 600;
     margin-bottom: 3px;
+    color: var(--card-color);
 }
 
 .action-desc {
     font-size: 0.8rem;
     opacity: 0.8;
+    color: var(--card-color);
 }
-
 .quick-action-link {
     text-decoration: none;
     color: inherit;
@@ -674,7 +732,8 @@ main {
 .language-item {
     padding: 15px;
     border-radius: 10px;
-    background: rgba(0, 150, 255, 0.05);
+    background: var(--card-bg);
+    color: var(--card-color);
     /* text-align: center; */
 }
 
@@ -703,14 +762,15 @@ main {
     align-items: center;
     padding: 12px;
     margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--challenge-bg);
+    color: var(--card-color);
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .challenge-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--challenge-bg-hover);
 }
 
 .challenge-difficulty {
@@ -721,26 +781,29 @@ main {
     margin-right: 12px;
     margin-top: 3px;
     text-transform: uppercase;
+    background: var(--challenge-diff-bg, rgba(255,255,255,0.08));
+    color: var(--challenge-diff-color, inherit);
+    transition: var(--transition);
 }
 
 .challenge-difficulty.beginner {
-    background: rgba(0, 255, 0, 0.2);
-    color: #00ff00;
+    background: var(--challenge-diff-beginner-bg, rgba(0, 255, 0, 0.2));
+    color: var(--challenge-diff-beginner-color, #00ff00);
 }
 
 .challenge-difficulty.intermediate {
-    background: rgba(255, 165, 0, 0.2);
-    color: #ffa500;
+    background: var(--challenge-diff-intermediate-bg, rgba(255, 165, 0, 0.2));
+    color: var(--challenge-diff-intermediate-color, #ffa500);
 }
 
 .challenge-difficulty.advanced {
-    background: rgba(255, 0, 0, 0.2);
-    color: #ff0000;
+    background: var(--challenge-diff-advanced-bg, rgba(255, 0, 0, 0.2));
+    color: var(--challenge-diff-advanced-color, #ff0000);
 }
 
 .challenge-difficulty.expert {
-    background: rgba(148, 0, 211, 0.2);
-    color: #9400d3;
+    background: var(--challenge-diff-expert-bg, rgba(148, 0, 211, 0.2));
+    color: var(--challenge-diff-expert-color, #9400d3);
 }
 
 .challenge-info {
@@ -764,21 +827,24 @@ main {
 }
 
 .view-all a {
-    color: var(--accent-primary);
+    color: var(--accent-blue);
     text-decoration: none;
     font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .view-all a:hover {
-    color: rgba(0, 255, 0, 0.8);
+
+    color: var(--accent-green);
 }
 
-/* Arena Section Styles */
 .arena-section {
     padding: 40px 20px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    background: var(--card-bg);
     border-radius: 15px;
     margin: 20px 0;
+    box-shadow: var(--card-shadow);
+    color: var(--card-color);
 }
 
 .arena-container {
@@ -791,13 +857,16 @@ main {
     margin-bottom: 40px;
 }
 
+
 .arena-intro h3 {
     font-size: 2.5rem;
     margin-bottom: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent-blue);
+    /* Optional: keep gradient for dark mode only */
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
 }
 
 .arena-intro p {
@@ -820,18 +889,17 @@ main {
 }
 
 .feature-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
     border-radius: 15px;
     padding: 25px;
     text-align: center;
+    color: var(--card-color);
     transition: all 0.3s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(102, 126, 234, 0.3);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
@@ -839,6 +907,7 @@ main {
     font-size: 3rem;
     margin-bottom: 15px;
     display: block;
+    color: var(--accent-blue);
 }
 
 .feature-card h4 {
