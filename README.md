@@ -13,11 +13,12 @@
 - 5-question rounds with auto-advancement
 
 ### 🤖 **AI-Powered Assistance**
-- Real-time code analysis with Google Gemini AI
-- VS Code-style visual indicators (lightbulbs, error/warning icons)
-- Per-line and full-program suggestions for beginners
-- Test-aware intelligence: disables when all tests pass, re-enables on code changes
-- Context-aware hints and debugging assistance
+ Real-time code analysis with Google Gemini AI
+ VS Code-style visual indicators (lightbulbs, error/warning icons)
+ Per-line and full-program suggestions for beginners
+ Test-aware intelligence: disables when all tests pass, re-enables on code changes
+ Context-aware hints and debugging assistance
+ Advanced UI feedback: clickable lightbulb annotations, test fix suggestions, and real-time code decorations for improved beginner experience
 
 ### 📚 **Practice Modes**
 - **Easy/Medium/Hard**: Tiered difficulty levels (5min/8min/15min)
@@ -152,7 +153,7 @@ CodeBattle-Arena/
 
 ---
 
-## � CI/CD Pipeline
+## 🚀 CI/CD Pipeline
 
 ### **GitHub Actions Workflow**
 Automated testing, building, and deployment pipeline:
@@ -178,7 +179,7 @@ npm run seed                 # Initialize with sample problems
 
 ---
 
-## �📄 License & Authors
+## 📄 License & Authors
 
 **GPL-3.0-or-later** © 2025
 
