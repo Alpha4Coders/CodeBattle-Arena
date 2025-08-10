@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { UserDBHandler } from "./database.js";
 
-// Problem Schema
 const problemSchema = new mongoose.Schema({
     problemId: { type: String, unique: true, required: true },
     title: { type: String, required: true },
@@ -21,15 +20,14 @@ const problemSchema = new mongoose.Schema({
         isHidden: { type: Boolean, default: false }
     }],
     hints: [String],
-    timeLimit: { type: Number, default: 5000 }, // milliseconds
-    memoryLimit: { type: Number, default: 256 }, // MB
+    timeLimit: { type: Number, default: 5000 },
+    memoryLimit: { type: Number, default: 256 },
     solvedCount: { type: Number, default: 0 },
     attemptCount: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
 
-// Submission Schema
 const submissionSchema = new mongoose.Schema({
     submissionId: { type: String, unique: true, required: true },
     userId: { type: String, required: true },
@@ -44,7 +42,6 @@ const submissionSchema = new mongoose.Schema({
     submittedAt: { type: Date, default: Date.now }
 });
 
-// User Problem Solved Schema - tracks first-time solves
 const userProblemSolvedSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     problemId: { type: String, required: true },
@@ -55,7 +52,6 @@ const userProblemSolvedSchema = new mongoose.Schema({
     bestSubmissionId: { type: String, required: true }
 });
 
-// Create compound index to ensure one record per user-problem pair
 userProblemSolvedSchema.index({ userId: 1, problemId: 1 }, { unique: true });
 
 class ProblemDBHandler {

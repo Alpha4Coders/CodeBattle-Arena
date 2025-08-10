@@ -3,9 +3,7 @@ import { ProblemDBHandler } from "./problemDatabase.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Initial problem data - extracted from all HTML files
 const initialProblems = [
-    // EASY PROBLEMS (from beginner.html)
     {
         problemId: "hello-world",
         title: "Hello World",
@@ -178,7 +176,6 @@ const initialProblems = [
         hints: ["Use a temporary variable to hold one value", "Then reassign the variables"]
     },
 
-    // MEDIUM PROBLEMS (from Intermediate.html)
     {
         problemId: "array-sum-even",
         title: "Array Manipulation",
@@ -342,7 +339,6 @@ const initialProblems = [
         hints: ["First two numbers are 0 and 1", "Each subsequent number is sum of previous two", "Print numbers separated by spaces"]
     },
 
-    // HARD PROBLEMS (from Advanced.html + complex ones)
     {
         problemId: "prime-range",
         title: "Prime Number Range",
@@ -406,8 +402,6 @@ const initialProblems = [
         hints: ["Sort both strings and compare", "Or count frequency of each character"]
     },
 
-    // REAL-WORLD PROJECT PROBLEMS
-    // Game Development Projects
     {
         problemId: "tic-tac-toe",
         title: "Tic Tac Toe Game",

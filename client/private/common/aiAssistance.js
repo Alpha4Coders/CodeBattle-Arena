@@ -19,11 +19,9 @@ class AIAssistanceManager {
         this.setupEventListeners();
         this.setupLineDecorations();
         this.loadLanguageTips();
-        console.log('AI Assistance initialized');
     }
 
     createAssistanceUI() {
-        // Create a minimal AI status indicator (VS Code-like)
         const statusIndicator = document.createElement('div');
         statusIndicator.id = 'ai-status-indicator';
         statusIndicator.className = 'ai-status-indicator';

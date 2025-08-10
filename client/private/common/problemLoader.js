@@ -1,11 +1,9 @@
-// Dynamic Problem Loader
 class ProblemLoader {
     constructor() {
         this.problems = [];
         this.currentDifficulty = 'easy';
     }
 
-    // Fetch problems from server
     async fetchProblems(difficulty = null, category = null) {
         try {
             let url = '/api/problems';
@@ -33,7 +31,6 @@ class ProblemLoader {
         }
     }
 
-    // Fetch specific problem
     async fetchProblem(problemId) {
         try {
             const response = await fetch(`/api/problems/${problemId}`);
@@ -50,7 +47,6 @@ class ProblemLoader {
         }
     }
 
-    // Render problems in the UI
     renderProblems(containerId, difficulty) {
         const container = document.getElementById(containerId);
         if (!container) {
@@ -58,7 +54,6 @@ class ProblemLoader {
             return;
         }
 
-        // Show loading state
         container.innerHTML = '<div class="loading">Loading problems...</div>';
 
         this.fetchProblems(difficulty)
@@ -71,7 +66,6 @@ class ProblemLoader {
                 const problemsHTML = problems.map(problem => this.createProblemHTML(problem)).join('');
                 container.innerHTML = problemsHTML;
                 
-                // Add click handlers
                 this.addProblemClickHandlers();
             })
             .catch(error => {

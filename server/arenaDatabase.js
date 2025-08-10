@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// Arena Match Schema
+
 const arenaMatchSchema = new mongoose.Schema({
     matchId: { type: String, unique: true, required: true },
     player1: {
@@ -27,10 +27,10 @@ const arenaMatchSchema = new mongoose.Schema({
     questions: [{
         problemId: { type: String, required: true },
         difficulty: { type: String, required: true },
-        timeLimit: { type: Number, required: true }, // in seconds
+        timeLimit: { type: Number, required: true },
         startedAt: { type: Date },
         completedAt: { type: Date },
-        winner: { type: String }, // userId of the player who solved first
+        winner: { type: String },
         player1Submission: {
             code: String,
             language: String,

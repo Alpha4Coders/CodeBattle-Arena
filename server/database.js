@@ -33,15 +33,12 @@ class UserDBHandler {
         realWorldCount: { type: Number, default: 0 }
     });
 
-    // Add indexes for leaderboard performance
     static {
-        // Compound index for leaderboard sorting (rank DESC, problemsSolved DESC, streak_count DESC)
         UserDBHandler.userSchema.index({ rank: -1, problemsSolved: -1, streak_count: -1 });
         
-        // Index for userID lookups
+        UserDBHandler.userSchema.index({ userID: 1 });
         UserDBHandler.userSchema.index({ userID: 1 });
         
-        // Individual indexes for rank position calculations
         UserDBHandler.userSchema.index({ rank: -1 });
         UserDBHandler.userSchema.index({ problemsSolved: -1 });
         UserDBHandler.userSchema.index({ streak_count: -1 });

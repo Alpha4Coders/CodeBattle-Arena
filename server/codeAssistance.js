@@ -3,21 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-class AIAssistanceService {
+class CodeAssistanceService {
     constructor() {
         this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
         this.isEnabled = process.env.AI_ASSISTANCE_ENABLED === 'true';
     }
 
-    /**
-     * Analyze code line by line and provide suggestions
-     * @param {string} code - The code to analyze
-     * @param {string} language - Programming language
-     * @param {Object} problem - Problem context
-     * @param {number} currentLine - Current line being analyzed (0-indexed)
-     * @returns {Object} Analysis result with suggestions
-     */
     async analyzeCodeLine(code, language, problem, currentLine = null) {
         if (!this.isEnabled) {
             return { suggestions: [], errors: [], warnings: [] };
@@ -28,7 +20,7 @@ class AIAssistanceService {
             const currentLineCode = currentLine !== null ? lines[currentLine] : '';
             
             const prompt = `
-You are a smart AI coding assistant for beginner programmers. You must CAREFULLY analyze the problem context before making suggestions.
+You are a coding assistant for beginner programmers. Analyze the problem context before making suggestions.
 
 PROBLEM CONTEXT:
 Title: ${problem?.title || 'Unknown'}
@@ -42,37 +34,45 @@ ${code}
 
 ${currentLine !== null ? `CURRENT LINE (${currentLine + 1}): ${currentLineCode}` : ''}
 
-CRITICAL INSTRUCTIONS:
-1. FIRST understand what the problem is asking for
-2. Check if the current code ALREADY solves the problem correctly
-3. If the code works and produces correct output for the given problem, DO NOT suggest unnecessary changes
-4. Only suggest improvements if there are actual errors, bugs, or significant improvements needed
-5. For simple input/output problems, don't suggest adding prompts unless specifically required
-6. Consider the problem requirements - if it just asks for output, don't suggest input prompts
+INSTRUCTIONS:
+1. Understand what the problem is asking for
+2. Check if the current code already solves the problem correctly
+3. Only suggest improvements if there are actual errors, bugs, or significant improvements needed
+4. For simple input/output problems, don't suggest adding prompts unless specifically required
+5. Consider the problem requirements - if it just asks for output, don't suggest input prompts
 
 Please provide a JSON response with:
 1. "suggestions" - Array of NECESSARY improvements (only if code has real issues)
 2. "errors" - Array of actual syntax or logic errors
-3. "warnings" - Array of potential issues that could cause wrong output
-4. "lineSpecific" - Suggestions specific to the current line (only if needed)
+3. "warnings" - Array of potential issues
 
-Format each item as: { "line": number, "type": "error|warning|suggestion", "message": "description", "fix": "suggested fix" }
-
-Focus ONLY on:
-- Actual syntax errors that prevent compilation
-- Logic errors that cause wrong output
-- Critical bugs that break functionality
-- Security vulnerabilities
-- Performance issues in complex code
-
-AVOID suggesting:
-- Adding prompts when problem doesn't require them
-- Cosmetic changes to working code
-- Style preferences that don't affect functionality
-- Unnecessary complexity for simple problems
-- Changes that would make correct code incorrect
-
-Be smart and context-aware. Empty arrays are better than false suggestions!
+JSON format:
+{
+  "suggestions": [
+    {
+      "line": <line_number>,
+      "message": "<specific suggestion>",
+      "fix": "<suggested fix>",
+      "type": "suggestion"
+    }
+  ],
+  "errors": [
+    {
+      "line": <line_number>,
+      "message": "<error description>",
+      "fix": "<how to fix>",
+      "type": "error"
+    }
+  ],
+  "warnings": [
+    {
+      "line": <line_number>,
+      "message": "<warning description>",
+      "fix": "<optional fix>",
+      "type": "warning"
+    }
+  ]
+}
 `;
 
             const result = await this.model.generateContent(prompt);
@@ -80,38 +80,30 @@ Be smart and context-aware. Empty arrays are better than false suggestions!
             const text = response.text();
             
             try {
-                const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/\{[\s\S]*\}/);
+                const jsonMatch = text.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
-                    const parsed = JSON.parse(jsonMatch[1] || jsonMatch[0]);
-                    return this.formatResponse(parsed);
+                    const analysis = JSON.parse(jsonMatch[0]);
+                    return this.formatResponse(analysis);
                 }
+                return this.extractSuggestionsFromText(text, currentLine);
             } catch (parseError) {
-                console.warn('Could not parse AI response as JSON, providing fallback');
+                return this.extractSuggestionsFromText(text, currentLine);
             }
             
-            return this.extractSuggestionsFromText(text, currentLine);
-            
         } catch (error) {
-            console.error('AI Assistance Error:', error);
-            return { 
-                suggestions: [], 
-                errors: [], 
+            return {
+                suggestions: [],
+                errors: [],
                 warnings: [],
-                error: 'AI assistance temporarily unavailable'
+                error: 'Service temporarily unavailable'
             };
         }
     }
 
-    /**
-     * Get real-time code completion suggestions
-     * @param {string} code - Current code
-     * @param {string} language - Programming language
-     * @param {number} cursorLine - Line where cursor is
-     * @param {number} cursorColumn - Column where cursor is
-     * @returns {Array} Array of completion suggestions
-     */
     async getCodeCompletion(code, language, cursorLine, cursorColumn) {
-        if (!this.isEnabled) return [];
+        if (!this.isEnabled) {
+            return [];
+        }
 
         try {
             const lines = code.split('\n');
@@ -119,116 +111,77 @@ Be smart and context-aware. Empty arrays are better than false suggestions!
             const beforeCursor = currentLine.substring(0, cursorColumn);
             
             const prompt = `
-You are providing code completion for a beginner ${language} programmer.
+Provide code completion suggestions for ${language} at the cursor position.
 
-CURRENT CODE:
+Current line: "${currentLine}"
+Text before cursor: "${beforeCursor}"
+Context:
 \`\`\`${language}
 ${code}
 \`\`\`
 
-CURSOR POSITION: Line ${cursorLine + 1}, Column ${cursorColumn + 1}
-CURRENT LINE: ${currentLine}
-BEFORE CURSOR: ${beforeCursor}
-
-Provide 3-5 relevant code completion suggestions as a JSON array:
+Return JSON array of completion suggestions:
 [
   {
-    "text": "completion text",
-    "description": "what this does",
-    "type": "function|variable|keyword|method"
+    "text": "<completion text>",
+    "description": "<what this does>",
+    "type": "<variable|function|keyword|etc>"
   }
 ]
-
-Focus on:
-- Common ${language} patterns
-- Beginner-friendly suggestions
-- Context-aware completions
-- Built-in functions and methods
 `;
 
             const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const responseText = result.response.text();
             
-            try {
-                const jsonMatch = text.match(/\[[\s\S]*?\]/);
-                if (jsonMatch) {
-                    return JSON.parse(jsonMatch[0]);
-                }
-            } catch (parseError) {
-                console.warn('Could not parse completion suggestions');
+            const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+            if (jsonMatch) {
+                return JSON.parse(jsonMatch[0]);
             }
             
             return [];
-            
         } catch (error) {
-            console.error('Code Completion Error:', error);
             return [];
         }
     }
 
-    /**
-     * Analyze code for specific error and provide fix suggestion
-     * @param {string} code - Code with error
-     * @param {string} language - Programming language
-     * @param {string} errorMessage - Error message from execution
-     * @returns {Object} Fix suggestion
-     */
     async suggestFix(code, language, errorMessage) {
-        if (!this.isEnabled) return null;
+        if (!this.isEnabled) {
+            return { suggestion: 'Fix suggestions unavailable' };
+        }
 
         try {
             const prompt = `
-You are helping a beginner fix their ${language} code.
+Analyze this ${language} code with error and suggest a fix:
+
+ERROR: ${errorMessage}
 
 CODE:
 \`\`\`${language}
 ${code}
 \`\`\`
 
-ERROR MESSAGE: ${errorMessage}
-
-Provide a JSON response with:
+Provide a JSON response:
 {
-  "explanation": "Simple explanation of what went wrong",
-  "fix": "Suggested code fix",
-  "line": "Line number where fix should be applied",
-  "example": "Example of corrected code snippet"
+  "issue": "<what's wrong>",
+  "suggestion": "<how to fix it>",
+  "fixedCode": "<corrected code if possible>"
 }
-
-Make the explanation beginner-friendly and encouraging!
 `;
 
             const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const responseText = result.response.text();
             
-            try {
-                const jsonMatch = text.match(/\{[\s\S]*?\}/);
-                if (jsonMatch) {
-                    return JSON.parse(jsonMatch[0]);
-                }
-            } catch (parseError) {
-                console.warn('Could not parse fix suggestion');
+            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                return JSON.parse(jsonMatch[0]);
             }
             
-            return null;
-            
+            return { suggestion: 'Unable to analyze error' };
         } catch (error) {
-            console.error('Fix Suggestion Error:', error);
-            return null;
+            return { suggestion: 'Fix suggestion service unavailable' };
         }
     }
 
-    /**
-     * Real-time analysis for per-line assistance
-     * @param {string} code - Complete code
-     * @param {number} currentLine - Current line number
-     * @param {string} currentLineText - Text of current line
-     * @param {string} language - Programming language
-     * @param {Object} problem - Problem context
-     * @returns {Object} Real-time analysis with line-specific suggestions
-     */
     async performRealTimeAnalysis(code, currentLine, currentLineText, language, problem) {
         if (!this.isEnabled) {
             return { lineAnalysis: [] };
@@ -236,7 +189,7 @@ Make the explanation beginner-friendly and encouraging!
 
         try {
             const prompt = `
-You are a smart AI coding assistant providing VS Code-like IntelliSense. You must CAREFULLY analyze the problem context before making suggestions.
+Provide real-time analysis for ${language} code.
 
 PROBLEM STATEMENT: ${problem?.description || problem?.title || 'Coding Challenge'}
 LANGUAGE: ${language}
@@ -247,35 +200,7 @@ FULL CODE:
 ${code}
 \`\`\`
 
-CRITICAL INSTRUCTIONS:
-1. FIRST understand what the problem is asking for
-2. Check if the current code ALREADY solves the problem correctly
-3. If the code is working and solves the problem, DO NOT suggest unnecessary changes
-4. Only suggest improvements if there are actual errors, bugs, or significant improvements needed
-5. For simple problems like "sum two numbers", don't suggest adding prompts if not required
-6. Consider the ENTIRE program context, not just individual lines
-
-Provide a JSON response with:
-{
-  "lineAnalysis": [
-    {
-      "line": <line_number>,
-      "type": "suggestion|error|warning",
-      "message": "<brief helpful message>",
-      "fix": "<exact code to fix the issue>",
-      "severity": "high|medium|low"
-    }
-  ],
-  "currentLineSuggestions": [
-    {
-      "message": "<suggestion for current line>",
-      "code": "<suggested code completion>",
-      "explanation": "<why this helps>"
-    }
-  ]
-}
-
-Only focus on REAL issues:
+Provide line-specific suggestions for improvement. Focus on REAL issues:
 - Actual syntax errors
 - Logic bugs that would cause wrong output
 - Performance issues in complex code
@@ -288,7 +213,27 @@ AVOID suggesting:
 - Style preferences that don't affect functionality
 - Unnecessary complexity for simple problems
 
-Be smart and context-aware. Empty lineAnalysis is better than false suggestions.
+Return JSON:
+{
+  "lineAnalysis": [
+    {
+      "line": <line_number>,
+      "type": "error|warning|suggestion",
+      "message": "<issue description>",
+      "fix": "<suggested fix>"
+    }
+  ],
+  "currentLineSuggestions": [
+    {
+      "type": "suggestion|completion",
+      "message": "<suggestion for current line>",
+      "code": "<suggested code completion>",
+      "explanation": "<why this helps>"
+    }
+  ]
+}
+
+Only focus on REAL issues. Empty lineAnalysis is better than false suggestions.
 `;
 
             const result = await this.model.generateContent(prompt);
@@ -309,7 +254,6 @@ Be smart and context-aware. Empty lineAnalysis is better than false suggestions.
             };
             
         } catch (error) {
-            console.error('Real-time analysis error:', error);
             return {
                 success: false,
                 error: error.message,
@@ -318,15 +262,6 @@ Be smart and context-aware. Empty lineAnalysis is better than false suggestions.
         }
     }
 
-    /**
-     * Provide contextual help based on cursor position
-     * @param {string} line - Current line text
-     * @param {Object} token - Current token at cursor
-     * @param {Object} cursor - Cursor position
-     * @param {string} language - Programming language
-     * @param {Object} problem - Problem context
-     * @returns {Object} Contextual suggestions
-     */
     async getContextualHelp(line, token, cursor, language, problem) {
         if (!this.isEnabled) {
             return { suggestions: [] };
@@ -334,7 +269,7 @@ Be smart and context-aware. Empty lineAnalysis is better than false suggestions.
 
         try {
             const prompt = `
-You are providing contextual help for a ${language} programmer at cursor position.
+Provide contextual help for a ${language} programmer at cursor position.
 
 CONTEXT:
 - Current line: "${line}"
@@ -348,6 +283,7 @@ Return JSON:
 {
   "suggestions": [
     {
+      "type": "completion|hint|method",
       "message": "<helpful suggestion>",
       "code": "<code completion if applicable>",
       "explanation": "<brief explanation>"
@@ -378,19 +314,10 @@ Focus on:
             return { success: true, suggestions: [] };
             
         } catch (error) {
-            console.error('Contextual help error:', error);
             return { success: false, error: error.message, suggestions: [] };
         }
     }
 
-    /**
-     * Analyze test case failures and provide specific fixes
-     * @param {string} code - User's code
-     * @param {string} language - Programming language
-     * @param {Object} problem - Problem context
-     * @param {Object} testResults - Test results with failures
-     * @returns {Object} Analysis of test failures with suggested fixes
-     */
     async analyzeTestCaseFailure(code, language, problem, testResults) {
         if (!this.isEnabled) {
             return { failedTests: [] };
@@ -398,7 +325,7 @@ Focus on:
 
         try {
             const prompt = `
-You are an AI debugging assistant helping a beginner fix failing test cases.
+Analyze why test cases are failing and provide specific fixes.
 
 PROBLEM: ${problem?.title || 'Coding Challenge'}
 DESCRIPTION: ${problem?.description || 'No description'}
@@ -457,12 +384,12 @@ Be specific about:
             }
             
             return {
-                success: true,
-                analysis: { failedTests: [], commonIssues: [], nextSteps: [] }
+                success: false,
+                error: 'Could not parse analysis',
+                analysis: { failedTests: [] }
             };
             
         } catch (error) {
-            console.error('Test failure analysis error:', error);
             return {
                 success: false,
                 error: error.message,
@@ -471,9 +398,6 @@ Be specific about:
         }
     }
 
-    /**
-     * Format AI response to ensure consistency
-     */
     formatResponse(response) {
         return {
             suggestions: response.suggestions || [],
@@ -483,38 +407,30 @@ Be specific about:
         };
     }
 
-    /**
-     * Extract suggestions from plain text response (fallback)
-     */
     extractSuggestionsFromText(text, currentLine) {
         const suggestions = [];
         const errors = [];
         const warnings = [];
-
-        if (text.toLowerCase().includes('syntax error')) {
+        
+        if (text.toLowerCase().includes('error') || text.toLowerCase().includes('syntax')) {
             errors.push({
                 line: currentLine || 0,
-                type: 'error',
-                message: 'Syntax error detected',
-                fix: 'Check for missing semicolons, brackets, or quotes'
+                message: 'Review code for potential issues',
+                type: 'error'
             });
         }
-
-        if (text.toLowerCase().includes('variable') && text.toLowerCase().includes('not defined')) {
-            errors.push({
+        
+        if (text.toLowerCase().includes('suggest') || text.toLowerCase().includes('improve')) {
+            suggestions.push({
                 line: currentLine || 0,
-                type: 'error',
-                message: 'Variable not defined',
-                fix: 'Make sure to declare the variable before using it'
+                message: 'Code can be improved',
+                type: 'suggestion'
             });
         }
-
-        return { suggestions, errors, warnings, lineSpecific: [] };
+        
+        return { suggestions, errors, warnings };
     }
 
-    /**
-     * Get language-specific tips for beginners
-     */
     getLanguageTips(language) {
         const tips = {
             javascript: [
@@ -547,4 +463,4 @@ Be specific about:
     }
 }
 
-export { AIAssistanceService };
+export { CodeAssistanceService };

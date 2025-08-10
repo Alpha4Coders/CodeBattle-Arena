@@ -1,7 +1,3 @@
-// Shared Navigation Script for CodeBattle-Arena
-// Used by Homepage and Arena pages for consistent navigation behavior
-
-// Global functions for HTML onclick handlers
 function showNav() {
     const nav = document.querySelector('.codingPageNav');
     const navBackdrop = document.querySelector('.nav-backdrop');

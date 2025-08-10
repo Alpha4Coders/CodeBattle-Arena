@@ -1,4 +1,3 @@
-/* Dark Theme CSS Variables */
 :root {
     --bg-dark: #121212;
     --card-bg: #1e1e1e;
@@ -15,7 +14,6 @@
     --transition: all 0.3s ease;
 }
 
-/* Base Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -73,7 +71,6 @@ body {
     color: var(--accent-blue);
 }
 
-/* Mobile menu toggle button */
 .menu-toggle {
     display: none;
     background: none;
@@ -84,7 +81,6 @@ body {
     padding: 0.5rem;
 }
 
-/* Sidebar styles */
 .sidebar {
     position: fixed;
     top: 60px;
@@ -136,7 +132,6 @@ body {
     overflow: hidden;
 }
 
-/* Media query for mobile */
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
@@ -167,7 +162,6 @@ h3 {
     margin-top: 0;
 }
 
-/* Challenge List Styles */
 #challenge-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -196,7 +190,7 @@ h3 {
 .solve-btn {
     display: block;
     width: 80%;
-    /* optional: slightly smaller for better visuals */
+    font-size: 14px;
     padding: 0.75rem;
     background-color: var(--success);
     color: white;
@@ -206,7 +200,6 @@ h3 {
     cursor: pointer;
     transition: var(--transition);
     margin: 1rem auto 0;
-    /* This centers the button */
     text-align: center;
     text-decoration: none;
 }
@@ -217,12 +210,10 @@ h3 {
     transform: translateY(-2px);
 }
 
-/* Coding Page Styles */
 .hidden {
     display: none;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

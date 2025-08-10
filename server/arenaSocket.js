@@ -12,17 +12,15 @@ class ArenaSocketHandler {
             }
         });
 
-        // Instantiate UserStatsService and pass to ArenaDBHandler
         const userStatsService = new UserStatsService(this);
         this.arenaDB = new ArenaDBHandler(userStatsService);
         this.problemDB = new ProblemDBHandler();
         
-        // Store active matches and player timers
         this.activeMatches = new Map();
-        this.playerTimers = new Map(); // Independent timers per player
-        this.questionTimers = new Map(); // Legacy timers (for cleanup)
-        this.playerProgress = new Map(); // Track each player's current question
-        this.playerReadyState = new Map(); // Track which players are ready for each match
+        this.playerTimers = new Map();
+        this.questionTimers = new Map();
+        this.playerProgress = new Map();
+        this.playerReadyState = new Map();
         
         this.setupSocketHandlers();
     }

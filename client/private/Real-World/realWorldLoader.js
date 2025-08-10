@@ -1,4 +1,3 @@
-// Real-World Project Loader with Category Filtering
 class RealWorldProjectLoader extends ProblemLoader {
     constructor() {
         super();
@@ -6,7 +5,6 @@ class RealWorldProjectLoader extends ProblemLoader {
         this.categories = ['all', 'games', 'web', 'ai', 'algorithms'];
     }
 
-    // Override to handle category filtering for real-world projects
     async fetchProblems(difficulty = null, category = null) {
         try {
             let url = '/api/problems';

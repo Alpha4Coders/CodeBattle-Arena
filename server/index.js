@@ -20,58 +20,44 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// configure the environment variables
 dotenv.config({ path: path.join(__dirname, '../.env') });
 process.env.PORT = process.env.PORT || '8080';
 
-// the main app instance
 const app = express();
 const server = createServer(app);
 
-// Initialize Arena Socket Handler
 const arenaSocketHandler = new ArenaSocketHandler(server);
 
-// Initialize User Stats Service with arena socket handler for real-time stats
 const userStatsService = new UserStatsService(arenaSocketHandler);
 
-// Initialize AI Assistance Service
 const aiAssistanceService = new AIAssistanceService();
 
-// CORS middleware
 app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
     credentials: true
 }));
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// session handler ----------------
 app.use(session({
     secret: crypto.randomBytes(32),
-    maxAge: 24 * 60 * 60 * 1000     // 24 hour expiry
+    maxAge: 24 * 60 * 60 * 1000
 }));
 
-// code runner handler ------------
 const codeRunnerHandler = new CodeRunner();
 
-// problem database handler -------
 const problemDBHandler = new ProblemDBHandler(userStatsService);
 
-// arena database handler ----------
 const arenaDBHandler = new ArenaDBHandler(userStatsService);
 
-// user database handler -------------
 MongooseConnect.connect(process.env.MONGO_DB_URL);
 const uDBHandler = new UserDBHandler();
 
-// Run migration for existing users
 uDBHandler.migrateUsersStats().catch(console.error);
 
-// Run migration for real-world stats
 userStatsService.migrateUsersForRealWorld().catch(console.error);
 
 // Start periodic 30-minute match timeout enforcement (every 5 minutes)
@@ -96,17 +82,12 @@ app.use('/private', clerk.requireAuth({ signInUrl: process.env.CLERK_SIGN_IN_URL
                     uDBHandler.middleware_userAuth.bind(uDBHandler),
                     express.static('client/private'));
 
+app.use('/api', express.json());
 
-// api endpoints -----------------
-
-app.use('/api', express.json()); // Add JSON parsing middleware
-
-// Re-enable essential endpoints
 app.get('/api/incrank/:value/:set', clerk.requireAuth(), uDBHandler.endpoint_incrementUserRank.bind(uDBHandler));
 app.get('/api/incstreak/:value/:set', clerk.requireAuth(), userStatsService.endpoint_incrementStreakCount.bind(userStatsService));
 app.get('/api/inccontest/:value/:set', clerk.requireAuth(), uDBHandler.endpoint_incrementContestsCount.bind(uDBHandler));
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ 
         status: 'OK', 
@@ -115,7 +96,6 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Problem endpoints
 app.get('/api/problems', problemDBHandler.endpoint_getProblems.bind(problemDBHandler));
 app.get('/api/problems/:problemId', problemDBHandler.endpoint_getProblem.bind(problemDBHandler));
 app.post('/api/problems/:problemId/submit', 

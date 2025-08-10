@@ -1,4 +1,3 @@
-// Authentication utility for frontend
 class AuthManager {
     constructor() {
         this.isAuthenticated = false;
@@ -8,7 +7,6 @@ class AuthManager {
 
     async checkAuthStatus() {
         try {
-            // Check if Clerk is loaded and user is signed in
             if (typeof Clerk !== 'undefined' && Clerk.user) {
                 this.isAuthenticated = true;
                 this.user = Clerk.user;
@@ -27,7 +25,6 @@ class AuthManager {
     }
 
     updateUI() {
-        // Update authentication-dependent UI elements
         const authElements = document.querySelectorAll('[data-auth-required]');
         const guestElements = document.querySelectorAll('[data-guest-only]');
         

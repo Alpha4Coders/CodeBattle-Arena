@@ -1,5 +1,3 @@
-// Advanced Leaderboard functionality with enhanced UI
-
 let leaderboardPollInterval = null;
 let currentFilter = 'all';
 let currentView = 'table';
@@ -9,30 +7,25 @@ let filteredData = [];
 document.addEventListener('DOMContentLoaded', function() {
     initializeLeaderboard();
     setupEventListeners();
-    loadLeaderboard(true); // Show loading for initial load
+    loadLeaderboard(true);
     
-    // Start polling every 30 seconds for real-time updates (without loading state)
     leaderboardPollInterval = setInterval(() => loadLeaderboard(false), 30000);
 });
 
-// Clear interval when navigating away
 window.addEventListener('beforeunload', function() {
     if (leaderboardPollInterval) clearInterval(leaderboardPollInterval);
 });
 
 function initializeLeaderboard() {
-    // Initialize with smooth loading animation
     const heroStats = document.querySelectorAll('.stat-number');
     heroStats.forEach(stat => {
         stat.textContent = '-';
     });
     
-    // Show demo data initially until real data loads
     showDemoData();
 }
 
 function setupEventListeners() {
-    // Filter buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {

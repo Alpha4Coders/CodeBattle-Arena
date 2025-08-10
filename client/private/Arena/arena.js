@@ -3,39 +3,31 @@
  * Uses modular architecture for maintainability
  */
 
-// Global arena instance
 let arenaInstance = null;
 
-// Initialize Arena when page loads (exactly like coder.js)
 window.addEventListener('load', async () => {
     if (typeof Clerk !== 'undefined') {
         try {
             await Clerk.load();
             
-            // Initialize Arena
             arenaInstance = new ArenaCore();
             await arenaInstance.initClerk();
             
-            // Set global reference for compatibility
             window.arena = arenaInstance;
             
-            // Create entrance effects
             if (arenaInstance.effects) {
                 arenaInstance.effects.createArenaEntrance();
             }
             
         } catch (error) {
             console.error('❌ Failed to initialize Arena:', error);
-            // Just log the error, don't redirect (like coder.js)
         }
     } else {
         console.warn('Clerk not available yet, Arena may have limited functionality');
-        // Still try to initialize Arena for basic functionality
         arenaInstance = new ArenaCore();
     }
 });
 
-// Utility functions for UI interactions
 function joinQueue(difficulty) {
     if (arenaInstance) {
         arenaInstance.joinQueue(difficulty);

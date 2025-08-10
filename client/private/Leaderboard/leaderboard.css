@@ -1,7 +1,5 @@
-/* Import shared navigation styles */
 @import url('../common/navigation.css');
 
-/* CSS Variables for Advanced Theming */
 :root {
     --leaderboard-primary: #667eea;
     --leaderboard-secondary: #764ba2;
@@ -21,21 +19,18 @@
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Dark theme specific variables */
 .dark-theme {
     --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     --card-gradient: linear-gradient(145deg, #1e293b 0%, #334155 100%);
     --text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Light theme specific variables */
 .light-theme {
     --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     --card-gradient: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
     --text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Global Styles */
 * {
     box-sizing: border-box;
 }
@@ -45,7 +40,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Hero Section */
 .hero-section {
     position: relative;
     min-height: 50vh;
@@ -204,14 +198,12 @@ body {
     font-weight: 500;
 }
 
-/* Main Container */
 .leaderboard-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 1rem 3rem;
 }
 
-/* Controls Section */
 .controls-section {
     display: flex;
     justify-content: space-between;
@@ -375,7 +367,6 @@ body {
     transform: rotate(180deg);
 }
 
-/* Leaderboard Content */
 .leaderboard-content {
     background: var(--card-gradient);
     border-radius: 20px;
@@ -387,7 +378,6 @@ body {
     overflow: hidden;
 }
 
-/* Podium Section */
 .podium-section {
     margin-bottom: 3rem;
     padding: 2rem 0 8rem 0;
@@ -436,7 +426,6 @@ body {
     z-index: 1003;
 }
 
-/* Podium Stats Tooltip */
 .podium-card::after {
     content: '';
     position: absolute;
@@ -617,7 +606,6 @@ body {
     100% { transform: scale(1.1) rotate(2deg); }
 }
 
-/* Responsive Tooltip Adjustments */
 @media (max-width: 768px) {
     .podium-section {
         padding: 1rem 0 12rem 0;
@@ -813,7 +801,6 @@ body {
     box-shadow: 0 0 20px rgba(205, 127, 50, 0.3);
 }
 
-/* Loading States */
 .loading-container {
     display: flex;
     flex-direction: column;
@@ -869,7 +856,6 @@ body {
     font-weight: 500;
 }
 
-/* Table Container */
 .table-container {
     overflow: hidden;
     border-radius: 16px;
@@ -1098,7 +1084,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Custom tooltip styling */
 .streak-count[title]:hover::after {
     content: attr(title);
     position: absolute;
@@ -1149,7 +1134,6 @@ body {
     }
 }
 
-/* Streak level indicators */
 .streak-count[data-streak="0"] {
     color: var(--text-secondary);
     opacity: 0.6;
@@ -1159,12 +1143,10 @@ body {
     content: "❄️";
 }
 
-/* Low streak (1-3 days) */
 .streak-count:not([data-streak="0"]) {
     color: #ff6b35;
 }
 
-/* Medium streak (4-7 days) */
 .streak-count[data-streak="4"], 
 .streak-count[data-streak="5"], 
 .streak-count[data-streak="6"], 
@@ -1180,7 +1162,6 @@ body {
     animation: flicker 1.5s ease-in-out infinite alternate;
 }
 
-/* High streak (8-15 days) */
 .streak-count[data-streak="8"], .streak-count[data-streak="9"], 
 .streak-count[data-streak="10"], .streak-count[data-streak="11"], 
 .streak-count[data-streak="12"], .streak-count[data-streak="13"], 
@@ -1197,7 +1178,6 @@ body {
     animation: burn 1s ease-in-out infinite alternate;
 }
 
-/* Epic streak (16+ days) */
 .streak-count:not([data-streak="0"]):not([data-streak="1"]):not([data-streak="2"]):not([data-streak="3"]):not([data-streak="4"]):not([data-streak="5"]):not([data-streak="6"]):not([data-streak="7"]):not([data-streak="8"]):not([data-streak="9"]):not([data-streak="10"]):not([data-streak="11"]):not([data-streak="12"]):not([data-streak="13"]):not([data-streak="14"]):not([data-streak="15"]) {
     color: #ff0066;
     font-weight: 800;
@@ -1244,7 +1224,6 @@ body {
     font-weight: 500;
 }
 
-/* Cards View */
 .cards-container {
     overflow: hidden;
 }
@@ -1394,7 +1373,6 @@ body {
     color: var(--danger-red);
 }
 
-/* Error and Empty States */
 .error-container,
 .empty-container {
     text-align: center;
@@ -1445,7 +1423,6 @@ body {
     box-shadow: var(--shadow-medium);
 }
 
-/* Responsive Design */
 @media (max-width: 1200px) {
     .controls-section {
         flex-direction: column;

@@ -1,7 +1,6 @@
 import { UserDBHandler } from './database.js';
 import mongoose from 'mongoose';
 
-// Arena Player Stats Schema - Import the schema here for consistency
 const arenaPlayerStatsSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true },
     username: { type: String, required: true },
@@ -14,7 +13,7 @@ const arenaPlayerStatsSchema = new mongoose.Schema({
     averageScore: { type: Number, default: 0 },
     winRate: { type: Number, default: 0 },
     questionsCompleted: { type: Number, default: 0 },
-    fastestSolve: { type: Number }, // in seconds
+    fastestSolve: { type: Number },
     easyWins: { type: Number, default: 0 },
     mediumWins: { type: Number, default: 0 },
     hardWins: { type: Number, default: 0 },
@@ -32,15 +31,12 @@ const arenaPlayerStatsSchema = new mongoose.Schema({
 class UserStatsService {
     
     constructor(arenaSocketHandler = null) {
-        // Initialize ArenaPlayerStats model (check if already exists to avoid conflicts)
         try {
             this.ArenaPlayerStats = mongoose.model("ArenaPlayerStats");
         } catch (error) {
-            // Model doesn't exist, create it
             this.ArenaPlayerStats = mongoose.model("ArenaPlayerStats", arenaPlayerStatsSchema);
         }
         
-        // Store reference to arena socket handler for system stats
         this.arenaSocketHandler = arenaSocketHandler;
     }
 
@@ -91,15 +87,12 @@ class UserStatsService {
             const users = await UserDBHandler.Users.find({})
                 .select('userID name problemsSolved easyCount mediumCount hardCount realWorldCount streak_count lastSolvedDate');
 
-            // Calculate total points for each user
-
             const now = new Date();
             const userStats = users.map(user => {
                 const easy = user.easyCount || 0;
                 const medium = user.mediumCount || 0;
                 const hard = user.hardCount || 0;
                 const realWorld = user.realWorldCount || 0;
-                // realWorld and hard both give 20 points each
                 const totalPoints = (hard * 20) + (realWorld * 20) + (medium * 10) + (easy * 5);
                 let streakDays = 0;
                 if (user.lastSolvedDate && user.streak_count > 0) {
@@ -121,7 +114,6 @@ class UserStatsService {
                 };
             });
 
-            // Sort by totalPoints DESC, then hardCount DESC, then realWorldCount DESC, then mediumCount DESC, then easyCount DESC, then userID ASC
             userStats.sort((a, b) => {
                 if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
                 if (b.hardCount !== a.hardCount) return b.hardCount - a.hardCount;
@@ -131,7 +123,6 @@ class UserStatsService {
                 return a.userID.localeCompare(b.userID);
             });
 
-            // Assign rank positions with tie handling
             const leaderboardWithRanks = [];
             let currentRank = 1;
             for (let i = 0; i < userStats.length; i++) {
@@ -180,12 +171,11 @@ class UserStatsService {
                 'easy': 10,
                 'medium': 25,
                 'hard': 50,
-                'real-world': 30  // Real-world projects get medium-high points
+                'real-world': 30
             };
 
             const points = rankPoints[difficulty] || 10;
 
-            // Prepare update object
             const updateObj = {
                 $inc: { 
                     rank: points,

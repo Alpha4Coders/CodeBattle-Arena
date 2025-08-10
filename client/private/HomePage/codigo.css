@@ -1,6 +1,5 @@
-/* Import shared navigation styles */
 @import url('../common/navigation.css');
-/* Base Styles */
+
 :root {
     --challenge-bg: rgba(255, 255, 255, 0.03);
     --challenge-bg-hover: rgba(255, 255, 255, 0.05);
@@ -55,7 +54,6 @@ body.light-theme {
     color: var(--text-dark);
 }
 
-/* Main Content */
 main {
     padding: 20px;
     margin-left: 0;
@@ -87,7 +85,7 @@ main {
     margin: 0 auto;
 }
 
-/* Arena Features */
+
 .arena-features {
     margin-bottom: 40px;
 }
@@ -131,7 +129,7 @@ main {
     opacity: 0.8;
     font-size: 0.95rem;
 }
-/* Practice Section */
+
 .practice-section {
     display: flex;
     flex-direction: column;
@@ -263,7 +261,7 @@ main {
   border-radius: 16px;
   transition: var(--transition);
 }
-/* Contact Section */
+
 .contact-section {
     display: flex;
     flex-direction: column;
@@ -319,7 +317,7 @@ main {
 }
 
 
-/* Responsive Design */
+
 @media (max-width: 992px) {
     .home-section {
         flex-direction: column;
@@ -380,10 +378,10 @@ main {
     padding: 20px;
     box-shadow: var(--card-shadow);
     color: var(--card-color);
-    /* border-top: 3px solid #00ff00; */
+    
 }
 
-/* Activity Graph */
+
 .graph-container {
     height: 150px;
     position: relative;
@@ -413,7 +411,7 @@ main {
     border-radius: 10px 10px 0 0;
 }
 
-/* Metrics */
+
 .activity-metrics {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -455,7 +453,7 @@ main {
     position: relative;
 }
 
-/* Problems Solved Card Styles */
+
 .problems-card {
     background: var(--card-bg);
     color: var(--card-color);
@@ -540,7 +538,7 @@ main {
     color: var(--text-light);
     opacity: 0.7;
 }
-/* Responsive design for problems card */
+
 @media (max-width: 768px) {
     .difficulty-breakdown {
         grid-template-columns: 1fr;
@@ -552,7 +550,7 @@ main {
     }
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
@@ -564,7 +562,7 @@ main {
     }
 }
 
-/* Add to your codigo.css */
+
 .section {
     display: none;
     padding: 20px;
@@ -585,7 +583,7 @@ main {
     }
 }
 
-/* Add to your codigo.css */
+
 .dashboard-container {
     display: flex;
     gap: 20px;
@@ -617,7 +615,7 @@ main {
     border-top: 3px solid #00ff00;
 }
 
-/* Welcome Card */
+
 
 .welcome-card {
     background: var(--card-bg);
@@ -662,13 +660,13 @@ main {
 }
 
 
-/* Activity Card */
+
 .activity-card {
     min-height: 250px;
     max-height: 350px;
 }
 
-/* Quick Actions Grid */
+
 .quick-actions-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -714,10 +712,10 @@ main {
     display: block;
 }
 
-/* Languages Grid */
+
 
 .languages-card {
-    /* display: flex; */
+    
     height: 45%;
     padding: 12px;
 }
@@ -734,7 +732,7 @@ main {
     border-radius: 10px;
     background: var(--card-bg);
     color: var(--card-color);
-    /* text-align: center; */
+    
 }
 
 .lang-icon {
@@ -752,7 +750,7 @@ main {
     text-align: right;
 }
 
-/* Challenges List */
+
 .challenge-list {
     margin-top: 15px;
 }
@@ -862,7 +860,7 @@ main {
     font-size: 2.5rem;
     margin-bottom: 15px;
     color: var(--accent-blue);
-    /* Optional: keep gradient for dark mode only */
+    
     background: none;
     -webkit-background-clip: initial;
     -webkit-text-fill-color: initial;
@@ -876,7 +874,7 @@ main {
     margin: 0 auto;
 }
 
-/* Arena Features */
+
 .arena-features {
     margin-bottom: 40px;
 }
@@ -921,7 +919,7 @@ main {
     font-size: 0.95rem;
 }
 
-/* Navigation backdrop overlay */
+
 .nav-backdrop {
     position: fixed;
     top: 0;

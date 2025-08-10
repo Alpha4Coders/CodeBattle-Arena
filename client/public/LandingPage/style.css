@@ -10,13 +10,13 @@ html {
 
 html, body {
     overflow-y: scroll;
-    scrollbar-width: none; /*for firefox*/
-    -ms-overflow-style: none; /*for edge*/
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-    display: none; /*for chrome, safari, and opera*/
+    display: none;
 }
 
 @font-face {
@@ -40,7 +40,6 @@ body {
 
 .back-to-top {
     position: fixed;
-    /* left: calc(50% - 25px); */
     right: 30px;
     bottom: 30px;
     display: flex;
