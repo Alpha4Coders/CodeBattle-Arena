@@ -455,10 +455,22 @@ main {
     width: 100%;
     transition: all 0.4s;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 14px;
     opacity: 1;
+    overflow: hidden;
     border-radius: 15px;
+}
+
+.profile-img {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(25, 25, 35, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .team-card:hover .name-card {
@@ -517,12 +529,6 @@ main {
 .social-icons:hover {
     transform: translateY(-2px);
     scale: 1.1;
-}
-
-@media (max-width: 768px) {
-    .cards {
-        flex-wrap: wrap;
-    }
 }
 
 .why-us-container {
@@ -748,4 +754,280 @@ main {
 
 .faq-item.open .faq-arrow {
     transform: rotate(180deg);
+}
+
+/* ============================================= */
+/* Responsive — Tablet & Mobile                  */
+/* ============================================= */
+
+@media (max-width: 900px) {
+    .landingPageNavbar {
+        width: 92%;
+        left: 4%;
+        right: 4%;
+        padding: 0 8px 0 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .back-to-top {
+        right: 20px;
+        bottom: 20px;
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Keep it a simple icon button on touch devices */
+    .back-to-top:hover {
+        width: 45px;
+        min-height: 45px;
+        padding: 10px;
+        border-radius: 50%;
+    }
+
+    .back-to-top:hover #back-to-top-icon {
+        display: inline-block;
+    }
+
+    .back-to-top:hover #back-to-top-txt {
+        display: none;
+    }
+
+    .hero-text {
+        margin-top: 100px;
+        padding: 10px;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .hero-text img {
+        width: 70%;
+        max-width: 320px;
+        margin-top: 15px;
+    }
+
+    /* Switch the hero from absolute layout to natural flow on mobile */
+    .cover-globe {
+        height: auto;
+        top: 0;
+        margin-top: 10px;
+    }
+
+    .cover-globe img {
+        position: static;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .hero-desc {
+        position: static;
+        top: auto;
+        padding: 0 20px;
+        margin-top: 20px;
+    }
+
+    .hero-desc p {
+        font-size: 0.95rem;
+        line-height: 22px;
+    }
+
+    .hero-cta {
+        position: static;
+        top: auto;
+        height: auto;
+        margin: 30px 0;
+    }
+
+    .hero-cta button {
+        width: 220px;
+        height: 70px;
+        font-size: 1.2rem;
+    }
+
+    .dashboard-img {
+        margin-top: 30px;
+    }
+
+    .dashboard-img img {
+        width: 92%;
+    }
+
+    .bento-grid img {
+        margin-top: 60px;
+        width: 92%;
+    }
+
+    .meet-ai img {
+        margin-top: 60px;
+        width: 90%;
+    }
+
+    .team {
+        margin-top: 60px;
+    }
+
+    .team h2 {
+        font-size: 2rem;
+    }
+
+    .cards {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    /* Two cards side by side on mobile */
+    .team-card {
+        width: calc(50% - 8px);
+        max-width: 190px;
+        height: auto;
+        min-height: 254px;
+        font-size: 24px;
+    }
+
+    .profile-img {
+        width: 64px;
+        height: 64px;
+        border-width: 2px;
+    }
+
+    /* Keep the description + social icons inside the narrower card */
+    .desc-card p {
+        padding: 14px 12px 8px;
+    }
+
+    .team-card:hover .desc-card {
+        font-size: 0.8rem;
+        line-height: 16px;
+    }
+
+    .socials {
+        padding: 10px 10px 14px;
+    }
+
+    .social-icons,
+    .social-icons svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Reduce the hover scale so cards don't clip on small screens */
+    .team-card:hover,
+    #vikash-card:hover,
+    #rajbeer-card:hover,
+    #archis-card:hover,
+    #rouvik-card:hover {
+        transform: scale(1.05);
+    }
+
+    .why-us-container {
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 60px;
+        padding: 0 20px;
+    }
+
+    .why-left {
+        align-items: center;
+        text-align: center;
+        padding: 0;
+        width: 100%;
+    }
+
+    .why-left h1,
+    .why-left p {
+        text-align: center;
+    }
+
+    .why-left p {
+        font-size: 1.1rem;
+    }
+
+    .why-left button {
+        min-width: 100%;
+    }
+
+    .why-us {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .FAQ-container {
+        padding: 0 20px;
+        margin-top: 80px;
+    }
+
+    .FAQ-container h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+        padding: 16px 20px;
+    }
+
+    .faq-item.open .faq-answer {
+        max-height: 400px;
+        padding: 16px 20px;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        column-gap: 0.6rem;
+        row-gap: 0.3rem;
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .footer img {
+        width: 50%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .landingPageNavbar {
+        height: 54px;
+        padding: 0 6px 0 14px;
+    }
+
+    .logo {
+        font-size: 1.2em;
+    }
+
+    .hero-text {
+        margin-top: 90px;
+    }
+
+    .hero-text img {
+        width: 80%;
+    }
+
+    .hero-cta button {
+        width: 200px;
+        height: 64px;
+        font-size: 1.1rem;
+    }
+
+    .team h2 {
+        font-size: 1.7rem;
+    }
+
+    .FAQ-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .faq-question {
+        font-size: 0.9rem;
+        padding: 14px 16px;
+    }
 }
