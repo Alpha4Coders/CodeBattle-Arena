@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# CodeBattle Arena - Commit Message Conventional Gate
+# Format: <type>(<scope>): <subject>
+# Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+# ==============================================================================
+
+COMMIT_FILE=$1
+COMMIT_MSG=$(head -n 1 "$COMMIT_FILE")
+
+# Allow merge commits
+if [[ "$COMMIT_MSG" =~ ^Merge ]]; then
+    exit 0
+fi
+
+CONVENTIONAL_REGEX="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-zA-Z0-9_/-]+\))?!?: .+"
+
+if [[ ! "$COMMIT_MSG" =~ $CONVENTIONAL_REGEX ]]; then
+    echo "========================================================"
+    echo "❌ INVALID COMMIT MESSAGE FORMAT!"
+    echo "========================================================"
+    echo "Your commit message: '$COMMIT_MSG'"
+    echo ""
+    echo "Please use the Conventional Commits format:"
+    echo "  <type>(<scope>): <summary>"
+    echo ""
+    echo "Valid Types:"
+    echo "  feat, fix, docs, style, refactor, perf, test, build, ci, chore"
+    echo ""
+    echo "Examples:"
+    echo "  feat(aptitude): add 80% passing unlock logic"
+    echo "  fix(backend): correct negative marking deduction"
+    echo "  style(frontend): remove neon green and apply modern palette"
+    echo "  ci(devops): configure multi-stage GitHub Actions pipeline"
+    echo "========================================================"
+    exit 1
+fi
+
+exit 0

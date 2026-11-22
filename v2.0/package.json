@@ -8,11 +8,14 @@
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
 
-    "test": "echo \"No tests specified yet\" && exit 0",
+    "test": "node server/testAptitude.js",
+    "test:aptitude": "node server/testAptitude.js",
+    "verify": "node -c server/index.js server/database.js server/aptitudeDatabase.js && node server/testAptitude.js",
     "seed": "node server/seedDatabase.js",
     "lint": "eslint server/ client/ --ext .js --max-warnings 50",
-    "build": "echo \"Build step - verifying files exist\" && ls server/",
-    "health": "curl -f http://localhost:8080/health || echo 'Health check endpoint needed'"
+    "build": "echo \"Build step - verifying files exist\" && node -c server/index.js",
+    "health": "node -e \"fetch('http://localhost:8080/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))\"",
+    "setup-hooks": "git config core.hooksPath ../.githooks"
   },
   "repository": {
     "type": "git",
