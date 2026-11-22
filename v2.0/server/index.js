@@ -5,7 +5,11 @@ import session from "cookie-session";
 import crypto from "node:crypto";
 import cors from "cors";
 import path from "path";
+import dns from "node:dns";
 import { createServer } from "http";
+
+// Prioritize IPv4 DNS lookups to fix querySrv ECONNREFUSED on Windows for MongoDB Atlas
+dns.setDefaultResultOrder("ipv4first");
 
 import { MongooseConnect, UserDBHandler } from "./database.js";
 import { UserStatsService } from "./userStatsService.js";
@@ -55,21 +59,21 @@ const aptitudeDBHandler = new AptitudeDBHandler();
 MongooseConnect.connect(process.env.MONGO_DB_URL);
 const uDBHandler = new UserDBHandler();
 
-uDBHandler.migrateUsersStats().catch(console.error);
-
-userStatsService.migrateUsersForRealWorld().catch(console.error);
-
-// Ensure Aptitude database has topics and sets seeded if MongoDB is connected
-setTimeout(() => {
-    if (aptitudeDBHandler.isMongoActive()) {
-        AptitudeDBHandler.Topics.countDocuments().then(count => {
-            if (count === 0) {
-                console.log("[Server] Seeding Aptitude topics and question sets...");
-                seedAptitudeDatabase().catch(console.error);
-            }
-        }).catch(err => console.warn("[Aptitude] Count check deferred:", err.message));
+// Run migrations and seeder only after MongoDB connection is established
+mongoose.connection.once('open', async () => {
+    console.log("[Server] MongoDB connected successfully. Running background tasks...");
+    await uDBHandler.migrateUsersStats().catch(console.error);
+    await userStatsService.migrateUsersForRealWorld().catch(console.error);
+    try {
+        const count = await AptitudeDBHandler.Topics.countDocuments();
+        if (count === 0) {
+            console.log("[Server] Seeding Aptitude topics and question sets...");
+            await seedAptitudeDatabase().catch(console.error);
+        }
+    } catch (err) {
+        console.warn("[Aptitude] Count check deferred:", err.message);
     }
-}, 1000);
+});
 
 // Start periodic 30-minute match timeout enforcement (every 5 minutes)
 setInterval(async () => {

@@ -408,6 +408,9 @@ class UserStatsService {
      * Migrate existing users to include realWorldCount field
      */
     async migrateUsersForRealWorld() {
+        if (!mongoose.connection || mongoose.connection.readyState !== 1) {
+            return 0;
+        }
         try {
             const result = await UserDBHandler.Users.updateMany(
                 { realWorldCount: { $exists: false } },
@@ -418,7 +421,7 @@ class UserStatsService {
             return result.modifiedCount;
         } catch (error) {
             console.error('[UserStatsService Error] Migration failed:', error);
-            throw error;
+            return 0;
         }
     }
 

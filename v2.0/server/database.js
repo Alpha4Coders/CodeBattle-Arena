@@ -11,7 +11,11 @@ class MongooseConnect {
 
         if (!MongooseConnect.isConnected) {
             try {
-                await mongoose.connect(URI || 'mongodb://localhost:27017/codebattle-arena', { serverSelectionTimeoutMS: 2000 });
+                await mongoose.connect(URI || 'mongodb://localhost:27017/codebattle-arena', { 
+                    serverSelectionTimeoutMS: 5000,
+                    connectTimeoutMS: 5000,
+                    family: 4
+                });
                 MongooseConnect.isConnected = true;
                 console.log("[MongooseConnect INFO] Successfully connected to MongoDB!");
             } catch (err) {
@@ -181,6 +185,9 @@ class UserDBHandler {
      * Migrate existing users to include new stats fields
      */
     async migrateUsersStats() {
+        if (!MongooseConnect.isConnected || mongoose.connection.readyState !== 1) {
+            return;
+        }
         try {
             const result = await UserDBHandler.Users.updateMany(
                 { problemsSolved: { $exists: false } },
