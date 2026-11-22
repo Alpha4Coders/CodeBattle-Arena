@@ -52,78 +52,98 @@
                     <!-- Welcome Card (Greeting) -->
                     <div class="dashboard-card welcome-greeting-card">
                         <div class="welcome-txt">
-                            <h1>💻 CodiGo Dashboard</h1>
-                            <h2><span class="profile-icon-svg"><svg width="30px" height="30px" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
-
-                                        <g id="SVGRepo_iconCarrier">
-                                            <g clip-path="url(#clip0_429_11117)">
-                                                <path
-                                                    d="M21 12C21 13.8569 20.4376 15.5825 19.4739 17.0157C17.858 19.4189 15.1136 21 12 21C8.88636 21 6.14202 19.4189 4.52609 17.0157C3.56237 15.5825 3 13.8569 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                                                    stroke="#ffffff" stroke-width="2.5" />
-                                                <path
-                                                    d="M14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z"
-                                                    stroke="#ffffff" stroke-width="2.5" />
-                                                <path
-                                                    d="M15 15H8.99998C7.18822 15 5.6578 16.2045 5.16583 17.8564C6.81645 19.7808 9.26583 21 12 21C14.7341 21 17.1835 19.7808 18.8341 17.8564C18.3421 16.2045 16.8117 15 15 15Z"
-                                                    stroke="#ffffff" stroke-width="2.5" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_429_11117">
-                                                    <rect width="24" height="24" fill="white" />
-                                                </clipPath>
-                                            </defs>
-                                        </g>
-
-                                    </svg></span>Welcome, <span id="dashboard_username">username</span></h2>
+                            <div class="greeting-header">
+                                <span class="badge-pill badge-brand">Competitive Hub</span>
+                                <span class="live-status-pill"><span class="pulse-dot"></span> Live Arena</span>
+                            </div>
+                            <h1>💻 CodiGo Arena</h1>
+                            <h2>
+                                <span class="profile-avatar-glow">
+                                    <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </span>
+                                Welcome back, <span id="dashboard_username" class="gradient-text">username</span>
+                            </h2>
                         </div>
                     </div>
-                    <!-- Welcome Card -->
+
+                    <!-- Quick Stats Card -->
                     <div class="dashboard-card welcome-card">
                         <div class="home-info">
-                            <h2 id="stats">📊 Quick stats</h2>
-                            <ul>
-                                <li>⭐ Current Rank: #<span id="dashboard_currRank">001</span></li>
-                                <li>🏆 Arena Matches Won: <span id="dashboard_contestCount">0</span></li>
-                                <li>🔥 Streak: <span id="dashboard_streakCount">04</span> Days</li>
-                                <li>🎯 Next Contest: Code Sprint in 2h 30m</li>
-                            </ul>
+                            <div class="card-header-flex">
+                                <h2 id="stats">📊 Quick Stats</h2>
+                                <span class="badge-pill badge-amber">Real-Time</span>
+                            </div>
+                            <div class="stats-pills-grid">
+                                <div class="stat-pill-item rank-pill">
+                                    <div class="stat-pill-icon">⭐</div>
+                                    <div class="stat-pill-content">
+                                        <span class="stat-pill-label">Global Rank</span>
+                                        <span class="stat-pill-value">#<span id="dashboard_currRank">001</span></span>
+                                    </div>
+                                </div>
+                                <div class="stat-pill-item wins-pill">
+                                    <div class="stat-pill-icon">🏆</div>
+                                    <div class="stat-pill-content">
+                                        <span class="stat-pill-label">Arena Wins</span>
+                                        <span class="stat-pill-value"><span id="dashboard_contestCount">0</span></span>
+                                    </div>
+                                </div>
+                                <div class="stat-pill-item streak-pill">
+                                    <div class="stat-pill-icon">🔥</div>
+                                    <div class="stat-pill-content">
+                                        <span class="stat-pill-label">Active Streak</span>
+                                        <span class="stat-pill-value"><span id="dashboard_streakCount">04</span> Days</span>
+                                    </div>
+                                </div>
+                                <div class="stat-pill-item next-pill">
+                                    <div class="stat-pill-icon">🎯</div>
+                                    <div class="stat-pill-content">
+                                        <span class="stat-pill-label">Next Sprint</span>
+                                        <span class="stat-pill-value contest-countdown">In 2h 30m</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Problems Solved Card -->
                     <div class="dashboard-card problems-card">
-                        <h2>🎯 Problems Solved</h2>
+                        <div class="card-header-flex">
+                            <h2>🎯 Problems Solved</h2>
+                            <span class="badge-pill badge-emerald">Algorithm Bank</span>
+                        </div>
                         <div class="problems-stats">
                             <div class="total-problems">
                                 <span class="total-number" id="dashboard_totalProblems">0</span>
-                                <span class="total-label">Total Solved</span>
+                                <span class="total-label">Total Problems Solved</span>
                             </div>
                             <div class="difficulty-breakdown">
                                 <div class="difficulty-stat easy">
-                                    <span class="diff-icon">🟢</span>
-                                    <div class="diff-details">
-                                        <span class="diff-count" id="dashboard_easyCount">0</span>
+                                    <div class="diff-header">
+                                        <span class="diff-icon">🟢</span>
                                         <span class="diff-label">Easy</span>
                                     </div>
+                                    <span class="diff-count" id="dashboard_easyCount">0</span>
+                                    <div class="mini-progress-bar"><div class="mini-progress-fill easy-fill"></div></div>
                                 </div>
                                 <div class="difficulty-stat medium">
-                                    <span class="diff-icon">🟡</span>
-                                    <div class="diff-details">
-                                        <span class="diff-count" id="dashboard_mediumCount">0</span>
+                                    <div class="diff-header">
+                                        <span class="diff-icon">🟡</span>
                                         <span class="diff-label">Medium</span>
                                     </div>
+                                    <span class="diff-count" id="dashboard_mediumCount">0</span>
+                                    <div class="mini-progress-bar"><div class="mini-progress-fill medium-fill"></div></div>
                                 </div>
                                 <div class="difficulty-stat hard">
-                                    <span class="diff-icon">🔴</span>
-                                    <div class="diff-details">
-                                        <span class="diff-count" id="dashboard_hardCount">0</span>
+                                    <div class="diff-header">
+                                        <span class="diff-icon">🔴</span>
                                         <span class="diff-label">Hard</span>
                                     </div>
+                                    <span class="diff-count" id="dashboard_hardCount">0</span>
+                                    <div class="mini-progress-bar"><div class="mini-progress-fill hard-fill"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -134,60 +154,106 @@
                 <div class="dashboard-column">
                     <!-- Quick Actions Card -->
                     <div class="dashboard-card actions-card">
-                        <h2>⚡ Quick Actions</h2>
+                        <div class="card-header-flex">
+                            <h2>⚡ Quick Actions</h2>
+                            <span class="badge-pill badge-sky">Hub Shortcuts</span>
+                        </div>
                         <div class="quick-actions-grid">
-                            <div class="action-item" onclick="showSection('practice')" style="cursor: pointer;">
-                                <div class="action-icon">💻</div>
+                            <div class="action-item action-coding" onclick="showSection('practice')">
+                                <div class="action-top">
+                                    <div class="action-icon icon-sky">💻</div>
+                                    <span class="action-arrow">→</span>
+                                </div>
                                 <div class="action-text">Practice Coding</div>
-                                <div class="action-desc">Continue solving problems</div>
+                                <div class="action-desc">Algorithms, DSA & syntax</div>
                             </div>
-                            <div class="action-item" onclick="window.location.href='../Aptitude/aptitude.html'" style="cursor: pointer;">
-                                <div class="action-icon">📐</div>
+                            <div class="action-item action-aptitude" onclick="window.location.href='../Aptitude/aptitude.html'">
+                                <div class="action-top">
+                                    <div class="action-icon icon-indigo">📐</div>
+                                    <span class="action-badge-new">47 Topics</span>
+                                </div>
                                 <div class="action-text">Aptitude Arena</div>
-                                <div class="action-desc">Quant, Logic & Verbal</div>
+                                <div class="action-desc">Quant, Logic & Verbal Prep</div>
                             </div>
-                            <div class="action-item" onclick="window.location.href='../Arena/arena.html'" style="cursor: pointer;">
-                                <div class="action-icon">⚔️</div>
+                            <div class="action-item action-arena" onclick="window.location.href='../Arena/arena.html'">
+                                <div class="action-top">
+                                    <div class="action-icon icon-rose">⚔️</div>
+                                    <span class="action-badge-live">Live</span>
+                                </div>
                                 <div class="action-text">Arena Duels</div>
-                                <div class="action-desc">Real-time battles</div>
+                                <div class="action-desc">Real-time 1v1 PvP battles</div>
                             </div>
-                            <div class="action-item">
-                                <div class="action-icon">🏆</div>
+                            <div class="action-item action-contest" onclick="window.location.href='../Arena/arena.html'">
+                                <div class="action-top">
+                                    <div class="action-icon icon-amber">🏆</div>
+                                    <span class="action-arrow">→</span>
+                                </div>
                                 <div class="action-text">Join Contest</div>
-                                <div class="action-desc">Compete live</div>
+                                <div class="action-desc">Weekly timed sprints</div>
                             </div>
-                            <div class="action-item" onclick="window.location.href='../Leaderboard/leaderboard.html'" style="cursor: pointer;">
-                                <div class="action-icon">📊</div>
+                            <div class="action-item action-leaderboard" onclick="window.location.href='../Leaderboard/leaderboard.html'">
+                                <div class="action-top">
+                                    <div class="action-icon icon-emerald">📊</div>
+                                    <span class="action-arrow">→</span>
+                                </div>
                                 <div class="action-text">Leaderboard</div>
-                                <div class="action-desc">See rankings</div>
+                                <div class="action-desc">Global rankings & scores</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Activity Card -->
                     <div class="dashboard-card activity-card">
-                        <h2>Activity</h2>
-                        <div class="graph-container">
-                            <div class="graph-line"></div>
-                            <div class="graph-dots">
-                                <span style="height:80%"></span>
-                                <span style="height:60%"></span>
-                                <span style="height:90%"></span>
-                                <span style="height:40%"></span>
-                                <span style="height:70%"></span>
-                                <span style="height:30%"></span>
+                        <div class="card-header-flex">
+                            <h2>📈 Weekly Activity</h2>
+                            <span class="badge-pill badge-brand">Consistency</span>
+                        </div>
+                        <div class="activity-chart-wrapper">
+                            <div class="activity-bar-group" data-day="Mon" title="Monday: 8 Solved">
+                                <div class="bar-fill" style="height: 65%;"></div>
+                                <span class="day-label">M</span>
+                            </div>
+                            <div class="activity-bar-group" data-day="Tue" title="Tuesday: 12 Solved">
+                                <div class="bar-fill" style="height: 85%;"></div>
+                                <span class="day-label">T</span>
+                            </div>
+                            <div class="activity-bar-group" data-day="Wed" title="Wednesday: 5 Solved">
+                                <div class="bar-fill" style="height: 45%;"></div>
+                                <span class="day-label">W</span>
+                            </div>
+                            <div class="activity-bar-group active-group" data-day="Thu" title="Thursday: 16 Solved (Today)">
+                                <div class="bar-fill" style="height: 95%;"></div>
+                                <span class="day-label">T</span>
+                            </div>
+                            <div class="activity-bar-group" data-day="Fri" title="Friday: 10 Solved">
+                                <div class="bar-fill" style="height: 70%;"></div>
+                                <span class="day-label">F</span>
+                            </div>
+                            <div class="activity-bar-group" data-day="Sat" title="Saturday: 8 Solved">
+                                <div class="bar-fill" style="height: 55%;"></div>
+                                <span class="day-label">S</span>
+                            </div>
+                            <div class="activity-bar-group" data-day="Sun" title="Sunday: 14 Solved">
+                                <div class="bar-fill" style="height: 80%;"></div>
+                                <span class="day-label">S</span>
                             </div>
                         </div>
                         <div class="activity-metrics">
-                            <div class="metric">
-                                <span class="value">25k</span>
-                                <span class="label">Peak Streak</span>
+                            <div class="metric metric-streak">
+                                <span class="metric-icon">🔥</span>
+                                <div class="metric-info">
+                                    <span class="value">25 Days</span>
+                                    <span class="label">Peak Streak</span>
+                                </div>
                             </div>
-                            <div class="metric">
-                                <span class="value">0</span>
-                                <span class="label">Missed Days</span>
+                            <div class="metric metric-consistency">
+                                <span class="metric-icon">🎯</span>
+                                <div class="metric-info">
+                                    <span class="value">98.2%</span>
+                                    <span class="label">Accuracy</span>
+                                </div>
                             </div>
-                       </div>
+                        </div>
                     </div>
                 </div>
               

@@ -8,6 +8,7 @@ import {
     SPEED_TIME_DISTANCE_CHEATSHEET,
     generateQuestionsForSet
 } from "./seedAptitude.js";
+import { getCheatSheetForTopic } from "./aptitudeCheatSheets.js";
 
 // ==========================================
 // SCHEMAS
@@ -144,15 +145,7 @@ function initInMemoryStore() {
     ];
 
     inMemory.topics = allTopics.map(t => {
-        const cheatSheet = t.topicId === "speed-time-and-distance"
-            ? SPEED_TIME_DISTANCE_CHEATSHEET
-            : {
-                title: `${t.title}: Key Concepts, Formulas, and Guidelines`,
-                content: `<div class="cheat-section"><h3>Core Concepts: ${t.title}</h3><p>${t.description}</p></div>`,
-                formulas: [{ situation: `Fundamental ${t.title} Theorem`, formula: "Core Analytical Principle", condition: "Standard assessment conditions" }],
-                shortcuts: ["Read prompt carefully before attempting calculations.", "Eliminate outlier options."],
-                faqs: [{ question: `What is the significance of ${t.title}?`, answer: `Standard problem-solving topic in recruitment assessments.` }]
-            };
+        const cheatSheet = getCheatSheetForTopic(t.topicId, t.title, t.category, t.description);
 
         return {
             ...t,
@@ -382,6 +375,10 @@ export class AptitudeDBHandler {
                 });
             }
 
+            const effectiveCheatSheet = (topic.cheatSheet && topic.cheatSheet.formulas && topic.cheatSheet.formulas.length > 2)
+                ? topic.cheatSheet
+                : getCheatSheetForTopic(topic.topicId, topic.title, topic.category, topic.description);
+
             res.json({
                 success: true,
                 topic: {
@@ -390,7 +387,7 @@ export class AptitudeDBHandler {
                     description: topic.description,
                     category: topic.category,
                     order: topic.order,
-                    cheatSheet: topic.cheatSheet,
+                    cheatSheet: effectiveCheatSheet,
                     practiceSets,
                     mockSets,
                     passingCriteriaPercentage: this.PASSING_PERCENTAGE

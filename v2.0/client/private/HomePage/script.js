@@ -83,6 +83,15 @@ function updateStatsDisplay(data) {
     if (easyCount) easyCount.textContent = data.easyCount || '0';
     if (mediumCount) mediumCount.textContent = data.mediumCount || '0';
     if (hardCount) hardCount.textContent = data.hardCount || '0';
+
+    // Update dynamic progress bar widths
+    const total = (data.problemsSolved && data.problemsSolved > 0) ? data.problemsSolved : 1;
+    const easyFill = document.querySelector('.easy-fill');
+    const mediumFill = document.querySelector('.medium-fill');
+    const hardFill = document.querySelector('.hard-fill');
+    if (easyFill) easyFill.style.width = Math.min(100, Math.round(((data.easyCount || 0) / total) * 100)) + '%';
+    if (mediumFill) mediumFill.style.width = Math.min(100, Math.round(((data.mediumCount || 0) / total) * 100)) + '%';
+    if (hardFill) hardFill.style.width = Math.min(100, Math.round(((data.hardCount || 0) / total) * 100)) + '%';
 }
 
 // Show brief notification when stats are updated

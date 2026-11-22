@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { AptitudeDBHandler } from "./aptitudeDatabase.js";
+import { TOPIC_CHEATSHEETS, getCheatSheetForTopic } from "./aptitudeCheatSheets.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -498,32 +499,7 @@ export async function seedAptitudeDatabase() {
         ];
 
         for (const topicData of allTopics) {
-            const cheatSheet = topicData.topicId === "speed-time-and-distance" 
-                ? SPEED_TIME_DISTANCE_CHEATSHEET 
-                : {
-                    title: `${topicData.title}: Key Concepts, Formulas, and Guidelines`,
-                    content: `
-                        <div class="cheat-section">
-                            <h3>Core Concepts: ${topicData.title}</h3>
-                            <p>${topicData.description}</p>
-                            <p>Mastering this topic requires consistent formula retention, recognizing common patterns in placement questions, and applying time-saving shortcuts.</p>
-                        </div>
-                    `,
-                    formulas: [
-                        { situation: `Standard ${topicData.title} Rule`, formula: "Fundamental Relationship", condition: "Standard placement assessment parameters" }
-                    ],
-                    shortcuts: [
-                        `Read the prompt carefully before calculation.`,
-                        `Eliminate improbable options through units or parity checks.`,
-                        `Manage your time: allocate at most 60-90 seconds per problem.`
-                    ],
-                    faqs: [
-                        {
-                            question: `How often does ${topicData.title} appear in placement exams?`,
-                            answer: `This topic is a standard component of major corporate recruitment assessments (TCS, Infosys, Wipro, Cognizant, Accenture, and product companies).`
-                        }
-                    ]
-                };
+            const cheatSheet = getCheatSheetForTopic(topicData.topicId, topicData.title, topicData.category, topicData.description);
 
             await AptitudeDBHandler.Topics.findOneAndUpdate(
                 { topicId: topicData.topicId },
