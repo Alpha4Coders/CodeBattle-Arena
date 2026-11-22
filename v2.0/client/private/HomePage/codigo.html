@@ -18,24 +18,6 @@
 </head>
 
 <body class="dashboard-body">
-    <!-- Mobile Top Header Bar -->
-    <header class="mobile-top-bar">
-        <div class="mobile-logo">
-            <span class="brand-diamond-icon">&lt;/&gt;</span>
-            <span class="brand-text">Codigo</span>
-        </div>
-        <div class="header-right-actions">
-            <button class="icon-circle-btn bell-btn" aria-label="Notifications">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-                <span class="red-notification-dot"></span>
-            </button>
-            <div class="user-avatar-circle user_avatar_initial">V</div>
-        </div>
-    </header>
-
     <!-- Sidebar Navigation -->
     <aside class="codingPageNav" aria-label="Main navigation">
         <div class="sidebar-top">
@@ -79,7 +61,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../Arena/arena.html" class="nav-link">
+                    <a href="#achievements" class="nav-link" onclick="showSection('achievements')">
                         <span class="menu-icon">
                             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="8" r="7"></circle>
@@ -102,7 +84,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#contact" class="nav-link" onclick="showSection('contact')">
+                    <a href="#profile" class="nav-link" onclick="showSection('profile')">
                         <span class="menu-icon">
                             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -113,7 +95,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0)" class="nav-link" onclick="authManager && authManager.logout()">
+                    <a href="#settings" class="nav-link" onclick="showSection('settings')">
                         <span class="menu-icon">
                             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -136,6 +118,24 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main-content">
+        <!-- Mobile Top Header Bar (Integrated inside main content stream for perfect single-column mobile flow) -->
+        <header class="mobile-top-bar">
+            <div class="mobile-logo">
+                <span class="brand-diamond-icon">&lt;/&gt;</span>
+                <span class="brand-text">Codigo</span>
+            </div>
+            <div class="header-right-actions">
+                <button class="icon-circle-btn bell-btn" aria-label="Notifications" onclick="showSection('profile')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="red-notification-dot"></span>
+                </button>
+                <div class="user-avatar-circle user_avatar_initial" onclick="showSection('profile')">V</div>
+            </div>
+        </header>
+
         <!-- Top Search Bar & Header -->
         <div class="main-top-navbar">
             <div class="search-input-pill">
@@ -447,6 +447,205 @@
             </div>
         </section>
 
+        <!-- Section: Achievements -->
+        <section id="achievements" class="achievements-section section">
+            <div class="section-banner">
+                <span class="badge-tag">RECOGNITION</span>
+                <h2>Achievements & Mastery Badges</h2>
+                <p>Track your milestones across algorithms, arena battles, streaks, and aptitude.</p>
+            </div>
+            <div class="achievements-grid" id="achievementsList">
+                <div class="achievement-card unlocked">
+                    <div class="badge-icon-box">⚡</div>
+                    <div class="achievement-info">
+                        <h3>First Blood</h3>
+                        <p>Complete your first code submission or assessment.</p>
+                        <div class="badge-status-pill unlocked">Unlocked ✓</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="badge-icon-box">🔥</div>
+                    <div class="achievement-info">
+                        <h3>Streak Master</h3>
+                        <p>Maintain an active daily streak for 7 consecutive days.</p>
+                        <div class="badge-status-pill in-progress">In Progress • <span id="badge_streak_val">0</span>/7 Days</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="badge-icon-box">📐</div>
+                    <div class="achievement-info">
+                        <h3>Aptitude Ace</h3>
+                        <p>Pass quantitative and logical placement sets with >= 80% score.</p>
+                        <div class="badge-status-pill unlocked">Active Track</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="badge-icon-box">⚔️</div>
+                    <div class="achievement-info">
+                        <h3>Arena Gladiator</h3>
+                        <p>Compete in live 1v1 coding duels in the Arena.</p>
+                        <div class="badge-status-pill in-progress"><a href="../Arena/arena.html" style="color: inherit; text-decoration: none;">Enter Arena →</a></div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="badge-icon-box">💻</div>
+                    <div class="achievement-info">
+                        <h3>Algorithm Veteran</h3>
+                        <p>Solve 25+ problems across beginner, intermediate, and advanced levels.</p>
+                        <div class="badge-status-pill in-progress"><span id="badge_solved_val">0</span>/25 Solved</div>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="badge-icon-box">🛡️</div>
+                    <div class="achievement-info">
+                        <h3>Safe Exam Ace</h3>
+                        <p>Complete a full 30-question placement mock with zero tab violations.</p>
+                        <div class="badge-status-pill unlocked">Verified Safe</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Profile -->
+        <section id="profile" class="profile-section section">
+            <div class="profile-header-card">
+                <div class="profile-avatar-large user_avatar_initial">V</div>
+                <div class="profile-identity">
+                    <h2 id="profile_display_name">Vikash</h2>
+                    <p class="profile-handle" id="profile_display_handle">@developer • Codigo Member</p>
+                    <div class="profile-badges-row">
+                        <span class="profile-rank-tag">Rank <span id="profile_rank_val">#001</span></span>
+                        <span class="profile-streak-tag">🔥 <span id="profile_streak_val">0</span> Day Streak</span>
+                        <span class="profile-points-tag">⭐ <span id="profile_points_val">0</span> Pts</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-details-grid">
+                <!-- Solved Breakdown -->
+                <div class="profile-card">
+                    <div class="card-header-line">
+                        <h3>🎯 Problem Solving Stats</h3>
+                    </div>
+                    <div class="stats-bars-list">
+                        <div class="stat-bar-item">
+                            <div class="stat-bar-labels">
+                                <span>Total Problems Solved</span>
+                                <strong id="profile_solved_total">0</strong>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill fill-red" id="profile_solved_bar" style="width: 10%;"></div></div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <div class="stat-bar-labels">
+                                <span>Easy Level</span>
+                                <strong id="profile_easy_val">0</strong>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill fill-green" id="profile_easy_bar" style="width: 10%;"></div></div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <div class="stat-bar-labels">
+                                <span>Medium Level</span>
+                                <strong id="profile_medium_val">0</strong>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill fill-amber" id="profile_medium_bar" style="width: 10%;"></div></div>
+                        </div>
+                        <div class="stat-bar-item">
+                            <div class="stat-bar-labels">
+                                <span>Hard Level</span>
+                                <strong id="profile_hard_val">0</strong>
+                            </div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill fill-rose" id="profile_hard_bar" style="width: 10%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio & Edit Card -->
+                <div class="profile-card">
+                    <div class="card-header-line">
+                        <h3>📝 Personal Information</h3>
+                    </div>
+                    <form class="profile-form" onsubmit="event.preventDefault(); saveProfileName();">
+                        <div class="form-group">
+                            <label for="edit_user_name">Display Name</label>
+                            <input type="text" id="edit_user_name" class="profile-input" placeholder="Enter your full name" value="Vikash">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_user_bio">Role / Bio</label>
+                            <input type="text" id="edit_user_bio" class="profile-input" placeholder="e.g. Software Engineer / Student" value="Competitive Coder & Full-Stack Developer">
+                        </div>
+                        <div class="profile-form-actions">
+                            <button type="submit" class="red-pill-action-btn">Save Profile Changes</button>
+                            <button type="button" class="btn-ghost-action" onclick="updateUserDetails()">↻ Sync Real Stats</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Settings -->
+        <section id="settings" class="settings-section section">
+            <div class="section-banner">
+                <span class="badge-tag">PREFERENCES</span>
+                <h2>Platform Settings</h2>
+                <p>Customize your workspace, assessment notifications, and account credentials.</p>
+            </div>
+
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <div class="card-header-line">
+                        <h3>⚙️ Interface & Experience</h3>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-texts">
+                            <strong>Daily Coding Goal Alerts</strong>
+                            <span>Receive reminders to preserve your consecutive day streak.</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="setting_daily_reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-texts">
+                            <strong>Sound Effects & Audio Feedback</strong>
+                            <span>Play audio cues upon test case pass and assessment submission.</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="setting_sound_effects" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-texts">
+                            <strong>Safe Exam Anti-Cheating Mode</strong>
+                            <span>Strict fullscreen enforcement during placement mock tests.</span>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="setting_safe_exam" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="card-header-line">
+                        <h3>🔒 Account & Session Security</h3>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">
+                        Manage your active authenticated session on this browser.
+                    </p>
+                    <div class="settings-danger-actions">
+                        <button type="button" class="btn-ghost-action" onclick="localStorage.clear(); alert('Local storage and cache cleared!'); location.reload();">
+                            Clear Local Cache
+                        </button>
+                        <button type="button" class="btn-danger-action" onclick="authManager && authManager.logout ? authManager.logout() : alert('Logging out...')">
+                            Sign Out of Codigo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Section: Contact -->
         <section id="contact" class="contact-section section">
             <h2 class="heading">Contact Us</h2>
@@ -473,7 +672,11 @@
             <span class="mobile-nav-icon">&lt;/&gt;</span>
             <span class="mobile-nav-label">Practice</span>
         </a>
-        <a href="../Leaderboard/leaderboard.html" class="mobile-nav-item">
+        <a href="#achievements" class="mobile-nav-item" onclick="showSection('achievements')">
+            <span class="mobile-nav-icon">🏆</span>
+            <span class="mobile-nav-label">Badges</span>
+        </a>
+        <a href="#profile" class="mobile-nav-item" onclick="showSection('profile')">
             <span class="mobile-nav-icon">👤</span>
             <span class="mobile-nav-label">Profile</span>
         </a>

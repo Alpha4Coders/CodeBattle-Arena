@@ -223,6 +223,59 @@ function updateStatsDisplay(data) {
         chartBadge.textContent = `${accuracyPct}%`;
     }
     renderProgressSplineChart(accuracyPct, solvedVal, streakVal);
+
+    // 9. Profile Section Updates
+    const customName = localStorage.getItem('userCustomName');
+    const finalName = customName || data.name || 'Developer';
+    if (username) username.textContent = finalName;
+
+    const profileName = document.getElementById("profile_display_name");
+    const editName = document.getElementById("edit_user_name");
+    if (profileName) profileName.textContent = finalName;
+    if (editName && !editName.dataset.dirty) editName.value = finalName;
+
+    const profileRank = document.getElementById("profile_rank_val");
+    if (profileRank) profileRank.textContent = '#' + String(data.rank || 1).padStart(3, '0');
+
+    const profileStreak = document.getElementById("profile_streak_val");
+    if (profileStreak) profileStreak.textContent = streakVal;
+
+    const profilePoints = document.getElementById("profile_points_val");
+    const calcPts = (Number(data.hardCount || 0) * 20) + (Number(data.mediumCount || 0) * 10) + (Number(data.easyCount || 0) * 5);
+    if (profilePoints) profilePoints.textContent = calcPts;
+
+    const profileTotal = document.getElementById("profile_solved_total");
+    if (profileTotal) profileTotal.textContent = solvedVal;
+
+    const profileEasy = document.getElementById("profile_easy_val");
+    if (profileEasy) profileEasy.textContent = data.easyCount || 0;
+
+    const profileMedium = document.getElementById("profile_medium_val");
+    if (profileMedium) profileMedium.textContent = data.mediumCount || 0;
+
+    const profileHard = document.getElementById("profile_hard_val");
+    if (profileHard) profileHard.textContent = data.hardCount || 0;
+
+    // Badges
+    const badgeStreak = document.getElementById("badge_streak_val");
+    if (badgeStreak) badgeStreak.textContent = Math.min(7, streakVal);
+
+    const badgeSolved = document.getElementById("badge_solved_val");
+    if (badgeSolved) badgeSolved.textContent = Math.min(25, solvedVal);
+}
+
+function saveProfileName() {
+    const input = document.getElementById("edit_user_name");
+    if (!input || !input.value.trim()) return;
+    const newName = input.value.trim();
+    localStorage.setItem('userCustomName', newName);
+    const username = document.getElementById("dashboard_username");
+    const profileName = document.getElementById("profile_display_name");
+    if (username) username.textContent = newName;
+    if (profileName) profileName.textContent = newName;
+    const initial = newName.charAt(0).toUpperCase();
+    document.querySelectorAll('.user_avatar_initial').forEach(el => el.textContent = initial);
+    alert('Profile name updated to: ' + newName);
 }
 
 // Dynamically generate smooth spline curve & dots for 7 days (Mon-Sun)

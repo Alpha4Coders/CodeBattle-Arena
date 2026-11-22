@@ -27,8 +27,8 @@ function toggleNav() {
 }
 
 function showSection(sectionId) {
-    // Special handling for leaderboard page - redirect to homepage
-    if (window.location.pathname.includes('leaderboard.html')) {
+    // Special handling for external pages - redirect to homepage with section hash
+    if (!window.location.pathname.includes('codigo.html')) {
         window.location.href = `../HomePage/codigo.html#${sectionId}`;
         return;
     }
@@ -43,15 +43,24 @@ function showSection(sectionId) {
     if (section) {
         section.classList.add('active');
         history.replaceState(null, null, `#${sectionId}`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Update active link
+    // Update desktop active link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.toggle('current', link.getAttribute('href') === `#${sectionId}`);
     });
 
+    // Update mobile bottom nav active link
+    document.querySelectorAll('.mobile-nav-item').forEach(link => {
+        const href = link.getAttribute('href');
+        link.classList.toggle('active', href === `#${sectionId}`);
+    });
+
     // Hide the navigation menu for better UX
-    hideNav();
+    if (typeof hideNav === 'function') {
+        hideNav();
+    }
 }
 
 // Navigation initialization
