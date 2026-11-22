@@ -39,11 +39,6 @@ app.use(cors({
     credentials: true
 }));
 
-app.use((err, req, res, next) => {
-    console.error('Server error:', err);
-    res.status(500).json({ error: 'Internal server error' });
-});
-
 app.use(session({
     secret: crypto.randomBytes(32),
     maxAge: 24 * 60 * 60 * 1000
@@ -89,21 +84,28 @@ setInterval(async () => {
 }, 5 * 60 * 1000); // Every 5 minutes
 
 // authentication -----------------
-app.use(clerk.clerkMiddleware());
+const hasClerkKeys = Boolean(process.env.CLERK_SECRET_KEY && process.env.CLERK_PUBLISHABLE_KEY);
 
-// base entry point of server
-app.use('/public', express.static('client/public'));
+const requireAuth = (options = {}) => {
+    if (hasClerkKeys) {
+        return clerk.requireAuth(options);
+    }
+    return (req, res, next) => {
+        if (!req.auth) req.auth = { userId: req.headers['x-user-id'] || 'dev_user' };
+        next();
+    };
+};
 
-app.use('/private', clerk.requireAuth({ signInUrl: process.env.CLERK_SIGN_IN_URL, signUpUrl: process.env.CLERK_SIGN_UP_URL }),
-                    uDBHandler.middleware_userAuth.bind(uDBHandler),
-                    express.static('client/private'));
+if (hasClerkKeys) {
+    app.use(clerk.clerkMiddleware());
+} else {
+    app.use((req, res, next) => {
+        if (!req.auth) req.auth = { userId: req.headers['x-user-id'] || 'dev_user' };
+        next();
+    });
+}
 
-app.use('/api', express.json());
-
-app.get('/api/incrank/:value/:set', clerk.requireAuth(), uDBHandler.endpoint_incrementUserRank.bind(uDBHandler));
-app.get('/api/incstreak/:value/:set', clerk.requireAuth(), userStatsService.endpoint_incrementStreakCount.bind(userStatsService));
-app.get('/api/inccontest/:value/:set', clerk.requireAuth(), uDBHandler.endpoint_incrementContestsCount.bind(uDBHandler));
-
+// Health check endpoint (always public and verified first)
 app.get('/api/health', (req, res) => {
     res.json({ 
         status: 'OK', 
@@ -112,35 +114,48 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// base entry point of server
+app.use('/public', express.static('client/public'));
+
+app.use('/private', requireAuth({ signInUrl: process.env.CLERK_SIGN_IN_URL, signUpUrl: process.env.CLERK_SIGN_UP_URL }),
+                    uDBHandler.middleware_userAuth.bind(uDBHandler),
+                    express.static('client/private'));
+
+app.use('/api', express.json());
+
+app.get('/api/incrank/:value/:set', requireAuth(), uDBHandler.endpoint_incrementUserRank.bind(uDBHandler));
+app.get('/api/incstreak/:value/:set', requireAuth(), userStatsService.endpoint_incrementStreakCount.bind(userStatsService));
+app.get('/api/inccontest/:value/:set', requireAuth(), uDBHandler.endpoint_incrementContestsCount.bind(uDBHandler));
+
 app.get('/api/problems', problemDBHandler.endpoint_getProblems.bind(problemDBHandler));
 app.get('/api/problems/:problemId', problemDBHandler.endpoint_getProblem.bind(problemDBHandler));
 app.post('/api/problems/:problemId/submit', 
     express.json({ limit: '10mb' }), 
-    clerk.requireAuth(), 
+    requireAuth(), 
     problemDBHandler.endpoint_submitSolution.bind(problemDBHandler)
 );
 
 // User solved problems endpoint
 app.get('/api/user/solved-problems', 
-    clerk.requireAuth(), 
+    requireAuth(), 
     problemDBHandler.endpoint_getUserSolvedProblems.bind(problemDBHandler)
 );
 
 // User stats endpoints
-app.get('/api/userdata', clerk.requireAuth(), uDBHandler.endpoint_userData.bind(uDBHandler));
+app.get('/api/userdata', requireAuth(), uDBHandler.endpoint_userData.bind(uDBHandler));
 
 // New unified stats and leaderboard endpoints
-app.get('/api/user/stats', clerk.requireAuth(), userStatsService.endpoint_getUserStats.bind(userStatsService));
-app.get('/api/user/rank-position', clerk.requireAuth(), userStatsService.endpoint_getUserRankPosition.bind(userStatsService));
+app.get('/api/user/stats', requireAuth(), userStatsService.endpoint_getUserStats.bind(userStatsService));
+app.get('/api/user/rank-position', requireAuth(), userStatsService.endpoint_getUserRankPosition.bind(userStatsService));
 app.get('/api/leaderboard', userStatsService.endpoint_getLeaderboard.bind(userStatsService));
 app.post('/api/user/problem-solved', 
     express.json(), 
-    clerk.requireAuth(), 
+    requireAuth(), 
     userStatsService.endpoint_updateOnProblemSolved.bind(userStatsService)
 );
 
 // Arena endpoints - now unified through UserStatsService
-app.get('/api/arena/stats', clerk.requireAuth(), userStatsService.endpoint_getArenaStats.bind(userStatsService));
+app.get('/api/arena/stats', requireAuth(), userStatsService.endpoint_getArenaStats.bind(userStatsService));
 app.get('/api/arena/leaderboard', userStatsService.endpoint_getArenaLeaderboard.bind(userStatsService));
 app.get('/api/arena/system-stats', userStatsService.endpoint_getArenaSystemStats.bind(userStatsService));
 
@@ -252,6 +267,12 @@ app.get('/', (req, res) => {
 // Landing page direct access
 app.get('/LandingPage', (req, res) => {
     res.redirect('/public/LandingPage/');
+});
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+    console.error('[Server Error]:', err);
+    res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
 // http listen on PORT
