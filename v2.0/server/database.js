@@ -10,9 +10,13 @@ class MongooseConnect {
         }
 
         if (!MongooseConnect.isConnected) {
-            await mongoose.connect(URI);
-            MongooseConnect.isConnected = true;
-            console.log("[MongooseConnect INFO] Successfully connected to MongoDB!");
+            try {
+                await mongoose.connect(URI || 'mongodb://localhost:27017/codebattle-arena', { serverSelectionTimeoutMS: 2000 });
+                MongooseConnect.isConnected = true;
+                console.log("[MongooseConnect INFO] Successfully connected to MongoDB!");
+            } catch (err) {
+                console.warn("[MongooseConnect WARNING] Could not connect to MongoDB:", err.message);
+            }
         }
     }
 }
@@ -36,7 +40,6 @@ class UserDBHandler {
     static {
         UserDBHandler.userSchema.index({ rank: -1, problemsSolved: -1, streak_count: -1 });
         
-        UserDBHandler.userSchema.index({ userID: 1 });
         UserDBHandler.userSchema.index({ userID: 1 });
         
         UserDBHandler.userSchema.index({ rank: -1 });

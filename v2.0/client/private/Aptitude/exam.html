@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Session | Aptitude Arena</title>
+    <link rel="stylesheet" href="exam.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Fullscreen Start Gate (For Mock Safe Exam Mode) -->
+    <div id="fullscreenStartOverlay" class="fullscreen-start-overlay" style="display: none;">
+        <div class="start-card">
+            <div style="font-size: 2.8rem; margin-bottom: 14px;">🛡️</div>
+            <h2 style="font-size: 1.5rem; margin-bottom: 8px;">Safe Exam Mode: Mock Assessment</h2>
+            <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 24px;">
+                This test is strictly monitored to simulate actual placement exam environments.
+                <strong>Fullscreen mode will be locked.</strong> Tab switching and leaving the browser window are strictly tracked.
+                You are granted <strong>2 free warnings</strong>; subsequent violations will deduct <strong>0.5 penalty points</strong> per switch from your final score.
+            </p>
+            <div style="background: var(--bg-surface); padding: 14px; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 24px; text-align: left;">
+                <div>⏱️ <strong>Time Limit:</strong> 45 Minutes</div>
+                <div>📝 <strong>Questions:</strong> 30 Multiple Choice Questions</div>
+                <div>⚖️ <strong>Marking:</strong> +1.0 for Correct, -0.25 for Incorrect</div>
+                <div>🎯 <strong>Passing Threshold:</strong> 80%</div>
+            </div>
+            <button class="btn-submit-exam" style="margin: 0 auto; padding: 12px 28px; font-size: 1rem;" onclick="startSafeMockExam()">
+                Enter Fullscreen & Begin Assessment →
+            </button>
+        </div>
+    </div>
+
+    <!-- Exam Navigation Header -->
+    <header class="exam-header">
+        <div class="exam-header-container">
+            <div class="exam-info-group">
+                <span class="exam-title-badge" id="examTopicTitle">Loading Assessment...</span>
+                <span id="examTypeBadge" class="timer-box" style="font-size: 0.78rem; padding: 4px 10px; font-family: inherit;">Set 1</span>
+            </div>
+
+            <!-- Timer Countdown -->
+            <div class="timer-box" id="examTimerBox">
+                <span>⏱️</span>
+                <span id="examTimerDisplay">45:00</span>
+            </div>
+
+            <div class="exam-header-actions">
+                <button class="btn-submit-exam" onclick="confirmSubmitExam()">
+                    <span>Submit Test</span>
+                    <span>✓</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Exam Workspace Layout -->
+    <main class="exam-layout">
+        <!-- Question Pane (Left) -->
+        <section class="question-pane">
+            <div>
+                <div class="question-meta-bar">
+                    <span id="questionCounter">Question 1 of 30</span>
+                    <span id="questionMarkingScheme">Marking: +1.0 / -0.25</span>
+                </div>
+
+                <div class="question-text-area">
+                    <div class="question-number" id="questionNumberLabel">QUESTION 1</div>
+                    <div class="question-statement" id="questionStatement">Loading question...</div>
+                </div>
+
+                <!-- 4 Options (A, B, C, D) -->
+                <div class="options-list" id="optionsContainer">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Question Action Controls -->
+            <div class="question-controls">
+                <div style="display: flex; gap: 10px;">
+                    <button class="ctrl-btn" onclick="clearCurrentSelection()">Clear Selection</button>
+                    <button class="ctrl-btn mark-review" id="btnMarkReview" onclick="toggleMarkReview()">Mark for Review</button>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="ctrl-btn" id="btnPrev" onclick="navigateQuestion(-1)">← Previous</button>
+                    <button class="ctrl-btn primary" id="btnNext" onclick="navigateQuestion(1)">Save & Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question Palette Pane (Right) -->
+        <aside class="palette-pane">
+            <div class="palette-header">Question Palette</div>
+            
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-dot dot-answered"></span>
+                    <span>Answered (<span id="countAnswered">0</span>)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-unanswered"></span>
+                    <span>Unanswered (<span id="countUnanswered">30</span>)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-review"></span>
+                    <span>Review (<span id="countReview">0</span>)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot dot-not-visited"></span>
+                    <span>Not Visited</span>
+                </div>
+            </div>
+
+            <!-- 1 to 30 Grid -->
+            <div class="palette-grid" id="paletteGrid">
+                <!-- 30 buttons generated dynamically -->
+            </div>
+
+            <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                <button class="ctrl-btn" style="width: 100%; justify-content: center;" onclick="confirmSubmitExam()">
+                    Review & Final Submit
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Safe Exam Violation Modal (Tab Switch / Window Blur Warning) -->
+    <div id="safeViolationModal" class="safe-modal-overlay">
+        <div class="safe-modal-card">
+            <div class="warning-icon">⚠️</div>
+            <h3 style="color: var(--accent-rose); font-size: 1.35rem; margin-bottom: 10px;">Tab Switch Detected!</h3>
+            <p id="violationWarningText" style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; margin-bottom: 20px;">
+                Switching tabs or leaving the exam screen is strictly prohibited in Safe Exam Mode.
+            </p>
+            <div style="background: var(--bg-surface); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 20px;">
+                Violation Count: <strong id="violationCountBadge" style="color: var(--accent-rose);">1 / 2</strong>
+            </div>
+            <button class="ctrl-btn primary" style="width: 100%; justify-content: center;" onclick="dismissViolationModal()">
+                I Understand, Return to Assessment
+            </button>
+        </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="submitConfirmModal" class="safe-modal-overlay">
+        <div class="safe-modal-card" style="border-color: var(--brand-primary); max-width: 440px;">
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">📋</div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Confirm Submission</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+                Are you ready to submit your test? Once submitted, your answers will be evaluated on the server with negative marking (-0.25).
+            </p>
+            <div style="background: var(--bg-surface); padding: 14px; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 20px; text-align: left;">
+                <div>Total Questions: <strong>30</strong></div>
+                <div>Answered: <strong id="modalAnsweredCount" style="color: var(--accent-emerald);">0</strong></div>
+                <div>Unanswered: <strong id="modalUnansweredCount" style="color: var(--accent-rose);">30</strong></div>
+                <div>Marked for Review: <strong id="modalReviewCount" style="color: var(--accent-purple);">0</strong></div>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="ctrl-btn" onclick="closeSubmitConfirmModal()">Resume Test</button>
+                <button class="btn-submit-exam" onclick="executeFinalSubmission()">Yes, Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post-Submission Results View Overlay -->
+    <div id="resultsOverlay" class="results-overlay">
+        <div class="results-container">
+            <div class="results-card">
+                <!-- Evaluation Banner -->
+                <div id="resultBanner" class="result-banner passed">
+                    <div style="font-size: 2.2rem;" id="resultBannerIcon">🎉</div>
+                    <div>
+                        <h2 id="resultBannerTitle" style="font-size: 1.4rem; margin-bottom: 4px;">Assessment Passed!</h2>
+                        <p id="resultBannerMessage" style="font-size: 0.92rem;">Congratulations! You achieved the 80% passing benchmark. Set 2 is now unlocked.</p>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="val" id="metricPercentage" style="color: var(--brand-primary);">85.0%</div>
+                        <div class="lbl">Score Percentage</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="val" id="metricNetScore">24.5</div>
+                        <div class="lbl">Net Score (pts)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="val" id="metricCorrect" style="color: var(--accent-emerald);">26</div>
+                        <div class="lbl">Correct (+1.0)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="val" id="metricWrong" style="color: var(--accent-rose);">4</div>
+                        <div class="lbl">Wrong (-0.25)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="val" id="metricTabPenalties" style="color: var(--accent-amber);">0.0</div>
+                        <div class="lbl">Tab Penalty Points</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="val" id="metricTimeTaken">18m 42s</div>
+                        <div class="lbl">Time Taken</div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;">
+                    <button class="ctrl-btn" onclick="scrollToSolutions()">
+                        <span>📖 View Detailed Solutions</span>
+                    </button>
+                    <!-- Shown if failed (<80%) to force pre-learning review -->
+                    <button class="ctrl-btn primary" id="btnGoToPreLearn" style="background-color: var(--accent-amber); display: none;" onclick="goToPreLearningCheatSheet()">
+                        <span>Review Concepts on Pre-learning Page →</span>
+                    </button>
+                    <!-- Shown if passed (>=80%) to proceed -->
+                    <button class="ctrl-btn primary" id="btnGoNextSet" onclick="returnToAptitudeHub()">
+                        <span>Proceed to Next Set →</span>
+                    </button>
+                </div>
+
+                <!-- Detailed Solutions Accordion -->
+                <div id="solutionsSection" style="border-top: 1px solid var(--border-color); padding-top: 24px;">
+                    <h3 style="margin-bottom: 18px; color: var(--text-primary);">Detailed Step-by-Step Solutions</h3>
+                    <div id="solutionsList">
+                        <!-- Populated with verified solutions -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="exam.js"></script>
+</body>
+</html>

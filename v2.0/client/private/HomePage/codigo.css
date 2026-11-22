@@ -3,8 +3,8 @@
 :root {
     --challenge-bg: rgba(255, 255, 255, 0.03);
     --challenge-bg-hover: rgba(255, 255, 255, 0.05);
-    --action-bg: rgba(0, 255, 0, 0.05);
-    --action-bg-hover: rgba(0, 255, 0, 0.1);
+    --action-bg: rgba(16, 185, 129, 0.08);
+    --action-bg-hover: rgba(16, 185, 129, 0.15);
     --bg-dark: #0d1117;
     --bg-light: #f5f5f5;
     --nav-bg: #191923;
@@ -13,11 +13,11 @@
     --card-color: #e0e0e0;
     --text-light: #e0e0e0;
     --text-dark: #333;
-    --accent-green: #00ff00;
+    --accent-green: #10b981;
     --accent-blue: #539bf5;
     --accent-orange: #f34f29;
     --accent-yellow: #ffaf1b;
-    --accent-python: #3af329;
+    --accent-python: #22c55e;
     --success: #238636;
     --success-hover: #2ea043;
     --transition: all 0.3s ease;

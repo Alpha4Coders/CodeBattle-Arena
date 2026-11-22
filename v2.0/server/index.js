@@ -14,6 +14,8 @@ import { ProblemDBHandler } from "./problemDatabase.js";
 import { ArenaDBHandler } from "./arenaDatabase.js";
 import { ArenaSocketHandler } from "./arenaSocket.js";
 import { AIAssistanceService } from "./aiAssistance.js";
+import { AptitudeDBHandler } from "./aptitudeDatabase.js";
+import { seedAptitudeDatabase } from "./seedAptitude.js";
 
 import { fileURLToPath } from 'url';
 
@@ -53,12 +55,26 @@ const problemDBHandler = new ProblemDBHandler(userStatsService);
 
 const arenaDBHandler = new ArenaDBHandler(userStatsService);
 
+const aptitudeDBHandler = new AptitudeDBHandler();
+
 MongooseConnect.connect(process.env.MONGO_DB_URL);
 const uDBHandler = new UserDBHandler();
 
 uDBHandler.migrateUsersStats().catch(console.error);
 
 userStatsService.migrateUsersForRealWorld().catch(console.error);
+
+// Ensure Aptitude database has topics and sets seeded if MongoDB is connected
+setTimeout(() => {
+    if (aptitudeDBHandler.isMongoActive()) {
+        AptitudeDBHandler.Topics.countDocuments().then(count => {
+            if (count === 0) {
+                console.log("[Server] Seeding Aptitude topics and question sets...");
+                seedAptitudeDatabase().catch(console.error);
+            }
+        }).catch(err => console.warn("[Aptitude] Count check deferred:", err.message));
+    }
+}, 1000);
 
 // Start periodic 30-minute match timeout enforcement (every 5 minutes)
 setInterval(async () => {
@@ -137,6 +153,16 @@ app.get('/api/arena/player-stats/:userId', async (req, res) => {
         res.status(500).json({ success: false, error: 'Failed to get player stats' });
     }
 });
+
+// Aptitude Arena endpoints
+app.get('/api/aptitude/categories', aptitudeDBHandler.endpoint_getCategories.bind(aptitudeDBHandler));
+app.get('/api/aptitude/topics/:category', aptitudeDBHandler.endpoint_getTopics.bind(aptitudeDBHandler));
+app.get('/api/aptitude/topic/:topicId', aptitudeDBHandler.endpoint_getTopicDetail.bind(aptitudeDBHandler));
+app.post('/api/aptitude/topic/mark-read', aptitudeDBHandler.endpoint_markCheatSheetRead.bind(aptitudeDBHandler));
+app.get('/api/aptitude/exam/:topicId/:type/:setNumber', aptitudeDBHandler.endpoint_getQuestions.bind(aptitudeDBHandler));
+app.post('/api/aptitude/submit', aptitudeDBHandler.endpoint_submitExam.bind(aptitudeDBHandler));
+app.get('/api/aptitude/leaderboard', aptitudeDBHandler.endpoint_getLeaderboard.bind(aptitudeDBHandler));
+app.get('/api/aptitude/user-progress', aptitudeDBHandler.endpoint_getUserProgress.bind(aptitudeDBHandler));
 
 // AI Assistance endpoints
 app.post('/api/ai/analyze-code', express.json(), async (req, res) => {
