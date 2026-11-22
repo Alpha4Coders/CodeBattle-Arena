@@ -27,6 +27,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 process.env.PORT = process.env.PORT || '8080';
 
 const app = express();
@@ -119,11 +120,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // base entry point of server
-app.use('/public', express.static('client/public'));
+app.use('/public', express.static(path.join(__dirname, '../client/public')));
 
 app.use('/private', requireAuth({ signInUrl: process.env.CLERK_SIGN_IN_URL, signUpUrl: process.env.CLERK_SIGN_UP_URL }),
                     uDBHandler.middleware_userAuth.bind(uDBHandler),
-                    express.static('client/private'));
+                    express.static(path.join(__dirname, '../client/private')));
 
 app.use('/api', express.json());
 

@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "cd v2.0 && npm install",
     "build": "cd v2.0 && npm run build",
-    "start": "cd v2.0 && npm start",
+    "start": "node server/index.js",
     "dev": "cd v2.0 && npm run dev",
     "test": "cd v2.0 && npm test",
     "test:aptitude": "cd v2.0 && npm run test:aptitude",
