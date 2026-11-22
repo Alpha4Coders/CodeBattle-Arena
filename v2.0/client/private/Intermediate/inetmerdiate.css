@@ -1,21 +1,21 @@
 :root {
-    --bg-dark: #121212;
-    --card-bg: #1e1e1e;
-    --text-primary: #e0e0e0;
-    --text-secondary: #aaaaaa;
-    --accent-blue: #75f74d;
+    --bg-dark: #11141a;
+    --card-bg: #181d27;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-blue: #e53935;
     --accent-orange: #ff922b;
     --accent-yellow: #ffd43b;
     --accent-python: #3572A5;
-    --success: #2b8a3e;
-    --success-hover: #37b24d;
-    --border-color: #333;
-    --highlight: #2d3436;
-    --transition: all 0.3s ease;
+    --success: #e53935;
+    --success-hover: #d32f2f;
+    --border-color: #272f3d;
+    --highlight: #202736;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Poppins', -apple-system, sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--bg-dark);
@@ -24,7 +24,7 @@ body {
 }
 
 .navbar {
-    background-color: #0a0a0a;
+    background-color: #11141a;
     top: 0;
     position: fixed;
     width: 100%;

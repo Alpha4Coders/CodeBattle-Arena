@@ -1,14 +1,14 @@
 @import url('../common/navigation.css');
 
 :root {
-    --leaderboard-primary: #667eea;
-    --leaderboard-secondary: #764ba2;
+    --leaderboard-primary: #e53935;
+    --leaderboard-secondary: #b71c1c;
     --gold: #ffd700;
     --silver: #c0c0c0;
     --bronze: #cd7f32;
     --success-green: #10b981;
     --warning-yellow: #f59e0b;
-    --danger-red: #ef4444;
+    --danger-red: #e53935;
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -20,15 +20,15 @@
 }
 
 .dark-theme {
-    --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    --card-gradient: linear-gradient(145deg, #1e293b 0%, #334155 100%);
-    --text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --hero-gradient: linear-gradient(135deg, #11141a 0%, #1f2937 50%, #e53935 100%);
+    --card-gradient: linear-gradient(145deg, #181d27 0%, #201316 100%);
+    --text-gradient: linear-gradient(135deg, #e53935 0%, #ff6b6b 100%);
 }
 
 .light-theme {
-    --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    --card-gradient: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
-    --text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f4f5f8 50%, rgba(229, 57, 53, 0.08) 100%);
+    --card-gradient: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    --text-gradient: linear-gradient(135deg, #111827 0%, #e53935 100%);
 }
 
 * {

@@ -14,9 +14,9 @@
     --text-secondary: #9ca3af;
     --text-muted: #6b7280;
 
-    --brand-primary: #4f46e5;
-    --brand-primary-hover: #4338ca;
-    --brand-subtle: rgba(79, 70, 229, 0.12);
+    --brand-primary: #e53935;
+    --brand-primary-hover: #d32f2f;
+    --brand-subtle: rgba(229, 57, 53, 0.12);
 
     --accent-emerald: #10b981;
     --accent-emerald-subtle: rgba(16, 185, 129, 0.12);

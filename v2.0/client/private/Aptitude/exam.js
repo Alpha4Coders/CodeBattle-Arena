@@ -354,6 +354,7 @@ async function executeFinalSubmission() {
 
     const payload = {
         topicId: examData.topicId,
+        category: examData.category || 'quantitative',
         type: examData.type,
         setNumber: examData.setNumber,
         answers: examData.answers,

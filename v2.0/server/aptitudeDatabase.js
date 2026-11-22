@@ -56,7 +56,7 @@ aptitudeQuestionSchema.index({ topicId: 1, type: 1, setNumber: 1 });
 const aptitudeUserProgressSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     topicId: { type: String, required: true },
-    category: { type: String, required: true },
+    category: { type: String, default: "quantitative", index: true },
     completedSets: [{
         setNumber: { type: Number, required: true },
         type: { type: String, enum: ['practice', 'mock'], required: true },
@@ -78,7 +78,7 @@ const aptitudeSubmissionSchema = new mongoose.Schema({
     userId: { type: String, required: true, index: true },
     username: { type: String, default: "Anonymous" },
     topicId: { type: String, required: true, index: true },
-    category: { type: String, required: true },
+    category: { type: String, default: "quantitative", index: true },
     type: { type: String, enum: ['practice', 'mock'], required: true },
     setNumber: { type: Number, required: true },
     totalQuestions: { type: Number, default: 30 },
@@ -110,7 +110,7 @@ const aptitudeLeaderboardSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     username: { type: String, default: "User" },
     topicId: { type: String, required: true, index: true },
-    category: { type: String, required: true, index: true },
+    category: { type: String, default: "quantitative", index: true },
     type: { type: String, enum: ['practice', 'mock'], required: true },
     setNumber: { type: Number, required: true },
     correctCount: { type: Number, default: 0 },
@@ -518,6 +518,15 @@ export class AptitudeDBHandler {
                 return res.status(404).json({ success: false, error: "Set questions not found" });
             }
 
+            // Resolve category safely from request body, questions, or topic definition
+            let category = req.body.category || (questions && questions[0]?.category);
+            if (!category) {
+                if (QUANTITATIVE_TOPICS.some(t => t.topicId === topicId)) category = 'quantitative';
+                else if (LOGICAL_TOPICS.some(t => t.topicId === topicId)) category = 'logical';
+                else if (VERBAL_TOPICS.some(t => t.topicId === topicId)) category = 'verbal';
+                else category = 'quantitative';
+            }
+
             let correctCount = 0;
             let wrongCount = 0;
             let unansweredCount = 0;
@@ -568,6 +577,7 @@ export class AptitudeDBHandler {
                 userId,
                 username,
                 topicId,
+                category,
                 type,
                 setNumber: setNum,
                 correctCount,
@@ -586,6 +596,7 @@ export class AptitudeDBHandler {
             if (this.isMongoActive()) {
                 const submission = new AptitudeDBHandler.Submissions({
                     ...leaderboardEntry,
+                    category,
                     totalQuestions: questions.length,
                     answeredCount: correctCount + wrongCount,
                     unansweredCount,
@@ -604,8 +615,10 @@ export class AptitudeDBHandler {
                 let progress = await AptitudeDBHandler.Progress.findOne({ userId, topicId });
                 if (!progress) {
                     progress = new AptitudeDBHandler.Progress({
-                        userId, topicId, completedSets: [], unlockedPracticeSets: [1], unlockedMockSets: [1, 2]
+                        userId, topicId, category, completedSets: [], unlockedPracticeSets: [1], unlockedMockSets: [1, 2]
                     });
+                } else if (!progress.category) {
+                    progress.category = category;
                 }
 
                 const existingIdx = progress.completedSets.findIndex(s => s.type === type && s.setNumber === setNum);
@@ -635,7 +648,7 @@ export class AptitudeDBHandler {
 
                 const key = `${userId}:${topicId}`;
                 let progress = inMemory.progressMap.get(key) || {
-                    userId, topicId, completedSets: [], unlockedPracticeSets: [1], unlockedMockSets: [1, 2]
+                    userId, topicId, category, completedSets: [], unlockedPracticeSets: [1], unlockedMockSets: [1, 2]
                 };
 
                 const existingIdx = progress.completedSets.findIndex(s => s.type === type && s.setNumber === setNum);
