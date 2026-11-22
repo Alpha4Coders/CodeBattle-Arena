@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
-
     "test": "node server/testAptitude.js",
     "test:aptitude": "node server/testAptitude.js",
     "verify": "node -c server/index.js server/database.js server/aptitudeDatabase.js && node server/testAptitude.js",
@@ -26,12 +25,12 @@
     "ws",
     "dotenv"
   ],
-  "author": "Rouvik Maji Archisman Pal",
+  "author": "Rouvik Maji Archisman Pal Vikash Gupta Rajbeer Saha",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/vikashgupta16/CodeBattle-Arena/issues"
+    "url": "https://github.com/Vortex-16/CodeBattle-Arena/issues"
   },
-  "homepage": "https://github.com/vikashgupta16/CodeBattle-Arena#readme",
+  "homepage": "https://github.com/Vortex-16/CodeBattle-Arena#readme",
   "dependencies": {
     "@clerk/express": "^1.3.59",
     "@google/generative-ai": "^0.2.1",
