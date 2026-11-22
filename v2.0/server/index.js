@@ -45,6 +45,13 @@ app.use(cors({
     credentials: true
 }));
 
+// Security & frame permissions middleware (enables seamless embedding in simulators & iframes)
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline' data: blob:; img-src * data: blob:; font-src * data:; connect-src *; frame-src *;");
+    res.removeHeader('X-Frame-Options');
+    next();
+});
+
 app.use(session({
     secret: crypto.randomBytes(32),
     maxAge: 24 * 60 * 60 * 1000

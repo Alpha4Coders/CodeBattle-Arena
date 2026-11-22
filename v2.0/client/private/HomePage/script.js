@@ -429,13 +429,18 @@ async function loadArenaData() {
 }
 
 function updateArenaStats(stats) {
-    document.getElementById('arenaOnlineUsers').textContent = stats.onlinePlayersCount || 0;
-    document.getElementById('arenaActiveMatches').textContent = stats.activeMatchesCount || 0;
-    document.getElementById('arenaTotalMatches').textContent = stats.totalMatchesCount || 0;
+    if (!stats) return;
+    const elOnline = document.getElementById('arenaOnlineUsers');
+    const elActive = document.getElementById('arenaActiveMatches');
+    const elTotal = document.getElementById('arenaTotalMatches');
+    if (elOnline) elOnline.textContent = stats.onlinePlayersCount || 0;
+    if (elActive) elActive.textContent = stats.activeMatchesCount || 0;
+    if (elTotal) elTotal.textContent = stats.totalMatchesCount || 0;
 }
 
 function updateArenaLeaderboard(leaderboard) {
     const container = document.getElementById('arenaTopPlayers');
+    if (!container) return;
     
     if (!leaderboard || leaderboard.length === 0) {
         container.innerHTML = '<div class="loading">No matches played yet. Be the first to enter the Arena!</div>';

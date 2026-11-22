@@ -29,9 +29,14 @@
 </body>
 <script>
     window.addEventListener('load', async function () {
-        await Clerk.load()
+        await Clerk.load();
+        if (Clerk.user) {
+            window.location.href = window.location.origin + "/private/HomePage/codigo.html";
+            return;
+        }
         Clerk.mountSignUp(document.getElementById("signupDiv"), {
-            redirectUrl: window.location.origin + "/private/HomePage/codigo.html"
+            fallbackRedirectUrl: window.location.origin + "/private/HomePage/codigo.html",
+            forceRedirectUrl: window.location.origin + "/private/HomePage/codigo.html"
         });
     });
 </script>
