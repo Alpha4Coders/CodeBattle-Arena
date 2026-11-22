@@ -119,7 +119,7 @@ Access the dashboard at `http://localhost:8080/private/HomePage/codigo.html` or 
 Distributed under the **GPL-3.0-or-later** license.
 
 **Authors:**
-- [Vikash Gupta](https://github.com/vikashgupta16)
+- [Vikash Gupta](https://github.com/Vortex-16)
 - [Rouvik Maji](https://github.com/Rouvik)
 - [Archisman Pal](https://github.com/Dealer-09)
 - [Rajbeer Saha](https://github.com/pixelpioneer404)
