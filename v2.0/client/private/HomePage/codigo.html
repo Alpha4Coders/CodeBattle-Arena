@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeArena-CODIGO - Practice coding challenges">
-    <title>CodeArena-CODIGO</title>
+    <meta name="description" content="Codigo - Learn, Practice & Compete">
+    <title>Codigo - Dashboard</title>
     <link rel="stylesheet" href="codigo.css">
     <link rel="shortcut icon" href="assets/web-development.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Clerk auth library -->
     <script async crossorigin="anonymous"
@@ -17,396 +17,384 @@
         type="text/javascript"></script>
 </head>
 
-<body class="dark-theme">
-    <button class="nav-toggle outside-logo-sidebar" aria-label="Toggle navigation menu">
-        <img src="assets/sidebar-icon.png" alt="Menu" class="nav-icon">
-    </button>
+<body class="dashboard-body">
+    <!-- Mobile Top Header Bar -->
+    <header class="mobile-top-bar">
+        <div class="mobile-logo">
+            <span class="brand-diamond-icon">&lt;/&gt;</span>
+            <span class="brand-text">Codigo</span>
+        </div>
+        <div class="header-right-actions">
+            <button class="icon-circle-btn bell-btn" aria-label="Notifications">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="red-notification-dot"></span>
+            </button>
+            <div class="user-avatar-circle user_avatar_initial">V</div>
+        </div>
+    </header>
 
-    <!-- Navigation backdrop -->
-    <div class="nav-backdrop"></div>
+    <!-- Sidebar Navigation -->
+    <aside class="codingPageNav" aria-label="Main navigation">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <span class="brand-diamond-icon">&lt;/&gt;</span>
+                <span class="brand-text">Codigo</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item">
+                    <a href="#home" class="nav-link current" onclick="showSection('home')">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="../Aptitude/aptitude.html" class="nav-link">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </span>
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#practice" class="nav-link" onclick="showSection('practice')">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </span>
+                        <span>Practice</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="../Arena/arena.html" class="nav-link">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                        </span>
+                        <span>Achievements</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="../Leaderboard/leaderboard.html" class="nav-link">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </span>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#contact" class="nav-link" onclick="showSection('contact')">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </span>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0)" class="nav-link" onclick="authManager && authManager.logout()">
+                        <span class="menu-icon">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-    <nav class="codingPageNav" aria-label="Main navigation">
-        <button class="nav-close inside-logo-sidebar" aria-label="Toggle Navigation"></button>
-        <ul>
-            <li><a href="#home" class="nav-link current" onclick="showSection('home')">Home</a></li>
-            <li><a href="#practice" class="nav-link" onclick="showSection('practice')">Practice</a></li>
-            <li><a href="../Aptitude/aptitude.html" class="nav-link">Aptitude</a></li>
-            <li><a href="../Arena/arena.html" class="nav-link">Arena</a></li>
-            <li><a href="#help" class="nav-link" onclick="showSection('help')">Ask AI</a></li>
-            <li><a href="#contact" class="nav-link" onclick="showSection('contact')">Contact Us</a></li>
-            <li class="nav-actions">
-                <select name="theme-toggle" id="theme-toggle">
-                    <option value="dark-theme" selected>Dark theme</option>
-                    <option value="light-theme">Light theme</option>
-                </select>
-                <button onclick="authManager.logout()" class="logout-btn">Logout</button>
-            </li>
-        </ul>
-    </nav>
+        <!-- Sidebar Bottom Streak Card -->
+        <div class="sidebar-streak-card">
+            <div class="streak-icon-lightning">⚡</div>
+            <h4>Keep Going!</h4>
+            <p>You're on a <span id="sidebar_streak_count">7</span> day streak 🔥</p>
+        </div>
+    </aside>
 
-    <main>
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <!-- Top Search Bar & Header -->
+        <div class="main-top-navbar">
+            <div class="search-input-pill">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search topics, DSA, or anything..." aria-label="Search">
+                <span class="cmd-k-badge">⌘ K</span>
+            </div>
+
+            <div class="header-right-actions desktop-header-actions">
+                <button class="icon-circle-btn bell-btn" aria-label="Notifications">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="red-notification-dot"></span>
+                </button>
+                <div class="user-avatar-circle user_avatar_initial">V</div>
+            </div>
+        </div>
+
+        <!-- Section: Home Dashboard -->
         <section id="home" class="home-section section active">
-            <div class="dashboard-container">
-                <!-- Left Column -->
-                <div class="dashboard-column">
-                    <!-- Welcome Card (Greeting) -->
-                    <div class="dashboard-card welcome-greeting-card">
-                        <div class="welcome-txt">
-                            <div class="greeting-header">
-                                <span class="badge-pill badge-brand">Competitive Hub</span>
-                                <span class="live-status-pill"><span class="pulse-dot"></span> Live Arena</span>
-                            </div>
-                            <h1>💻 CodiGo Arena</h1>
-                            <h2>
-                                <span class="profile-avatar-glow">
-                                    <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                </span>
-                                Welcome back, <span id="dashboard_username" class="gradient-text">username</span>
-                            </h2>
+            <!-- Hero Greeting Banner -->
+            <div class="hero-greeting-container">
+                <div class="hero-greeting-text">
+                    <h1>Hey <span id="dashboard_username" class="user-name-highlight">Vikash</span>! 👋</h1>
+                    <p class="hero-tagline">Keep coding. Keep learning. Keep growing.</p>
+                </div>
+                <div class="hero-greeting-illustration">
+                    <div class="laptop-illustration">
+                        <div class="laptop-screen">
+                            <div class="screen-code-symbol">&lt;/&gt;</div>
                         </div>
+                        <div class="laptop-base"></div>
                     </div>
+                    <div class="red-abstract-blob"></div>
+                    <span class="sparkle sparkle-1">✦</span>
+                    <span class="sparkle sparkle-2">✦</span>
+                </div>
+            </div>
 
-                    <!-- Quick Stats Card -->
-                    <div class="dashboard-card welcome-card">
-                        <div class="home-info">
-                            <div class="card-header-flex">
-                                <h2 id="stats">📊 Quick Stats</h2>
-                                <span class="badge-pill badge-amber">Real-Time</span>
-                            </div>
-                            <div class="stats-pills-grid">
-                                <div class="stat-pill-item rank-pill">
-                                    <div class="stat-pill-icon">⭐</div>
-                                    <div class="stat-pill-content">
-                                        <span class="stat-pill-label">Global Rank</span>
-                                        <span class="stat-pill-value">#<span id="dashboard_currRank">001</span></span>
-                                    </div>
-                                </div>
-                                <div class="stat-pill-item wins-pill">
-                                    <div class="stat-pill-icon">🏆</div>
-                                    <div class="stat-pill-content">
-                                        <span class="stat-pill-label">Arena Wins</span>
-                                        <span class="stat-pill-value"><span id="dashboard_contestCount">0</span></span>
-                                    </div>
-                                </div>
-                                <div class="stat-pill-item streak-pill">
-                                    <div class="stat-pill-icon">🔥</div>
-                                    <div class="stat-pill-content">
-                                        <span class="stat-pill-label">Active Streak</span>
-                                        <span class="stat-pill-value"><span id="dashboard_streakCount">04</span> Days</span>
-                                    </div>
-                                </div>
-                                <div class="stat-pill-item next-pill">
-                                    <div class="stat-pill-icon">🎯</div>
-                                    <div class="stat-pill-content">
-                                        <span class="stat-pill-label">Next Sprint</span>
-                                        <span class="stat-pill-value contest-countdown">In 2h 30m</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Problems Solved Card -->
-                    <div class="dashboard-card problems-card">
-                        <div class="card-header-flex">
-                            <h2>🎯 Problems Solved</h2>
-                            <span class="badge-pill badge-emerald">Algorithm Bank</span>
-                        </div>
-                        <div class="problems-stats">
-                            <div class="total-problems">
-                                <span class="total-number" id="dashboard_totalProblems">0</span>
-                                <span class="total-label">Total Problems Solved</span>
-                            </div>
-                            <div class="difficulty-breakdown">
-                                <div class="difficulty-stat easy">
-                                    <div class="diff-header">
-                                        <span class="diff-icon">🟢</span>
-                                        <span class="diff-label">Easy</span>
-                                    </div>
-                                    <span class="diff-count" id="dashboard_easyCount">0</span>
-                                    <div class="mini-progress-bar"><div class="mini-progress-fill easy-fill"></div></div>
-                                </div>
-                                <div class="difficulty-stat medium">
-                                    <div class="diff-header">
-                                        <span class="diff-icon">🟡</span>
-                                        <span class="diff-label">Medium</span>
-                                    </div>
-                                    <span class="diff-count" id="dashboard_mediumCount">0</span>
-                                    <div class="mini-progress-bar"><div class="mini-progress-fill medium-fill"></div></div>
-                                </div>
-                                <div class="difficulty-stat hard">
-                                    <div class="diff-header">
-                                        <span class="diff-icon">🔴</span>
-                                        <span class="diff-label">Hard</span>
-                                    </div>
-                                    <span class="diff-count" id="dashboard_hardCount">0</span>
-                                    <div class="mini-progress-bar"><div class="mini-progress-fill hard-fill"></div></div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Stats Row: 4 Metric Cards -->
+            <div class="metrics-stats-row">
+                <!-- Stat 1: Streak -->
+                <div class="metric-card">
+                    <div class="metric-icon-circle flame-icon">🔥</div>
+                    <div class="metric-content">
+                        <span class="metric-num" id="dashboard_streakCount">7</span>
+                        <span class="metric-title">Day Streak</span>
+                        <span class="metric-trend trend-red">↑ +1</span>
                     </div>
                 </div>
 
-                <!-- Middle Column -->
-                <div class="dashboard-column">
-                    <!-- Quick Actions Card -->
-                    <div class="dashboard-card actions-card">
-                        <div class="card-header-flex">
-                            <h2>⚡ Quick Actions</h2>
-                            <span class="badge-pill badge-sky">Hub Shortcuts</span>
-                        </div>
-                        <div class="quick-actions-grid">
-                            <div class="action-item action-coding" onclick="showSection('practice')">
-                                <div class="action-top">
-                                    <div class="action-icon icon-sky">💻</div>
-                                    <span class="action-arrow">→</span>
-                                </div>
-                                <div class="action-text">Practice Coding</div>
-                                <div class="action-desc">Algorithms, DSA & syntax</div>
-                            </div>
-                            <div class="action-item action-aptitude" onclick="window.location.href='../Aptitude/aptitude.html'">
-                                <div class="action-top">
-                                    <div class="action-icon icon-indigo">📐</div>
-                                    <span class="action-badge-new">47 Topics</span>
-                                </div>
-                                <div class="action-text">Aptitude Arena</div>
-                                <div class="action-desc">Quant, Logic & Verbal Prep</div>
-                            </div>
-                            <div class="action-item action-arena" onclick="window.location.href='../Arena/arena.html'">
-                                <div class="action-top">
-                                    <div class="action-icon icon-rose">⚔️</div>
-                                    <span class="action-badge-live">Live</span>
-                                </div>
-                                <div class="action-text">Arena Duels</div>
-                                <div class="action-desc">Real-time 1v1 PvP battles</div>
-                            </div>
-                            <div class="action-item action-contest" onclick="window.location.href='../Arena/arena.html'">
-                                <div class="action-top">
-                                    <div class="action-icon icon-amber">🏆</div>
-                                    <span class="action-arrow">→</span>
-                                </div>
-                                <div class="action-text">Join Contest</div>
-                                <div class="action-desc">Weekly timed sprints</div>
-                            </div>
-                            <div class="action-item action-leaderboard" onclick="window.location.href='../Leaderboard/leaderboard.html'">
-                                <div class="action-top">
-                                    <div class="action-icon icon-emerald">📊</div>
-                                    <span class="action-arrow">→</span>
-                                </div>
-                                <div class="action-text">Leaderboard</div>
-                                <div class="action-desc">Global rankings & scores</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Activity Card -->
-                    <div class="dashboard-card activity-card">
-                        <div class="card-header-flex">
-                            <h2>📈 Weekly Activity</h2>
-                            <span class="badge-pill badge-brand">Consistency</span>
-                        </div>
-                        <div class="activity-chart-wrapper">
-                            <div class="activity-bar-group" data-day="Mon" title="Monday: 8 Solved">
-                                <div class="bar-fill" style="height: 65%;"></div>
-                                <span class="day-label">M</span>
-                            </div>
-                            <div class="activity-bar-group" data-day="Tue" title="Tuesday: 12 Solved">
-                                <div class="bar-fill" style="height: 85%;"></div>
-                                <span class="day-label">T</span>
-                            </div>
-                            <div class="activity-bar-group" data-day="Wed" title="Wednesday: 5 Solved">
-                                <div class="bar-fill" style="height: 45%;"></div>
-                                <span class="day-label">W</span>
-                            </div>
-                            <div class="activity-bar-group active-group" data-day="Thu" title="Thursday: 16 Solved (Today)">
-                                <div class="bar-fill" style="height: 95%;"></div>
-                                <span class="day-label">T</span>
-                            </div>
-                            <div class="activity-bar-group" data-day="Fri" title="Friday: 10 Solved">
-                                <div class="bar-fill" style="height: 70%;"></div>
-                                <span class="day-label">F</span>
-                            </div>
-                            <div class="activity-bar-group" data-day="Sat" title="Saturday: 8 Solved">
-                                <div class="bar-fill" style="height: 55%;"></div>
-                                <span class="day-label">S</span>
-                            </div>
-                            <div class="activity-bar-group" data-day="Sun" title="Sunday: 14 Solved">
-                                <div class="bar-fill" style="height: 80%;"></div>
-                                <span class="day-label">S</span>
-                            </div>
-                        </div>
-                        <div class="activity-metrics">
-                            <div class="metric metric-streak">
-                                <span class="metric-icon">🔥</span>
-                                <div class="metric-info">
-                                    <span class="value">25 Days</span>
-                                    <span class="label">Peak Streak</span>
-                                </div>
-                            </div>
-                            <div class="metric metric-consistency">
-                                <span class="metric-icon">🎯</span>
-                                <div class="metric-info">
-                                    <span class="value">98.2%</span>
-                                    <span class="label">Accuracy</span>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Stat 2: Problems Solved -->
+                <div class="metric-card">
+                    <div class="metric-icon-circle play-icon">▶</div>
+                    <div class="metric-content">
+                        <span class="metric-num" id="dashboard_totalProblems">48</span>
+                        <span class="metric-title">Problems Solved</span>
+                        <span class="metric-trend trend-red">↑ +3</span>
                     </div>
                 </div>
-              
-                <!-- Right Column -->
-                <div class="dashboard-column">
-                    <!-- Languages Card -->
-                    <div class="dashboard-card languages-card">
-                        <h2>Popular Languages</h2>
-                        <div class="language-grid">
-                            <div class="language-item">
-                                <div class="lang-icon">
-                                    <svg viewBox="32.18585611720149 20.47 223.6851360941233 247.05999999999997"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                                        <path
-                                            d="M252.71 93.61a21.67 21.67 0 0 0-2.65-10.87 20.74 20.74 0 0 0-7.87-7.67Q198.77 50 155.32 25c-7.8-4.51-15.36-4.35-23.11.23C120.69 32 63 65.09 45.81 75.06c-7.08 4.1-10.52 10.38-10.52 18.54v100.8a21.77 21.77 0 0 0 2.55 10.66 20.63 20.63 0 0 0 8 7.88c17.19 10 74.89 43.05 86.41 49.85 7.75 4.58 15.31 4.74 23.12.23q43.41-25.08 86.87-50.09a20.63 20.63 0 0 0 8-7.88 21.77 21.77 0 0 0 2.55-10.66V93.61z"
-                                            fill="#004482" />
-                                        <path
-                                            d="M252.73 194.4a21.72 21.72 0 0 1-2.55 10.66 18.58 18.58 0 0 1-1.45 2.24L144 144l98.19-68.93a20.72 20.72 0 0 1 7.86 7.67 21.57 21.57 0 0 1 2.66 10.87c.02 33.6.02 100.79.02 100.79z"
-                                            fill="#00599c" />
-                                        <path
-                                            d="M250.05 82.74L37.81 205.06a21.75 21.75 0 0 1-2.53-10.65V93.6c0-8.16 3.45-14.44 10.52-18.54C63 65.09 120.69 32 132.22 25.21c7.73-4.58 15.3-4.74 23.1-.23q43.41 25.08 86.87 50.09a20.72 20.72 0 0 1 7.86 7.67z"
-                                            fill="#659ad2" />
-                                        <path
-                                            d="M148.2 184.72a39.91 39.91 0 0 1-35-20.63q-.53-.94-1-1.92A39.94 39.94 0 0 1 179 119.4c.53.64 1 1.31 1.53 2 .24.33.48.66.7 1l35.07-20.2q-1.28-2.06-2.68-4c-.49-.69-1-1.35-1.48-2A79.9 79.9 0 0 0 78 181.92c.34.64.69 1.27 1 1.9a79.91 79.91 0 0 0 136.86 3.62l-34.29-20.73a39.88 39.88 0 0 1-33.37 18.01z"
-                                            fill="#fff" />
-                                    </svg>
-                                    <div class="lang-name">C</div>
-                                </div>
-                                <div class="lang-stats">300+<br>solved</div>
+
+                <!-- Stat 3: Learning Time -->
+                <div class="metric-card">
+                    <div class="metric-icon-circle clock-icon">⏱</div>
+                    <div class="metric-content">
+                        <span class="metric-num" id="dashboard_learningTime">23.5h</span>
+                        <span class="metric-title">Learning Time</span>
+                        <span class="metric-trend trend-red">↑ +2.5h</span>
+                    </div>
+                </div>
+
+                <!-- Stat 4: Accuracy -->
+                <div class="metric-card">
+                    <div class="metric-icon-circle chart-icon">📊</div>
+                    <div class="metric-content">
+                        <span class="metric-num" id="dashboard_accuracy">72%</span>
+                        <span class="metric-title">Accuracy</span>
+                        <span class="metric-trend trend-red">↑ +1%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Row: Continue Learning + Your Progress -->
+            <div class="dashboard-middle-row">
+                <!-- Left: Continue Learning -->
+                <div class="dashboard-widget-card continue-learning-card">
+                    <div class="widget-header">
+                        <h2>Continue Learning</h2>
+                        <a href="../Aptitude/aptitude.html" class="widget-link">View All →</a>
+                    </div>
+                    <div class="continue-learning-content">
+                        <div class="course-thumbnail-stack">
+                            <div class="layer layer-3"></div>
+                            <div class="layer layer-2"></div>
+                            <div class="layer layer-1">
+                                <span class="layer-ribbon"></span>
+                                <div class="layer-icon-symbol">📚</div>
                             </div>
-                            <div class="language-item">
-                                <div class="lang-icon">
-                                    <svg width="24" height="24" viewBox="0 0 256 288" xmlns="http://www.w3.org/2000/svg"
-                                        preserveAspectRatio="xMinYMin meet">
-                                        <path
-                                            d="M255.569 84.72c-.002-4.83-1.035-9.098-3.124-12.761-2.052-3.602-5.125-6.621-9.247-9.008-34.025-19.619-68.083-39.178-102.097-58.817-9.17-5.294-18.061-5.101-27.163.269C100.395 12.39 32.59 51.237 12.385 62.94 4.064 67.757.015 75.129.013 84.711 0 124.166.013 163.62 0 203.076c.002 4.724.991 8.909 2.988 12.517 2.053 3.711 5.169 6.813 9.386 9.254 20.206 11.703 88.02 50.547 101.56 58.536 9.106 5.373 17.997 5.565 27.17.269 34.015-19.64 68.075-39.198 102.105-58.817 4.217-2.44 7.333-5.544 9.386-9.252 1.994-3.608 2.985-7.793 2.987-12.518 0 0 0-78.889-.013-118.345"
-                                            fill="#5C8DBC" />
-                                        <path
-                                            d="M128.182 143.509L2.988 215.593c2.053 3.711 5.169 6.813 9.386 9.254 20.206 11.703 88.02 50.547 101.56 58.536 9.106 5.373 17.997 5.565 27.17.269 34.015-19.64 68.075-39.198 102.105-58.817 4.217-2.44 7.333-5.544 9.386-9.252l-124.413-72.074"
-                                            fill="#1A4674" />
-                                        <path
-                                            d="M91.101 164.861c7.285 12.718 20.98 21.296 36.69 21.296 15.807 0 29.58-8.687 36.828-21.541l-36.437-21.107-37.081 21.352"
-                                            fill="#1A4674" />
-                                        <path
-                                            d="M255.569 84.72c-.002-4.83-1.035-9.098-3.124-12.761l-124.263 71.55 124.413 72.074c1.994-3.608 2.985-7.793 2.987-12.518 0 0 0-78.889-.013-118.345"
-                                            fill="#1B598E" />
-                                        <path
-                                            d="M248.728 148.661h-9.722v9.724h-9.724v-9.724h-9.721v-9.721h9.721v-9.722h9.724v9.722h9.722v9.721M213.253 148.661h-9.721v9.724h-9.722v-9.724h-9.722v-9.721h9.722v-9.722h9.722v9.722h9.721v9.721"
-                                            fill="#FFF" />
-                                        <path
-                                            d="M164.619 164.616c-7.248 12.854-21.021 21.541-36.828 21.541-15.71 0-29.405-8.578-36.69-21.296a42.062 42.062 0 0 1-5.574-20.968c0-23.341 18.923-42.263 42.264-42.263 15.609 0 29.232 8.471 36.553 21.059l36.941-21.272c-14.683-25.346-42.096-42.398-73.494-42.398-46.876 0-84.875 38-84.875 84.874 0 15.378 4.091 29.799 11.241 42.238 14.646 25.48 42.137 42.637 73.634 42.637 31.555 0 59.089-17.226 73.714-42.781l-36.886-21.371"
-                                            fill="#FFF" />
-                                    </svg>
-                                    <div class="lang-name">C++</div>
-                                </div>
-                                <div class="lang-stats">600+ solved</div>
-                            </div>
-                            <div class="language-item">
-                                <div class="lang-icon">
-                                    <svg width="24" height="24" viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg"
-                                        preserveAspectRatio="xMinYMin meet">
-                                        <defs>
-                                            <linearGradient x1="12.959%" y1="12.039%" x2="79.639%" y2="78.201%" id="a">
-                                                <stop stop-color="#387EB8" offset="0%" />
-                                                <stop stop-color="#366994" offset="100%" />
-                                            </linearGradient>
-                                            <linearGradient x1="19.128%" y1="20.579%" x2="90.742%" y2="88.429%" id="b">
-                                                <stop stop-color="#FFE052" offset="0%" />
-                                                <stop stop-color="#FFC331" offset="100%" />
-                                            </linearGradient>
-                                        </defs>
-                                        <path
-                                            d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072zM92.802 19.66a11.12 11.12 0 0 1 11.13 11.13 11.12 11.12 0 0 1-11.13 11.13 11.12 11.12 0 0 1-11.13-11.13 11.12 11.12 0 0 1 11.13-11.13z"
-                                            fill="url(#a)" />
-                                        <path
-                                            d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.712c0-65.416-36.21-63.096-36.21-63.096h-21.61v30.355s1.165 36.21-35.632 36.21h-61.362s-34.475-.557-34.475 33.32v56.013s-5.235 33.897 62.518 33.897zm34.114-19.586a11.12 11.12 0 0 1-11.13-11.13 11.12 11.12 0 0 1 11.13-11.131 11.12 11.12 0 0 1 11.13 11.13 11.12 11.12 0 0 1-11.13 11.13z"
-                                            fill="url(#b)" />
-                                    </svg>
-                                    <div class="lang-name">Python</div>
-                                </div>
-                                <div class="lang-stats">700+ solved</div>
-                            </div>
-                            <div class="language-item">
-                                <div class="lang-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        viewBox="6.527 4.399 290.829 540.906">
-                                        <path
-                                            d="M285.104 430.945h-2.037v-1.14h5.486v1.14h-2.025v5.688h-1.424v-5.688zm10.942.297h-.032l-2.02 5.393h-.924l-2.006-5.393h-.024v5.393h-1.343v-6.828h1.976l1.86 4.835 1.854-4.835h1.969v6.828h-1.311l.001-5.393z"
-                                            fill="#e76f00" />
-                                        <path
-                                            d="M102.681 291.324s-14.178 8.245 10.09 11.035c29.4 3.354 44.426 2.873 76.825-3.259 0 0 8.518 5.341 20.414 9.967-72.63 31.128-164.376-1.803-107.329-17.743M93.806 250.704s-15.902 11.771 8.384 14.283c31.406 3.24 56.208 3.505 99.125-4.759 0 0 5.937 6.018 15.271 9.309-87.815 25.678-185.624 2.025-122.78-18.833"
-                                            fill="#5382a1" />
-                                        <path
-                                            d="M168.625 181.799c17.896 20.604-4.701 39.146-4.701 39.146s45.439-23.458 24.571-52.833c-19.491-27.395-34.438-41.005 46.479-87.934.001-.001-127.013 31.721-66.349 101.621"
-                                            fill="#e76f00" />
-                                        <path
-                                            d="M264.684 321.369s10.492 8.646-11.555 15.333c-41.923 12.7-174.488 16.535-211.314.507-13.238-5.76 11.587-13.752 19.396-15.429 8.144-1.766 12.798-1.437 12.798-1.437-14.722-10.371-95.157 20.363-40.857 29.166 148.084 24.015 269.944-10.814 231.532-28.14M109.499 208.617s-67.431 16.016-23.879 21.832c18.389 2.462 55.047 1.905 89.192-.956 27.906-2.354 55.928-7.358 55.928-7.358s-9.84 4.214-16.959 9.074c-68.475 18.01-200.756 9.631-162.674-8.79 32.206-15.568 58.392-13.802 58.392-13.802M230.462 276.231c69.608-36.171 37.425-70.932 14.96-66.248-5.506 1.146-7.961 2.139-7.961 2.139s2.045-3.202 5.947-4.588c44.441-15.624 78.619 46.081-14.346 70.521 0 0 1.079-.962 1.4-1.824"
-                                            fill="#5382a1" />
-                                        <path
-                                            d="M188.495 4.399s38.55 38.562-36.563 97.862c-60.233 47.567-13.735 74.689-.025 105.678-35.158-31.723-60.96-59.647-43.65-85.637 25.406-38.151 95.792-56.648 80.238-117.903"
-                                            fill="#e76f00" />
-                                        <path
-                                            d="M116.339 374.246c66.815 4.277 169.417-2.373 171.846-33.987 0 0-4.67 11.984-55.219 21.503-57.027 10.731-127.364 9.479-169.081 2.601.002-.002 8.541 7.067 52.454 9.883"
-                                            fill="#5382a1" />
-                                        <path
-                                            d="M105.389 495.049c-6.303 5.467-12.96 8.536-18.934 8.536-8.527 0-13.134-5.113-13.134-13.314 0-8.871 4.937-15.357 24.739-15.357h7.328l.001 20.135m17.392 19.623V453.93c0-15.518-8.85-25.756-30.188-25.756-12.457 0-23.369 3.076-32.238 6.999l2.56 10.752c6.983-2.563 16.022-4.949 24.894-4.949 12.292 0 17.58 4.949 17.58 15.181v7.678h-6.135c-29.865 0-43.337 11.593-43.337 28.993 0 15.018 8.878 23.554 25.594 23.554 10.745 0 18.766-4.437 26.264-10.929l1.361 9.221 13.645-.002zM180.824 514.672h-21.691l-26.106-84.96h18.944l16.198 52.199 3.601 15.699c8.195-22.698 13.992-45.726 16.891-67.898h18.427c-4.938 27.976-13.822 58.684-26.264 84.96M264.038 495.049c-6.315 5.467-12.983 8.536-18.958 8.536-8.512 0-13.131-5.113-13.131-13.314 0-8.871 4.947-15.357 24.748-15.357h7.341v20.135m17.39 19.623V453.93c0-15.518-8.871-25.756-30.186-25.756-12.465 0-23.381 3.076-32.246 6.999l2.557 10.752c6.985-2.563 16.041-4.949 24.906-4.949 12.283 0 17.579 4.949 17.579 15.181v7.678h-6.146c-29.873 0-43.34 11.593-43.34 28.993 0 15.018 8.871 23.554 25.584 23.554 10.752 0 18.77-4.437 26.28-10.929l1.366 9.221 13.646-.002zM36.847 529.099c-4.958 7.239-12.966 12.966-21.733 16.206L6.527 535.2c6.673-3.424 12.396-8.954 15.055-14.104 2.3-4.581 3.252-10.485 3.252-24.604v-96.995h18.478v95.666c-.001 18.875-1.51 26.5-6.465 33.936"
-                                            fill="#e76f00" />
-                                    </svg>
-                                    <div class="lang-name">Java</div>
-                                </div>
-                                <div class="lang-stats">400+ solved</div>
-                             </div>
-                          </div>
                         </div>
-                    <!-- Challenges Card -->
-                    <div class="dashboard-card challenges-card">
-                        <h2>📝 Recommended Challenges</h2>
-                        <div class="challenge-list">
-                            <div class="challenge-item">
-                                <div class="challenge-difficulty advanced">ADV</div>
-                                <div class="challenge-info">
-                                    <div class="challenge-title">Dynamic Programming</div>
-                                    <div class="challenge-tag trending">🔥 Trending</div>
+                        <div class="course-info-group">
+                            <h3 class="course-title">Hashing in Java</h3>
+                            <p class="course-meta">DSA • 12 min left</p>
+                            <div class="course-progress-wrapper">
+                                <div class="course-progress-bar">
+                                    <div class="course-progress-fill" style="width: 65%;"></div>
                                 </div>
+                                <span class="course-progress-pct">65%</span>
                             </div>
-                            <div class="challenge-item">
-                                <div class="challenge-difficulty intermediate">INT</div>
-                                <div class="challenge-info">
-                                    <div class="challenge-title">Graph Theory</div>
-                                    <div class="challenge-tag highscore">🏆 High Score</div>
-                                </div>
-                            </div>
-                            <div class="challenge-item">
-                                <div class="challenge-difficulty expert">EXP</div>
-                                <div class="challenge-info">
-                                    <div class="challenge-title">System Design</div>
-                                    <div class="challenge-tag interview">🎯 Interview</div>
-                                </div>
-                            </div>
-                            <div class="view-all">
-                                <a href="#">View All Challenges →</a>
-                            </div>
+                        </div>
+                        <a href="../Aptitude/aptitude.html" class="red-pill-action-btn continue-btn">
+                            <span class="btn-play-icon">▶</span> Continue
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Your Progress Chart -->
+                <div class="dashboard-widget-card your-progress-card">
+                    <div class="widget-header">
+                        <div class="header-with-badge">
+                            <span class="header-icon">📊</span>
+                            <h2>Your Progress</h2>
+                        </div>
+                        <span class="progress-pill-badge">72%</span>
+                    </div>
+                    
+                    <!-- SVG Smooth Red Spline Line Chart -->
+                    <div class="spline-chart-container">
+                        <svg class="progress-spline-svg" viewBox="0 0 320 90" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="redGlowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#e53935" stop-opacity="0.35"></stop>
+                                    <stop offset="100%" stop-color="#e53935" stop-opacity="0.0"></stop>
+                                </linearGradient>
+                            </defs>
+                            <!-- Gradient Area Fill -->
+                            <path d="M 10,75 C 50,65 70,68 100,55 C 130,42 160,58 200,48 C 230,40 260,25 310,18 L 310,90 L 10,90 Z" fill="url(#redGlowGradient)"></path>
+                            <!-- Red Curve -->
+                            <path class="spline-line" d="M 10,75 C 50,65 70,68 100,55 C 130,42 160,58 200,48 C 230,40 260,25 310,18" fill="none" stroke="#e53935" stroke-width="2.5" stroke-linecap="round"></path>
+                            <!-- Data Dots -->
+                            <circle cx="10" cy="75" r="3.5" fill="#e53935"></circle>
+                            <circle cx="60" cy="67" r="3.5" fill="#e53935"></circle>
+                            <circle cx="110" cy="52" r="3.5" fill="#e53935"></circle>
+                            <circle cx="160" cy="58" r="3.5" fill="#e53935"></circle>
+                            <circle cx="210" cy="46" r="3.5" fill="#e53935"></circle>
+                            <circle cx="260" cy="30" r="3.5" fill="#e53935"></circle>
+                            <circle cx="310" cy="18" r="4.5" fill="#e53935" stroke="#ffffff" stroke-width="1.5"></circle>
+                        </svg>
+                        <div class="chart-weekdays-row">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Bottom Row: Recommended for You + Upcoming Goals -->
+            <div class="dashboard-bottom-row">
+                <!-- Left: Recommended for You -->
+                <div class="dashboard-widget-card recommended-widget-card">
+                    <div class="widget-header">
+                        <div class="header-with-badge">
+                            <span class="header-sparkle">✦</span>
+                            <h2>Recommended for You</h2>
+                        </div>
+                        <a href="#practice" onclick="showSection('practice')" class="widget-link">See All →</a>
+                    </div>
+                    <div class="recommended-cards-grid">
+                        <!-- Card 1: Linux -->
+                        <div class="rec-dark-card" onclick="showSection('practice')">
+                            <div class="rec-icon-header">
+                                <span class="rec-emoji-icon">🐧</span>
+                            </div>
+                            <h3 class="rec-card-title">Linux for Developers</h3>
+                            <p class="rec-card-meta">System • Beginner</p>
+                            <div class="rec-card-footer">
+                                <span class="rec-duration">⏱ 1h 20m</span>
+                                <span class="rec-circle-arrow">→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Docker -->
+                        <div class="rec-dark-card" onclick="showSection('practice')">
+                            <div class="rec-icon-header">
+                                <span class="rec-emoji-icon">🐳</span>
+                            </div>
+                            <h3 class="rec-card-title">Docker Essentials</h3>
+                            <p class="rec-card-meta">DevOps • Beginner</p>
+                            <div class="rec-card-footer">
+                                <span class="rec-duration">⏱ 1h 15m</span>
+                                <span class="rec-circle-arrow">→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Kubernetes -->
+                        <div class="rec-dark-card" onclick="showSection('practice')">
+                            <div class="rec-icon-header">
+                                <span class="rec-emoji-icon">☸️</span>
+                            </div>
+                            <h3 class="rec-card-title">Kubernetes Basics</h3>
+                            <p class="rec-card-meta">DevOps • Beginner</p>
+                            <div class="rec-card-footer">
+                                <span class="rec-duration">⏱ 1h 45m</span>
+                                <span class="rec-circle-arrow">→</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Upcoming Goals -->
+                <div class="dashboard-widget-card upcoming-goals-card">
+                    <div class="widget-header">
+                        <div class="header-with-badge">
+                            <span class="header-icon">🎯</span>
+                            <h2>Upcoming Goals</h2>
+                        </div>
+                        <a href="../Arena/arena.html" class="widget-link">See All →</a>
+                    </div>
+                    <div class="goals-content-row">
+                        <!-- Circular Progress Ring -->
+                        <div class="goal-circular-ring">
+                            <svg class="ring-svg" viewBox="0 0 80 80">
+                                <circle class="ring-bg" cx="40" cy="40" r="32" stroke-width="6"></circle>
+                                <circle class="ring-fill" cx="40" cy="40" r="32" stroke-width="6" stroke-dasharray="201" stroke-dashoffset="80"></circle>
+                            </svg>
+                            <div class="ring-text-center">3/5</div>
+                        </div>
+                        <div class="goal-text-actions">
+                            <p class="goal-statement">Complete 5 more problems this week</p>
+                            <button onclick="showSection('practice')" class="red-pill-action-btn goal-btn">
+                                Let's Go →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compatibility Data Nodes (Keep all existing IDs mapped for UserStatsService) -->
+            <div style="display: none;" aria-hidden="true">
+                <span id="dashboard_currRank">001</span>
+                <span id="dashboard_contestCount">0</span>
+                <span id="dashboard_easyCount">0</span>
+                <span id="dashboard_mediumCount">0</span>
+                <span id="dashboard_hardCount">0</span>
+            </div>
         </section>
 
-        <!-- Practice Section -->
+        <!-- Section: Practice Coding -->
         <section id="practice" class="practice-section section">
-            <p class="are-you-ready">ARE YOU READY!</p>
-            <p>Practice Here, Rock Your Future</p>
-            <h2>Practice a lot of code here, mainly C,C++,Java & Python</h2>
+            <div class="practice-header-banner">
+                <p class="are-you-ready">ARE YOU READY!</p>
+                <h2>Practice a lot of code here, mainly C, C++, Java & Python</h2>
+            </div>
             <div class="coding-boxes">
                 <article class="language-box beginner-box" id="beginner">
                     <h3>Beginner Level</h3>
@@ -424,25 +412,25 @@
                     <p>For programmers ready to take the next step:</p>
                     <ul>
                         <li>Data structures</li>
+                        <li>Advanced algorithms</li>
                         <li>Object-oriented programming</li>
-                        <li>Medium complexity algorithms</li>
                     </ul>
-                    <a href="../Intermediate/Intermediate.html" class="practice-btn">Level Up Now</a>
+                    <a href="../Medium/intermediate.html" class="practice-btn">Level Up Now</a>
                 </article>
 
                 <article class="language-box advanced-box" id="advanced">
                     <h3>Advanced Level</h3>
-                    <p>Challenging content for experienced coders:</p>
+                    <p>Master complex concepts and ace interviews:</p>
                     <ul>
-                        <li>Complex algorithms</li>
-                        <li>System design</li>
-                        <li>Optimization techniques</li>
+                        <li>Dynamic programming</li>
+                        <li>System design basics</li>
+                        <li>Competitive programming</li>
                     </ul>
-                    <a href="../Advanced/Advanced.html" class="practice-btn">Challenge Yourself</a>
+                    <a href="../Hard/advanced.html" class="practice-btn">Challenge Yourself</a>
                 </article>
 
-                <article class="language-box projects-box" id="projects">
-                    <h3>Real-world Projects</h3>
+                <article class="language-box real-world-box" id="projects">
+                    <h3>Real-World Projects</h3>
                     <p>Apply your skills to practical scenarios:</p>
                     <ul>
                         <li>Full-stack applications</li>
@@ -452,48 +440,57 @@
                     <a href="../Real-World/RealWorld.html" class="practice-btn">Build Projects Now</a>
                 </article>
 
-                <article class="language-box aptitude-box" id="aptitude" style="border-left: 4px solid var(--accent-blue);">
-                    <h3>Aptitude & Reasoning</h3>
+                <article class="language-box aptitude-box" id="aptitude">
+                    <h3>Aptitude Arena (47 Topics)</h3>
                     <p>Placement preparation with formulas & mock assessments:</p>
                     <ul>
-                        <li>Quantitative Aptitude (25 topics)</li>
-                        <li>Logical Reasoning (14 topics)</li>
-                        <li>Verbal Ability (8 topics) & Safe Mocks</li>
+                        <li>25 Quantitative topics with formula cheat-sheets</li>
+                        <li>14 Logical Reasoning & puzzles</li>
+                        <li>8 Verbal Ability & Safe Exam mocks</li>
                     </ul>
-                    <a href="../Aptitude/aptitude.html" class="practice-btn" style="background-color: var(--accent-blue); color: #fff;">Enter Aptitude Arena</a>
+                    <a href="../Aptitude/aptitude.html" class="practice-btn" style="background-color: #e53935; color: #fff;">Enter Aptitude Arena</a>
                 </article>
-
-                <div class="help-box">
-                    <h3>Need Help ?</h3>
-                    <p>Our AI-powered help system is here to assist you at every skill level.
-                        Get personalized guidance from basic concepts to advanced topics.
-                        Ask anything and accelerate your learning journey!
-                    </p>
-                    <a href="#" class="practice-btn">Ask CODi Now</a>
-                </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
+        <!-- Section: Contact -->
         <section id="contact" class="contact-section section">
-            <h2 class="heading">Contact</h2>
+            <h2 class="heading">Contact Us</h2>
             <form action="#" class="contact-form">
                 <input type="text" placeholder="Your Name" class="name" required>
                 <input type="email" placeholder="Email address" class="email" required>
-                <textarea cols="30" rows="10" placeholder="Enter Your Message" class="message" required></textarea>
-                <button type="submit" class="send-btn">Send</button>
+                <textarea cols="30" rows="6" placeholder="Enter Your Message" class="message" required></textarea>
+                <button type="submit" class="send-btn">Send Message</button>
             </form>
         </section>
     </main>
-    <!-- email js  -->
+
+    <!-- Mobile Sticky Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+        <a href="#home" class="mobile-nav-item active" onclick="showSection('home')">
+            <span class="mobile-nav-icon">🏠</span>
+            <span class="mobile-nav-label">Home</span>
+        </a>
+        <a href="../Aptitude/aptitude.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📖</span>
+            <span class="mobile-nav-label">Learn</span>
+        </a>
+        <a href="#practice" class="mobile-nav-item" onclick="showSection('practice')">
+            <span class="mobile-nav-icon">&lt;/&gt;</span>
+            <span class="mobile-nav-label">Practice</span>
+        </a>
+        <a href="../Leaderboard/leaderboard.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+            <span class="mobile-nav-label">Profile</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script type="text/javascript">
         (function () {
-            emailjs.init({
-                publicKey: "jS_OjCoYjCk6NEZxd",
-            });
+            emailjs.init({ publicKey: "jS_OjCoYjCk6NEZxd" });
         })();
     </script>
     <script src="../common/auth.js"></script>
