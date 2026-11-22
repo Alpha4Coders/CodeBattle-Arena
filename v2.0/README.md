@@ -26,6 +26,20 @@
 - **Real-World Projects**: Games, Web Apps, AI/ML, IoT challenges
 - Multi-language support (JavaScript, Python, C++, Java)
 
+### 📐 **Aptitude Arena (Placement & Competitive Prep)**
+- **3 Core Categories**:
+  - **Quantitative Aptitude (25 Topics)**: Speed, Time and Distance, Algebra, Geometry, Probability, Number System, Permutation & Combinations, Interest, etc.
+  - **Logical Reasoning (14 Topics)**: Clocks, Calendar, Blood Relations, Syllogisms, Puzzles, Coding Decoding, Seating Arrangement, etc.
+  - **Verbal Ability (8 Topics)**: Ordering of Words/Sentences, Spotting Errors, Sentence Correction, Idioms & Phrases, Synonyms & Antonyms.
+- **Pre-Learning & Formula Cheat-Sheets**: Deep-dive theoretical guides, mathematical derivations, harmonic vs arithmetic speed means, time-saving shortcuts, and FAQ sections.
+- **80% Mastery Progression**: 4 Practice Sets per topic; Set $N+1$ unlocks **if and only if** Set $N$ is completed with $\ge 80\%$ score. Scoring $< 80\%$ redirects the candidate to the concept review guide.
+- **🛡️ Safe Exam Mode (Mock Tests)**:
+  - Strict full-screen lockdown.
+  - Tab switch & window blur detection with warning alerts (2 free warnings, followed by $-0.5\text{ pts}$ deduction per excess violation).
+  - Inspection barrier (disabled context menus, clipboard actions, and devtools shortcuts).
+- **Server-Side Grading & Negative Marking**: Zero answer leakage (answers never sent to client during tests) with $-0.25$ negative marking per incorrect answer.
+- **Dedicated Leaderboard**: Real-time rankings sorted by Net Score, Accuracy, and Time Taken.
+
 ### 🏆 **User System & Analytics**
 - Clerk authentication with secure session management
 - Real-time arena leaderboards and global practice rankings
@@ -137,6 +151,7 @@ CodeBattle-Arena/
 ├── client/
 │   ├── public/          # Landing page, auth
 │   └── private/         # Authenticated areas
+│       ├── Aptitude/    # Aptitude Arena (Quant, Logic, Verbal, Exam Engine)
 │       ├── Arena/       # Real-time battle mode (7 modules)
 │       ├── HomePage/    # Dashboard with stats
 │       ├── CoderPage/   # Practice mode
@@ -144,7 +159,10 @@ CodeBattle-Arena/
 │       ├── common/      # Shared utilities (AI assistance)
 │       └── Easy/Intermediate/Advanced/  # Difficulty levels
 └── server/
-    ├── index.js         # Main server
+    ├── index.js         # Main server & REST endpoints
+    ├── aptitudeDatabase.js # Aptitude LLD, grading & leaderboard
+    ├── seedAptitude.js  # Seeder for 47 topics, cheat-sheets & 30-MCQ sets
+    ├── testAptitude.js  # Automated SDE test suite
     ├── arenaSocket.js   # WebSocket handlers
     ├── arenaDatabase.js # Match & stats management
     ├── aiAssistance.js  # Gemini AI integration
