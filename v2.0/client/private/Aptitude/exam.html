@@ -128,14 +128,18 @@
     <div id="safeViolationModal" class="safe-modal-overlay">
         <div class="safe-modal-card">
             <div class="warning-icon">⚠️</div>
-            <h3 style="color: var(--accent-rose); font-size: 1.35rem; margin-bottom: 10px;">Tab Switch Detected!</h3>
-            <p id="violationWarningText" style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; margin-bottom: 20px;">
+            <h3 class="safe-modal-title">Tab Switch Detected!</h3>
+            <p id="violationWarningText" class="safe-modal-desc">
                 Switching tabs or leaving the exam screen is strictly prohibited in Safe Exam Mode.
             </p>
-            <div style="background: var(--bg-surface); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 20px;">
-                Violation Count: <strong id="violationCountBadge" style="color: var(--accent-rose);">1 / 2</strong>
+            <div class="safe-modal-badge-container">
+                <span class="safe-modal-label">Violation Count:</span>
+                <strong id="violationCountBadge" class="safe-modal-count">1 / 2</strong>
             </div>
-            <button class="ctrl-btn primary" style="width: 100%; justify-content: center;" onclick="dismissViolationModal()">
+            <p class="safe-modal-penalty-notice">
+                Exceeding 2 warnings will deduct <strong>0.5 penalty points</strong> per switch from your net score.
+            </p>
+            <button class="ctrl-btn primary safe-modal-dismiss-btn" onclick="dismissViolationModal()">
                 I Understand, Return to Assessment
             </button>
         </div>

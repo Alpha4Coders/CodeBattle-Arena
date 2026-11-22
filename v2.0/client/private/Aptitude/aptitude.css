@@ -66,24 +66,54 @@ body.light-theme {
     padding: 0;
 }
 
-body {
-    font-family: var(--font-sans);
-    background-color: var(--bg-page);
-    color: var(--text-primary);
+body.aptitude-theme {
+    background-color: var(--bg-canvas, #f4f5f8);
+    color: var(--text-primary, #111827);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-/* ==========================================================================
-   Navigation Bar
-   ========================================================================== */
+.aptitude-main-wrapper {
+    margin-left: 230px;
+    width: calc(100% - 230px);
+    min-height: 100vh;
+    padding: 24px 36px 60px;
+    box-sizing: border-box;
+    background-color: var(--bg-canvas, #f4f5f8);
+}
+
+.aptitude-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+}
+
+.nav-back-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid var(--card-border, #eaecf0);
+    color: var(--text-primary, #111827);
+    padding: 7px 16px;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.nav-back-pill:hover {
+    border-color: var(--brand-primary, #e53935);
+    color: var(--brand-primary, #e53935);
+    background: rgba(229, 57, 53, 0.08);
+}
+
+/* Legacy Header Hidden */
 .app-header {
-    background-color: var(--bg-surface);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    display: none !important;
 }
 
 .header-container {
@@ -188,9 +218,9 @@ body {
    Main Content Layout
    ========================================================================== */
 .aptitude-container {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 28px 24px 60px;
+    max-width: 1200px;
+    margin: 0;
+    padding: 0 0 60px;
     width: 100%;
 }
 
@@ -971,28 +1001,85 @@ body {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .header-container {
-        padding: 10px 16px;
+/* Responsive adjustments: Full Mobile Sync with Dashboard */
+@media (max-width: 900px) {
+    .aptitude-main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding: 12px 14px 90px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
     }
+
+    .aptitude-top-bar {
+        display: none !important;
+    }
+
     .aptitude-container {
-        padding: 16px 14px 40px;
+        padding: 0 0 40px !important;
     }
+
+    .category-tabs-bar {
+        overflow-x: auto;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .category-banner {
-        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 18px;
+        gap: 16px;
+        border-radius: 14px;
     }
+
     .banner-left h1 {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
     }
+
     .banner-stats {
         width: 100%;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
+
+    .stat-item {
+        padding: 10px 8px;
+        text-align: center;
+    }
+
+    .stat-item .stat-value {
+        font-size: 1.15rem;
+    }
+
+    .stat-item .stat-label {
+        font-size: 0.72rem;
+    }
+
+    .topics-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+    }
+
     .cheat-sheet-container {
-        padding: 20px;
+        padding: 18px 14px;
     }
+
     .sets-grid {
         grid-template-columns: 1fr;
+    }
+
+    .topic-tabs-nav {
+        overflow-x: auto;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .topic-tab {
+        white-space: nowrap;
+        font-size: 0.85rem;
+        padding: 8px 14px;
     }
 }

@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="../HomePage/codigo.css">
     <link rel="stylesheet" href="leaderboard.css">
     <link rel="shortcut icon" href="../HomePage/assets/web-development.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Clerk auth library -->
     <script async crossorigin="anonymous"
@@ -21,36 +20,40 @@
 </head>
 
 <body class="dark-theme">
-    <header style="background-color: #11141a; border-bottom: 1px solid #1f2937; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000;">
-        <div style="display: flex; align-items: center; gap: 8px;">
+    <header style="background-color: #11141a; border-bottom: 1px solid #1f2937; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="mobile-hamburger-btn" onclick="showNav()" aria-label="Open menu" style="background: transparent; border: none; color: #ffffff; cursor: pointer; display: flex; align-items: center; padding: 4px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
             <span style="color: #e53935; font-weight: 800; font-size: 1.25rem;">&lt;/&gt;</span>
             <span style="color: #ffffff; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em;">Codigo</span>
-            <span style="background: rgba(229, 57, 53, 0.15); color: #e53935; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px; margin-left: 6px;">Leaderboard</span>
+            <span style="background: rgba(229, 57, 53, 0.15); color: #e53935; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px;">Leaderboard</span>
         </div>
         <div>
             <a href="../HomePage/codigo.html" class="nav-back-pill">← Back to Dashboard</a>
         </div>
     </header>
 
-    <button class="nav-toggle outside-logo-sidebar" onclick="showNav()" aria-label="Open navigation menu">
-        <img src="../HomePage/assets/sidebar-icon.png" alt="Menu" class="nav-icon">
-    </button>
+    <div class="nav-backdrop" onclick="hideNav()"></div>
 
     <nav class="codingPageNav" aria-label="Main navigation">
-        <button class="nav-close inside-logo-sidebar" onclick="hideNav()" aria-label="Close Navigation"></button>
-        <ul>
-            <li><a href="#home" class="nav-link current" onclick="showSection('home')">Home</a></li>
-            <li><a href="#practice" class="nav-link" onclick="showSection('practice')">Practice</a></li>
-            <li><a href="../Arena/arena.html" class="nav-link">Arena</a></li>
-            <li><a href="#help" class="nav-link" onclick="showSection('help')">Ask AI</a></li>
-            <li><a href="#contact" class="nav-link" onclick="showSection('contact')">Contact Us</a></li>
-            <li class="nav-actions">
-                <select name="theme-toggle" id="theme-toggle">
-                    <option value="dark-theme" selected>Dark theme</option>
-                    <option value="light-theme">Light theme</option>
-                </select>
-                <button onclick="authManager.logout()" class="logout-btn">Logout</button>
-            </li>
+        <button class="inside-logo-sidebar" onclick="hideNav()" aria-label="Close Navigation" style="position: absolute; top: 16px; right: 16px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px; padding: 0 8px;">
+            <span style="color: #e53935; font-weight: 800; font-size: 1.25rem;">&lt;/&gt;</span>
+            <span style="color: #ffffff; font-weight: 800; font-size: 1.25rem;">Codigo</span>
+        </div>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="../HomePage/codigo.html" class="nav-link">Dashboard</a></li>
+            <li><a href="../Aptitude/aptitude.html" class="nav-link">Learn</a></li>
+            <li><a href="../HomePage/codigo.html#practice" class="nav-link">Practice</a></li>
+            <li><a href="../HomePage/codigo.html#achievements" class="nav-link">Achievements</a></li>
+            <li><a href="#" class="nav-link current">Analytics</a></li>
+            <li><a href="../HomePage/codigo.html#profile" class="nav-link">Profile</a></li>
+            <li><a href="../HomePage/codigo.html#settings" class="nav-link">Settings</a></li>
         </ul>
     </nav>
 

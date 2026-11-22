@@ -76,8 +76,52 @@ body.dashboard-body {
 .sidebar-brand {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 0 8px;
+    position: relative;
+}
+
+.sidebar-close-btn {
+    display: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+    background: rgba(229, 57, 53, 0.25);
+    color: #ff5252;
+    border-color: #e53935;
+}
+
+/* Backdrop Overlay for Mobile Navigation Drawer */
+.nav-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .brand-diamond-icon {
@@ -1445,8 +1489,32 @@ body.dashboard-body {
         overflow-x: hidden !important;
     }
 
+    /* Mobile Sidebar Sliding Drawer */
     .codingPageNav {
-        display: none !important;
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 270px !important;
+        max-width: 82vw !important;
+        height: 100vh !important;
+        z-index: 10000 !important;
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease !important;
+        box-shadow: 6px 0 24px rgba(0, 0, 0, 0.5) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .codingPageNav.show {
+        transform: translateX(0) !important;
+        visibility: visible !important;
+    }
+
+    .sidebar-close-btn {
+        display: flex !important;
     }
 
     .dashboard-main-content {
@@ -1467,6 +1535,34 @@ body.dashboard-body {
         padding: 4px 2px;
         width: 100%;
         box-sizing: border-box;
+    }
+
+    .mobile-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-hamburger-btn {
+        background: #ffffff;
+        border: 1px solid var(--card-border);
+        color: var(--text-primary);
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+    }
+
+    .mobile-hamburger-btn:active {
+        transform: scale(0.94);
+        background: #f1f5f9;
+        border-color: #cbd5e1;
     }
 
     .mobile-logo {

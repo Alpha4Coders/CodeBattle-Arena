@@ -18,12 +18,16 @@
 </head>
 
 <body class="dashboard-body">
+    <!-- Backdrop Overlay for Mobile Drawer Navigation -->
+    <div class="nav-backdrop" onclick="hideNav()" aria-label="Close navigation overlay"></div>
+
     <!-- Sidebar Navigation -->
     <aside class="codingPageNav" aria-label="Main navigation">
         <div class="sidebar-top">
             <div class="sidebar-brand">
                 <span class="brand-diamond-icon">&lt;/&gt;</span>
                 <span class="brand-text">Codigo</span>
+                <button class="sidebar-close-btn" onclick="hideNav()" aria-label="Close Navigation">✕</button>
             </div>
             
             <ul class="sidebar-menu">
@@ -120,9 +124,18 @@
     <main class="dashboard-main-content">
         <!-- Mobile Top Header Bar (Integrated inside main content stream for perfect single-column mobile flow) -->
         <header class="mobile-top-bar">
-            <div class="mobile-logo">
-                <span class="brand-diamond-icon">&lt;/&gt;</span>
-                <span class="brand-text">Codigo</span>
+            <div class="mobile-header-left">
+                <button class="mobile-hamburger-btn" onclick="showNav()" aria-label="Open Navigation">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="mobile-logo">
+                    <span class="brand-diamond-icon">&lt;/&gt;</span>
+                    <span class="brand-text">Codigo</span>
+                </div>
             </div>
             <div class="header-right-actions">
                 <button class="icon-circle-btn bell-btn" aria-label="Notifications" onclick="showSection('profile')">
