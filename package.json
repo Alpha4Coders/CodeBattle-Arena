@@ -1,0 +1,19 @@
+{
+  "name": "codebattle-arena",
+  "version": "2.0.0",
+  "description": "CodeBattle Arena - Real-Time Competitive Coding & Aptitude Platform",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "postinstall": "cd v2.0 && npm install",
+    "build": "cd v2.0 && npm run build",
+    "start": "cd v2.0 && npm start",
+    "dev": "cd v2.0 && npm run dev",
+    "test": "cd v2.0 && npm test",
+    "test:aptitude": "cd v2.0 && npm run test:aptitude",
+    "verify": "cd v2.0 && npm run verify"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
