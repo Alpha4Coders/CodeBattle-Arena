@@ -3,7 +3,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const v2Path = path.resolve(__dirname, "v2.0");
+const v2Path = path.resolve(__dirname, "..", "v2.0");
 
 // Change working directory to v2.0 so any cwd-dependent operations run in v2.0 context
 try {

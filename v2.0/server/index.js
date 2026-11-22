@@ -11,6 +11,7 @@ import { createServer } from "http";
 // Prioritize IPv4 DNS lookups to fix querySrv ECONNREFUSED on Windows for MongoDB Atlas
 dns.setDefaultResultOrder("ipv4first");
 
+import mongoose from "mongoose";
 import { MongooseConnect, UserDBHandler } from "./database.js";
 import { UserStatsService } from "./userStatsService.js";
 import { CodeRunner } from "./codeRun.js";
