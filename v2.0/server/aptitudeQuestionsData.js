@@ -4,6 +4,10 @@
  * Zero placeholder text, zero generic questions.
  */
 
+import { getVerbalQuestions } from "./questionsVerbal.js";
+import { getLogicalQuestions } from "./questionsLogical.js";
+import { getQuantitativeQuestions } from "./questionsQuantitative.js";
+
 // ==========================================
 // VERBAL ABILITY QUESTION POOLS
 // ==========================================
@@ -879,19 +883,11 @@ export function getSpeedTimeQuestion(qId, topic, type, setNumber, qNum) {
 }
 
 export function generateQuestionsForSet(topic, type, setNumber) {
-    const questions = [];
-    const seedOffset = (setNumber - 1) * 30 + (type === 'mock' ? 120 : 0);
-
-    for (let i = 1; i <= 30; i++) {
-        const qNum = i;
-        const qIndex = seedOffset + i;
-        let qData;
-        if (topic.topicId === "speed-time-and-distance") {
-            qData = getSpeedTimeQuestion(`${topic.topicId}-${type}-s${setNumber}-q${qNum}`, topic, type, setNumber, qNum);
-        } else {
-            qData = getAuthenticQuestion(topic, type, setNumber, qNum, qIndex);
-        }
-        questions.push(qData);
+    if (topic.category === 'verbal') {
+        return getVerbalQuestions(topic, type, setNumber);
+    } else if (topic.category === 'logical') {
+        return getLogicalQuestions(topic, type, setNumber);
+    } else {
+        return getQuantitativeQuestions(topic, type, setNumber);
     }
-    return questions;
 }
