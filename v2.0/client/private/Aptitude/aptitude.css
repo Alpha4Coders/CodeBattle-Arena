@@ -10,7 +10,7 @@
     --bg-card-hover: #fafbfc;
     --border-color: #eaecf0;
     --border-subtle: #f1f5f9;
-    
+
     --text-primary: #111827;
     --text-secondary: #475569;
     --text-muted: #94a3b8;
@@ -21,10 +21,10 @@
 
     --accent-emerald: #10b981;
     --accent-emerald-subtle: rgba(16, 185, 129, 0.12);
-    
+
     --accent-amber: #f59e0b;
     --accent-amber-subtle: rgba(245, 158, 11, 0.12);
-    
+
     --accent-rose: #f43f5e;
     --accent-rose-subtle: rgba(244, 63, 94, 0.12);
 
@@ -52,7 +52,7 @@ body.dark-theme {
     --bg-card-hover: #1f293d;
     --border-color: #243048;
     --border-subtle: #192233;
-    
+
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
@@ -457,8 +457,6 @@ body.aptitude-theme {
     align-items: center;
     justify-content: center;
     color: var(--brand-primary);
-    flex-shrink: 0;
-}
     flex-shrink: 0;
 }
 
@@ -950,9 +948,23 @@ body.aptitude-theme {
     font-size: 0.82rem;
 }
 
-.rank-1 { background-color: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
-.rank-2 { background-color: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid #cbd5e1; }
-.rank-3 { background-color: rgba(180, 83, 9, 0.2); color: #b45309; border: 1px solid #b45309; }
+.rank-1 {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+}
+
+.rank-2 {
+    background-color: rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+    border: 1px solid #cbd5e1;
+}
+
+.rank-3 {
+    background-color: rgba(180, 83, 9, 0.2);
+    color: #b45309;
+    border: 1px solid #b45309;
+}
 
 /* Modal Styles */
 .modal-overlay {
@@ -1023,13 +1035,27 @@ body.aptitude-theme {
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes scaleUp {
-    from { opacity: 0; transform: scale(0.96); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Responsive adjustments: Full Mobile Sync with Dashboard */
