@@ -458,9 +458,25 @@ export class AptitudeDBHandler {
                 questions = await AptitudeDBHandler.Questions.find({ topicId, type, setNumber: setNum }).sort({ questionNumber: 1 });
             }
 
-            if (!questions || questions.length === 0) {
+            const isStale = questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))));
+            if (!questions || questions.length === 0 || isStale) {
                 const key = `${topicId}:${type}:${setNum}`;
-                questions = inMemory.questionsMap.get(key) || [];
+                const inMem = inMemory.questionsMap.get(key);
+                if (inMem && inMem.length > 0 && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
+                    questions = inMem;
+                } else {
+                    const topic = inMemory.topics.find(t => t.topicId === topicId) || { topicId, category: 'quantitative' };
+                    questions = generateQuestionsForSet(topic, type, setNum);
+                }
+
+                // Auto-heal MongoDB in background so stale placeholders are permanently overwritten
+                if (this.isMongoActive() && isStale) {
+                    Promise.all(questions.map(q => AptitudeDBHandler.Questions.findOneAndUpdate(
+                        { questionId: q.questionId },
+                        { $set: q },
+                        { upsert: true }
+                    ))).catch(err => console.error("[Aptitude] Auto-heal questions error:", err.message));
+                }
             }
 
             if (!questions || questions.length === 0) {
@@ -512,9 +528,16 @@ export class AptitudeDBHandler {
                 questions = await AptitudeDBHandler.Questions.find({ topicId, type, setNumber: setNum }).sort({ questionNumber: 1 });
             }
 
-            if (!questions || questions.length === 0) {
+            const isStale = questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))));
+            if (!questions || questions.length === 0 || isStale) {
                 const key = `${topicId}:${type}:${setNum}`;
-                questions = inMemory.questionsMap.get(key) || [];
+                const inMem = inMemory.questionsMap.get(key);
+                if (inMem && inMem.length > 0 && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
+                    questions = inMem;
+                } else {
+                    const topic = inMemory.topics.find(t => t.topicId === topicId) || { topicId, category: 'quantitative' };
+                    questions = generateQuestionsForSet(topic, type, setNum);
+                }
             }
 
             if (!questions || questions.length === 0) {
