@@ -5,9 +5,12 @@ import {
     QUANTITATIVE_TOPICS,
     LOGICAL_TOPICS,
     VERBAL_TOPICS,
+    ALL_TOPICS
+} from "./aptitudeTopics.js";
+import {
     SPEED_TIME_DISTANCE_CHEATSHEET,
     generateQuestionsForSet
-} from "./seedAptitude.js";
+} from "./aptitudeQuestionsData.js";
 import { getCheatSheetForTopic } from "./aptitudeCheatSheets.js";
 
 // ==========================================

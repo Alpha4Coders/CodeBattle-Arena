@@ -94,6 +94,29 @@ body {
     gap: 12px;
 }
 
+.nav-back-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(229, 57, 53, 0.15);
+    border: 1px solid rgba(229, 57, 53, 0.45);
+    color: #ff5252 !important;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.nav-back-pill:hover {
+    background: #e53935;
+    color: #ffffff !important;
+    border-color: #e53935;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.4);
+}
+
 .exam-title-badge {
     font-size: 1.1rem;
     font-weight: 600;

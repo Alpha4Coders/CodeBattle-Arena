@@ -36,13 +36,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Setup theme switcher
 function setupTheme() {
+    document.body.classList.add('dashboard-body', 'aptitude-theme');
+    const savedTheme = localStorage.getItem('theme') || 'light-theme';
+    document.body.classList.remove('dark-theme', 'light-theme');
+    document.body.classList.add(savedTheme);
     const themeToggle = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('theme') || 'dark-theme';
-    document.body.className = savedTheme;
     if (themeToggle) {
         themeToggle.value = savedTheme;
         themeToggle.addEventListener('change', (e) => {
-            document.body.className = e.target.value;
+            document.body.classList.remove('dark-theme', 'light-theme');
+            document.body.classList.add(e.target.value);
             localStorage.setItem('theme', e.target.value);
         });
     }
