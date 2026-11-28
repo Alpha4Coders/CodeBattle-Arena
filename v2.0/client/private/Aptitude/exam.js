@@ -1,6 +1,8 @@
 /**
  * Exam / Assessment Session Engine
- * Handles Safe Exam Mode, anti-cheating, timer, question palette, and server evaluation.
+ * Handles Safe Exam Mode, anti-cheating, timer, question palette, server evaluation,
+ * clickable vocabulary synonym brackets, difficulty progression, and client-side
+ * instant Certificate and Revision PDF downloads.
  */
 
 let examData = {
@@ -19,7 +21,192 @@ let examData = {
     safeExamActive: false
 };
 
-// Initialize
+let lastSubmissionResults = null;
+
+// ==========================================
+// DIFFICULTY PROGRESSION CONFIG
+// Set 1: Easy / Foundational
+// Set 2: Moderate / Intermediate
+// Set 3: Moderate-Hard / Advanced
+// Set 4: Hard / Master
+// Mock 1: Mixed Comprehensive Blend (10 Easy + 10 Mod + 10 Hard)
+// Mock 2: Hardcore Placement Assessment (5 Mod + 17 Hard + 8 Master)
+// ==========================================
+const DIFFICULTY_CONFIG = {
+    practice: {
+        1: { title: "Set 1: Easy / Foundational", badgeClass: "badge-diff-easy" },
+        2: { title: "Set 2: Moderate / Intermediate", badgeClass: "badge-diff-moderate" },
+        3: { title: "Set 3: Moderate-Hard / Advanced", badgeClass: "badge-diff-advanced" },
+        4: { title: "Set 4: Hard / Master", badgeClass: "badge-diff-master" }
+    },
+    mock: {
+        1: { title: "Mock 1: Mixed Comprehensive Blend", badgeClass: "badge-diff-moderate" },
+        2: { title: "Mock 2: Master Placement Assessment", badgeClass: "badge-diff-master" }
+    }
+};
+
+// ==========================================
+// VOCABULARY SYNONYM HELPER SYSTEM
+// Allows students to click unfamiliar terms in verbal questions to reveal [simple synonym]
+// Shown ONLY when clicked, never forced on the student!
+// ==========================================
+const VOCAB_SYNONYMS = {
+    "ephemeral": "short-lived / temporary",
+    "ambivalent": "having mixed feelings / uncertain",
+    "meticulous": "very careful / precise",
+    "pragmatic": "practical / realistic",
+    "candid": "honest / frank",
+    "superfluous": "unnecessary / excessive",
+    "precarious": "uncertain / risky",
+    "ubiquitous": "present everywhere / omnipresent",
+    "resilient": "able to recover quickly / tough",
+    "plausible": "believable / reasonable",
+    "mitigate": "lessen / reduce severity",
+    "obsolete": "outdated / no longer used",
+    "novice": "beginner / learner",
+    "verbose": "wordy / using too many words",
+    "frugal": "economical / thrifty",
+    "hostile": "unfriendly / antagonistic",
+    "tenacious": "persistent / determined",
+    "enigmatic": "mysterious / puzzling",
+    "obscure": "unclear / hard to see",
+    "lucrative": "profitable / moneymaking",
+    "sporadic": "occasional / irregular",
+    "docile": "submissive / easily trained",
+    "arduous": "difficult / tiring",
+    "futile": "pointless / useless",
+    "astute": "shrewd / clever",
+    "lethargic": "sluggish / lacking energy",
+    "benevolent": "kind-hearted / generous",
+    "malevolent": "spiteful / wishing evil",
+    "taciturn": "reserved / saying little",
+    "garrulous": "excessively talkative / chatty",
+    "affluent": "wealthy / prosperous",
+    "destitute": "extremely poor / penniless",
+    "prudent": "wise / careful",
+    "reckless": "rash / careless",
+    "evasive": "avoiding direct answers / elusive",
+    "aesthetic": "appreciating beauty / artistic",
+    "aloof": "distant / uninvolved",
+    "autonomous": "self-governing / independent",
+    "cryptic": "hidden meaning / mysterious",
+    "dogmatic": "inflexible / opinionated",
+    "eclectic": "deriving from diverse sources / varied",
+    "elusive": "difficult to find or catch",
+    "erratic": "unpredictable / irregular",
+    "exculpate": "clear from blame / vindicate",
+    "fastidious": "very attentive to detail / finicky",
+    "lucid": "clear / easily understood",
+    "malleable": "easily influenced / adaptable",
+    "mundane": "ordinary / dull",
+    "nebulous": "cloudy / vague",
+    "obstinate": "stubborn / unyielding",
+    "panacea": "universal remedy / cure-all",
+    "perfidious": "deceitful / untrustworthy",
+    "pervasive": "spreading widely / omnipresent",
+    "querulous": "whining / complaining",
+    "recalcitrant": "uncooperative / resistant",
+    "repudiate": "refuse to accept / reject",
+    "reticent": "quiet / not revealing thoughts",
+    "sagacious": "wise / perceptive",
+    "scrupulous": "diligent / highly moral",
+    "spurious": "false / fake",
+    "stoic": "enduring pain without complaining",
+    "transient": "temporary / brief",
+    "venerate": "revere / deeply respect",
+    "vindicate": "clear of blame / prove right",
+    "zealous": "passionate / enthusiastic",
+    "coherent": "logical / consistent",
+    "anomaly": "irregularity / deviation",
+    "adversity": "hardship / misfortune",
+    "abundant": "plentiful / in large quantity",
+    "scarce": "rare / in short supply",
+    "diligent": "hardworking / industrious",
+    "negligent": "careless / neglectful",
+    "impromptu": "spontaneous / unrehearsed",
+    "complacent": "self-satisfied / unconcerned",
+    "corroborate": "confirm / support with evidence",
+    "discrepancy": "difference / lack of consistency",
+    "impeccable": "flawless / perfect",
+    "indolent": "lazy / inactive",
+    "inadvertent": "unintentional / accidental",
+    "juxtapose": "place side-by-side for contrast",
+    "paramount": "supreme / chief in importance",
+    "substantiate": "prove / provide proof",
+    "tangible": "touchable / real / concrete",
+    "ubiquity": "widespread presence",
+    "validate": "confirm / make valid",
+    "zenith": "peak / highest point",
+    "nadir": "lowest point",
+    "censure": "severe disapproval / criticize",
+    "appease": "pacify / satisfy",
+    "alacrity": "eagerness / brisk readiness",
+    "acrimonious": "bitter and sharp in language",
+    "admonish": "warn or reprimand firmly",
+    "equivocal": "ambiguous / open to multiple interpretations",
+    "inevitable": "unavoidable / bound to happen",
+    "preliminary": "introductory / preparatory",
+    "comprehensive": "complete / including all elements",
+    "deduce": "conclude / figure out from facts",
+    "infer": "conclude from reasoning",
+    "consecutive": "in unbroken sequence / successive",
+    "equilibrium": "state of balance",
+    "exponential": "increasing very rapidly",
+    "unprecedented": "never done or known before",
+    "rigorous": "strict / extremely thorough",
+    "subtle": "delicate / not obvious",
+    "profound": "very deep / intense",
+    "trivial": "unimportant / of little value",
+    "implication": "suggestion / consequence",
+    "disparity": "inequality / great difference",
+    "divergent": "different / moving apart",
+    "convergent": "coming together / meeting",
+    "proponent": "supporter / advocate",
+    "opponent": "rival / adversary",
+    "pertinent": "relevant / applicable",
+    "indispensable": "absolutely necessary / essential"
+};
+
+function formatTextWithVocabHints(rawText) {
+    if (!rawText) return '';
+    let escaped = escapeHtml(rawText);
+
+    for (const [word, synonym] of Object.entries(VOCAB_SYNONYMS)) {
+        const regex = new RegExp(`\\b(${word})\\b`, 'gi');
+        if (regex.test(escaped)) {
+            escaped = escaped.replace(regex, (match) => {
+                return `<span class="vocab-term" onclick="window.toggleVocabSynonym(this, event)" title="Click to reveal synonym">${match}<span class="vocab-bracket" style="display:none"> [${escapeHtml(synonym)}]</span></span>`;
+            });
+        }
+    }
+    return escaped;
+}
+
+window.toggleVocabSynonym = function(el, evt) {
+    if (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+    }
+    const bracket = el.querySelector('.vocab-bracket');
+    if (bracket) {
+        const isHidden = bracket.style.display === 'none';
+        bracket.style.display = isHidden ? 'inline-block' : 'none';
+    }
+};
+
+let allVocabHintsShown = false;
+window.toggleAllVocabHints = function() {
+    allVocabHintsShown = !allVocabHintsShown;
+    document.querySelectorAll('.vocab-bracket').forEach(b => {
+        b.style.display = allVocabHintsShown ? 'inline-block' : 'none';
+    });
+    const btn = document.getElementById('btnVocabHelperToggle');
+    if (btn) {
+        btn.innerHTML = allVocabHintsShown ? '💡 Hide All Synonyms' : '💡 Show/Hide All Synonyms';
+    }
+};
+
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
     parseUrlParams();
     await loadExamData();
@@ -53,6 +240,14 @@ async function loadExamData() {
         const topicName = examData.topicId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         document.getElementById('examTopicTitle').textContent = topicName;
         document.getElementById('examTypeBadge').textContent = `${examData.type === 'mock' ? 'Mock Test' : 'Practice Set'} ${examData.setNumber}`;
+
+        // Update Difficulty Badge
+        const diffConfig = DIFFICULTY_CONFIG[examData.type]?.[examData.setNumber] || { title: "Standard Practice", badgeClass: "badge-diff-moderate" };
+        const diffBadge = document.getElementById('examDifficultyBadge');
+        if (diffBadge) {
+            diffBadge.textContent = diffConfig.title;
+            diffBadge.className = `badge-pill ${diffConfig.badgeClass}`;
+        }
 
         if (data.safeExamMode) {
             document.getElementById('fullscreenStartOverlay').style.display = 'flex';
@@ -98,101 +293,94 @@ function initSafeExamEngine() {
         }
     });
 
-    // 2. Disable Right-Click Context Menu
-    document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        return false;
-    });
+    // 2. Prevent Context Menu, Copy, Cut, Paste
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+    document.addEventListener('paste', e => e.preventDefault());
 
-    // 3. Disable Copy, Cut, Paste
-    ['copy', 'cut', 'paste'].forEach(evt => {
-        document.addEventListener(evt, (e) => {
-            e.preventDefault();
-            return false;
-        });
-    });
-
-    // 4. Intercept DevTools Keys (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
-    document.addEventListener('keydown', (e) => {
+    // 3. Block Inspection Keys (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+    document.addEventListener('keydown', e => {
         if (
             e.key === 'F12' ||
             (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-            (e.ctrlKey && (e.key === 'u' || e.key === 'U'))
+            (e.ctrlKey && e.key === 'u')
         ) {
             e.preventDefault();
-            return false;
+            handleTabSwitchViolation("Developer tools / Inspection shortcut detected.");
         }
     });
 }
 
 // Handle Tab Switch Violation
-function handleTabSwitchViolation() {
+function handleTabSwitchViolation(customMsg) {
     examData.tabSwitchViolations++;
 
     const modal = document.getElementById('safeViolationModal');
-    const warningText = document.getElementById('violationWarningText');
     const badge = document.getElementById('violationCountBadge');
+    const warningText = document.getElementById('violationWarningText');
 
-    if (examData.tabSwitchViolations === 1) {
-        warningText.innerHTML = `<strong>Warning (1/2):</strong> You switched tabs or left the active window. Tab switching is strictly monitored in Safe Exam Mode. Please remain on this screen.`;
-        badge.textContent = `1 / 2 (Free Warning)`;
-    } else if (examData.tabSwitchViolations === 2) {
-        warningText.innerHTML = `<strong>Final Warning (2/2):</strong> This is your last warning! Any subsequent tab switches will immediately incur a <strong>0.5 points penalty</strong> each on your final score.`;
-        badge.textContent = `2 / 2 (Final Warning)`;
+    badge.textContent = `${examData.tabSwitchViolations} / 2`;
+    if (examData.tabSwitchViolations > 2) {
+        badge.style.color = 'var(--accent-rose)';
+        const penalty = (examData.tabSwitchViolations - 2) * 0.5;
+        warningText.innerHTML = `<strong>Penalty Warning:</strong> You have exceeded free warnings. Current score penalty: <strong>-${penalty.toFixed(1)} points</strong>.`;
     } else {
-        const excess = examData.tabSwitchViolations - 2;
-        const penalty = (excess * 0.5).toFixed(1);
-        warningText.innerHTML = `<strong>Penalty Applied:</strong> You have switched tabs ${examData.tabSwitchViolations} times. An accumulated penalty of <strong>-${penalty} points</strong> has been applied to this submission.`;
-        badge.textContent = `${examData.tabSwitchViolations} Violations (-${penalty} pts)`;
+        warningText.textContent = customMsg || "Leaving the exam screen or switching tabs is strictly tracked.";
     }
 
-    if (modal) modal.classList.add('active');
+    modal.classList.add('active');
 }
 
 function dismissViolationModal() {
-    const modal = document.getElementById('safeViolationModal');
-    if (modal) modal.classList.remove('active');
+    document.getElementById('safeViolationModal').classList.remove('active');
+    // Re-request fullscreen if lost
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    }
 }
 
 // Initialize Exam Session
 function initExamSession() {
     renderPalette();
-    startTimer();
     renderCurrentQuestion();
+    startTimer();
 }
 
-// Countdown Timer
+// Timer Countdown Engine
 function startTimer() {
     const timerDisplay = document.getElementById('examTimerDisplay');
     const timerBox = document.getElementById('examTimerBox');
 
     examData.timerInterval = setInterval(() => {
+        examData.timeRemaining--;
+        examData.timeTakenSeconds++;
+
         if (examData.timeRemaining <= 0) {
             clearInterval(examData.timerInterval);
-            alert("Time limit reached! Your assessment will now be submitted automatically.");
+            alert("Time is up! Your exam will now be submitted automatically.");
             executeFinalSubmission();
             return;
         }
-
-        examData.timeRemaining--;
-        examData.timeTakenSeconds++;
 
         const mins = Math.floor(examData.timeRemaining / 60);
         const secs = examData.timeRemaining % 60;
         timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
-        if (examData.timeRemaining <= 300) { // Last 5 minutes
-            timerBox.classList.add('urgent');
+        // Turn timer red when under 5 minutes
+        if (examData.timeRemaining <= 300) {
+            timerBox.style.borderColor = 'var(--accent-rose)';
+            timerBox.style.color = 'var(--accent-rose)';
         }
     }, 1000);
 }
 
-// Render Question Palette (1 to 30)
+// Render Question Palette Grid (1-30)
 function renderPalette() {
-    const grid = document.getElementById('paletteGrid');
-    if (!grid) return;
+    const paletteGrid = document.getElementById('paletteGrid');
+    if (!paletteGrid) return;
 
-    grid.innerHTML = examData.questions.map((q, idx) => `
+    paletteGrid.innerHTML = examData.questions.map((q, idx) => `
         <button class="palette-btn" id="pal-btn-${idx}" onclick="jumpToQuestion(${idx})">
             ${idx + 1}
         </button>
@@ -244,18 +432,18 @@ function renderCurrentQuestion() {
 
     examData.visited[q.questionId] = true;
 
-    // Update Counter & Statement
+    // Update Counter & Statement with Vocab Bracket System
     document.getElementById('questionCounter').textContent = `Question ${examData.currentIndex + 1} of ${examData.questions.length}`;
     document.getElementById('questionNumberLabel').textContent = `QUESTION ${examData.currentIndex + 1}`;
-    document.getElementById('questionStatement').textContent = q.question;
+    document.getElementById('questionStatement').innerHTML = formatTextWithVocabHints(q.question);
 
-    // Render Options
+    // Render Options with Vocab Bracket System
     const currentAnswer = examData.answers[q.questionId];
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = q.options.map(opt => `
         <div class="option-item ${currentAnswer === opt.id ? 'selected' : ''}" onclick="selectOption('${q.questionId}', '${opt.id}')">
             <span class="option-letter">${opt.id}</span>
-            <span class="option-text">${escapeHtml(opt.text)}</span>
+            <span class="option-text">${formatTextWithVocabHints(opt.text)}</span>
         </div>
     `).join('');
 
@@ -383,6 +571,7 @@ async function executeFinalSubmission() {
 
 // Render Results Overlay
 function renderResultsOverlay(results) {
+    lastSubmissionResults = results;
     const overlay = document.getElementById('resultsOverlay');
     overlay.classList.add('active');
 
@@ -456,6 +645,50 @@ function renderResultsOverlay(results) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Download Official Certificate of Achievement
+window.downloadCertificateFromResults = function() {
+    if (!lastSubmissionResults) {
+        alert("Please wait for your assessment results to evaluate.");
+        return;
+    }
+    const topicName = examData.topicId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const studentName = localStorage.getItem('codigo_username') || localStorage.getItem('username') || "Candidate";
+
+    if (typeof CertificateGenerator !== 'undefined') {
+        CertificateGenerator.download({
+            studentName,
+            topicTitle: `${topicName} (Set ${examData.setNumber})`,
+            score: `${lastSubmissionResults.percentage}%`,
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        });
+    } else {
+        alert("Certificate Generator is loading. Please try again in a moment.");
+    }
+};
+
+// Export Set for Revision with Hidden AlphaCoder Signature
+window.exportRevisionFromResults = function() {
+    if (!lastSubmissionResults) {
+        alert("Please wait for your assessment results to evaluate.");
+        return;
+    }
+    const topicName = examData.topicId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+    if (typeof RevisionExporter !== 'undefined') {
+        RevisionExporter.exportSetRevision({
+            topicTitle: topicName,
+            type: examData.type,
+            setNumber: examData.setNumber,
+            score: `${lastSubmissionResults.percentage}%`,
+            netScore: lastSubmissionResults.netScore,
+            totalQuestions: lastSubmissionResults.totalQuestions,
+            detailedAnswers: lastSubmissionResults.detailedAnswers || []
+        });
+    } else {
+        alert("Revision Exporter is loading. Please try again in a moment.");
+    }
+};
+
 function scrollToSolutions() {
     const el = document.getElementById('solutionsSection');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -475,3 +708,47 @@ function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+// Download Official Certificate of Achievement (Pure Client-Side Canvas/PDF, zero server storage)
+window.downloadCertificateFromResults = function() {
+    if (!lastSubmissionResults) {
+        alert("Please complete the assessment first before downloading the certificate.");
+        return;
+    }
+    const topicName = examData.topicId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const studentName = localStorage.getItem('codigo_username') || localStorage.getItem('username') || "Candidate";
+
+    if (typeof CertificateGenerator !== 'undefined') {
+        CertificateGenerator.download({
+            studentName,
+            topicTitle: `${topicName} (Set ${examData.setNumber})`,
+            score: `${lastSubmissionResults.percentage}%`,
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        });
+    } else {
+        alert("Certificate generator is initializing. Please try again.");
+    }
+};
+
+// Export Set for Revision with Hidden AlphaCoder Watermark & Verification
+window.exportRevisionFromResults = function() {
+    if (!lastSubmissionResults) {
+        alert("Please complete the assessment first before exporting revision notes.");
+        return;
+    }
+    const topicName = examData.topicId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+    if (typeof RevisionExporter !== 'undefined') {
+        RevisionExporter.exportSetRevision({
+            topicTitle: topicName,
+            type: examData.type,
+            setNumber: examData.setNumber,
+            score: `${lastSubmissionResults.percentage}%`,
+            netScore: lastSubmissionResults.netScore,
+            totalQuestions: lastSubmissionResults.totalQuestions,
+            detailedAnswers: lastSubmissionResults.detailedAnswers || []
+        });
+    } else {
+        alert("Revision exporter is initializing. Please try again.");
+    }
+};

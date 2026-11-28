@@ -240,7 +240,14 @@
                         <h1 id="detailTopicTitle" style="font-size: 1.6rem; margin-bottom: 6px;">Speed, Time and Distance</h1>
                         <p id="detailTopicDesc" style="color: var(--text-secondary); font-size: 0.92rem;">Master motion, average speed, stoppages, relative velocity, trains, boats and circular tracks.</p>
                     </div>
-                    <span class="badge-pill badge-emerald" id="detailTopicBadge">Placement Focused</span>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <button class="btn-export-action btn-revision" onclick="exportCurrentTopicModule()" title="Export complete topic with formulas and cheat-sheet for revision">
+                            <span>📥 Export Revision Guide</span>
+                        </button>
+                        <button class="btn-export-action btn-cert" onclick="downloadCurrentTopicCertificate()" title="Download Official Certificate of Achievement">
+                            <span>🎓 Download Certificate</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -431,6 +438,9 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="certificateGenerator.js"></script>
+    <script src="revisionExporter.js"></script>
     <script src="../common/auth.js"></script>
     <script src="../common/navigation.js"></script>
     <script src="aptitude.js"></script>

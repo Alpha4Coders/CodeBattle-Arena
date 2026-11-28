@@ -657,6 +657,49 @@ body {
     line-height: 1.5;
 }
 
+/* Vocabulary Synonym Hints (Clickable on-demand in verbal options/questions) */
+.vocab-term {
+    border-bottom: 1.5px dotted #fbbf24;
+    cursor: pointer;
+    position: relative;
+    padding: 0 1px;
+    border-radius: 2px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.vocab-term:hover {
+    background-color: rgba(251, 191, 36, 0.15);
+    color: #fef08a;
+}
+
+.vocab-bracket {
+    color: #fbbf24;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 0 4px;
+    background: rgba(251, 191, 36, 0.12);
+    border-radius: 4px;
+    margin-left: 3px;
+    display: inline-block;
+}
+
+.vocab-hint-toggle {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.28);
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vocab-hint-toggle:hover {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #fbbf24;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .exam-layout {
@@ -669,3 +712,111 @@ body {
         order: 1;
     }
 }
+
+/* ==========================================================================
+   Clickable Vocabulary Synonym Hints System
+   ========================================================================== */
+.vocab-term {
+    display: inline;
+    cursor: pointer;
+    border-bottom: 1.5px dotted #f59e0b;
+    padding: 0 2px;
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+.vocab-term:hover {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fde047;
+}
+
+.vocab-bracket {
+    display: inline-block;
+    color: #f59e0b;
+    font-weight: 600;
+    margin-left: 5px;
+    background: rgba(245, 158, 11, 0.16);
+    padding: 1px 7px;
+    border-radius: 4px;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    font-size: 0.88em;
+    user-select: text;
+}
+
+.vocab-hint-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px dashed #f59e0b;
+    color: #f59e0b;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+/* Difficulty Badges */
+.badge-diff-easy {
+    background-color: var(--accent-emerald-subtle) !important;
+    color: var(--accent-emerald) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+.badge-diff-moderate {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: #60a5fa !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.badge-diff-advanced {
+    background-color: var(--accent-amber-subtle) !important;
+    color: var(--accent-amber) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.badge-diff-master {
+    background-color: var(--accent-rose-subtle) !important;
+    color: var(--accent-rose) !important;
+    border: 1px solid rgba(244, 63, 94, 0.3) !important;
+}
+
+/* Certificate & Revision Export Buttons */
+.btn-export-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: var(--radius-md);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    text-decoration: none;
+}
+
+.btn-cert {
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+.btn-cert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.55);
+}
+
+.btn-revision {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.btn-revision:hover {
+    background: var(--bg-card-hover) !important;
+    border-color: var(--brand-primary) !important;
+    transform: translateY(-1px);
+}
+

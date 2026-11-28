@@ -315,6 +315,19 @@ function renderCheatSheet(cheatSheet) {
     }
 }
 
+// Difficulty progression labels
+const PRACTICE_DIFFICULTY_MAP = {
+    1: { label: "Level: Easy / Foundational", badgeClass: "badge-diff-easy" },
+    2: { label: "Level: Moderate / Intermediate", badgeClass: "badge-diff-moderate" },
+    3: { label: "Level: Moderate-Hard / Advanced", badgeClass: "badge-diff-advanced" },
+    4: { label: "Level: Hard / Master", badgeClass: "badge-diff-master" }
+};
+
+const MOCK_DIFFICULTY_MAP = {
+    1: { label: "Level: Mixed Comprehensive Blend", badgeClass: "badge-diff-moderate" },
+    2: { label: "Level: Master Placement Simulation", badgeClass: "badge-diff-master" }
+};
+
 // Render Practice Sets
 function renderPracticeSets(practiceSets) {
     const grid = document.getElementById('practiceSetsGrid');
@@ -324,17 +337,21 @@ function renderPracticeSets(practiceSets) {
         const isUnlocked = s.isUnlocked;
         const isPassed = s.isPassed;
         const hasScore = s.lastPercentage !== null;
+        const diffInfo = PRACTICE_DIFFICULTY_MAP[s.setNumber] || { label: "Practice", badgeClass: "badge-diff-moderate" };
 
         return `
             <div class="set-card ${isUnlocked ? 'unlocked' : 'locked'}">
                 <div>
                     <div class="set-card-header">
                         <span class="set-card-title">Practice Set ${s.setNumber}</span>
-                        ${isPassed 
-                            ? `<span class="badge-pill badge-emerald">Passed (80%+)</span>` 
-                            : (isUnlocked 
-                                ? `<span class="badge-pill badge-brand">Unlocked</span>` 
-                                : `<span class="badge-pill badge-rose">🔒 Locked</span>`)}
+                        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                            <span class="badge-pill ${diffInfo.badgeClass}" style="font-size: 0.72rem; padding: 2px 8px;">${diffInfo.label}</span>
+                            ${isPassed 
+                                ? `<span class="badge-pill badge-emerald">Passed (80%+)</span>` 
+                                : (isUnlocked 
+                                    ? `<span class="badge-pill badge-brand">Unlocked</span>` 
+                                    : `<span class="badge-pill badge-rose">🔒 Locked</span>`)}
+                        </div>
                     </div>
                     <div class="set-meta">30 MCQs • Passing Threshold: 80%</div>
                     
@@ -378,12 +395,16 @@ function renderMockSets(mockSets) {
 
     grid.innerHTML = mockSets.map(m => {
         const hasScore = m.lastPercentage !== null;
+        const diffInfo = MOCK_DIFFICULTY_MAP[m.setNumber] || { label: "Placement Exam", badgeClass: "badge-diff-master" };
         return `
             <div class="set-card unlocked">
                 <div>
                     <div class="set-card-header">
                         <span class="set-card-title">Mock Assessment ${m.setNumber}</span>
-                        <span class="badge-pill badge-rose">Safe Exam Mode</span>
+                        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                            <span class="badge-pill ${diffInfo.badgeClass}" style="font-size: 0.72rem; padding: 2px 8px;">${diffInfo.label}</span>
+                            <span class="badge-pill badge-rose">Safe Exam Mode</span>
+                        </div>
                     </div>
                     <div class="set-meta">30 MCQs • Fullscreen • Tab Monitor • -0.25 Negative Marking</div>
 
@@ -415,6 +436,37 @@ function renderMockSets(mockSets) {
         `;
     }).join('');
 }
+
+// Export Current Topic Module for Revision
+window.exportCurrentTopicModule = function() {
+    if (!currentTopic) return;
+    if (typeof RevisionExporter !== 'undefined') {
+        RevisionExporter.exportModuleRevision({
+            topicTitle: currentTopic.title,
+            category: currentTopic.category,
+            description: currentTopic.description,
+            cheatSheet: currentTopic.cheatSheet
+        });
+    } else {
+        alert("Revision exporter is initializing. Please try again.");
+    }
+};
+
+// Download Official Certificate for Current Topic
+window.downloadCurrentTopicCertificate = function() {
+    if (!currentTopic) return;
+    const studentName = localStorage.getItem('codigo_username') || localStorage.getItem('username') || "Valued Candidate";
+    if (typeof CertificateGenerator !== 'undefined') {
+        CertificateGenerator.download({
+            studentName,
+            topicTitle: `${currentTopic.title} Mastery`,
+            score: "Verified Mastery",
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        });
+    } else {
+        alert("Certificate generator is initializing. Please try again.");
+    }
+};
 
 // Start Exam / Navigate to exam.html
 function startExam(topicId, type, setNumber) {

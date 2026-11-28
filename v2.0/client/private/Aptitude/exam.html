@@ -6,6 +6,7 @@
     <title>Assessment Session | Aptitude Arena</title>
     <link rel="stylesheet" href="exam.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="dark-theme">
     <!-- Fullscreen Start Gate (For Mock Safe Exam Mode) -->
@@ -37,6 +38,7 @@
                 <a href="aptitude.html" class="nav-back-pill" style="margin-right: 8px;">← Exit</a>
                 <span class="exam-title-badge" id="examTopicTitle">Loading Assessment...</span>
                 <span id="examTypeBadge" class="timer-box" style="font-size: 0.78rem; padding: 4px 10px; font-family: inherit;">Set 1</span>
+                <span id="examDifficultyBadge" class="badge-pill" style="font-size: 0.76rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">Easy / Foundational</span>
             </div>
 
             <!-- Timer Countdown -->
@@ -61,7 +63,12 @@
             <div>
                 <div class="question-meta-bar">
                     <span id="questionCounter">Question 1 of 30</span>
-                    <span id="questionMarkingScheme">Marking: +1.0 / -0.25</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button id="btnVocabHelperToggle" class="vocab-hint-toggle" onclick="toggleAllVocabHints()" title="Toggle visibility of all vocabulary synonym brackets">
+                            💡 Show/Hide All Synonyms
+                        </button>
+                        <span id="questionMarkingScheme">Marking: +1.0 / -0.25</span>
+                    </div>
                 </div>
 
                 <div class="question-text-area">
@@ -212,6 +219,14 @@
                     <button class="ctrl-btn" onclick="scrollToSolutions()">
                         <span>📖 View Detailed Solutions</span>
                     </button>
+                    <!-- Export Set for Revision with Hidden AlphaCoder Signature -->
+                    <button class="ctrl-btn" id="btnExportSetRevision" onclick="exportRevisionFromResults()" style="border-color: #3b82f6; color: #60a5fa;">
+                        <span>📥 Export Set for Revision</span>
+                    </button>
+                    <!-- Download Official Certificate (Zero server storage, client-side PDF) -->
+                    <button class="ctrl-btn" id="btnDownloadCert" onclick="downloadCertificateFromResults()" style="border-color: #d4af37; color: #fbbf24;">
+                        <span>🎓 Download Certificate (PDF)</span>
+                    </button>
                     <!-- Shown if failed (<80%) to force pre-learning review -->
                     <button class="ctrl-btn primary" id="btnGoToPreLearn" style="background-color: var(--accent-amber); display: none;" onclick="goToPreLearningCheatSheet()">
                         <span>Review Concepts on Pre-learning Page →</span>
@@ -234,6 +249,9 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="certificateGenerator.js"></script>
+    <script src="revisionExporter.js"></script>
     <script src="exam.js"></script>
 </body>
 </html>
