@@ -120,8 +120,8 @@ if (hasClerkKeys) {
 
 // Health check endpoint (always public and verified first)
 app.get('/api/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
+    res.json({
+        status: 'OK',
         timestamp: new Date().toISOString(),
         version: '1.0.0'
     });
@@ -131,8 +131,8 @@ app.get('/api/health', (req, res) => {
 app.use('/public', express.static(path.join(__dirname, '../client/public')));
 
 app.use('/private', requireAuth({ signInUrl: process.env.CLERK_SIGN_IN_URL, signUpUrl: process.env.CLERK_SIGN_UP_URL }),
-                    uDBHandler.middleware_userAuth.bind(uDBHandler),
-                    express.static(path.join(__dirname, '../client/private')));
+    uDBHandler.middleware_userAuth.bind(uDBHandler),
+    express.static(path.join(__dirname, '../client/private')));
 
 app.use('/api', express.json());
 
@@ -142,15 +142,15 @@ app.get('/api/inccontest/:value/:set', requireAuth(), uDBHandler.endpoint_increm
 
 app.get('/api/problems', problemDBHandler.endpoint_getProblems.bind(problemDBHandler));
 app.get('/api/problems/:problemId', problemDBHandler.endpoint_getProblem.bind(problemDBHandler));
-app.post('/api/problems/:problemId/submit', 
-    express.json({ limit: '10mb' }), 
-    requireAuth(), 
+app.post('/api/problems/:problemId/submit',
+    express.json({ limit: '10mb' }),
+    requireAuth(),
     problemDBHandler.endpoint_submitSolution.bind(problemDBHandler)
 );
 
 // User solved problems endpoint
-app.get('/api/user/solved-problems', 
-    requireAuth(), 
+app.get('/api/user/solved-problems',
+    requireAuth(),
     problemDBHandler.endpoint_getUserSolvedProblems.bind(problemDBHandler)
 );
 
@@ -161,9 +161,9 @@ app.get('/api/userdata', requireAuth(), uDBHandler.endpoint_userData.bind(uDBHan
 app.get('/api/user/stats', requireAuth(), userStatsService.endpoint_getUserStats.bind(userStatsService));
 app.get('/api/user/rank-position', requireAuth(), userStatsService.endpoint_getUserRankPosition.bind(userStatsService));
 app.get('/api/leaderboard', userStatsService.endpoint_getLeaderboard.bind(userStatsService));
-app.post('/api/user/problem-solved', 
-    express.json(), 
-    requireAuth(), 
+app.post('/api/user/problem-solved',
+    express.json(),
+    requireAuth(),
     userStatsService.endpoint_updateOnProblemSolved.bind(userStatsService)
 );
 
