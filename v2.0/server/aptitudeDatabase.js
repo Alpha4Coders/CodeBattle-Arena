@@ -458,18 +458,20 @@ export class AptitudeDBHandler {
                 questions = await AptitudeDBHandler.Questions.find({ topicId, type, setNumber: setNum }).sort({ questionNumber: 1 });
             }
 
-            const isStale = questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))));
+            const hasDuplicates = questions && questions.length > 1 && (new Set(questions.map(q => q.question)).size < questions.length);
+            const isStale = (questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))))) || hasDuplicates;
             if (!questions || questions.length === 0 || isStale) {
                 const key = `${topicId}:${type}:${setNum}`;
                 const inMem = inMemory.questionsMap.get(key);
-                if (inMem && inMem.length > 0 && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
+                const inMemHasDupes = inMem && inMem.length > 1 && (new Set(inMem.map(q => q.question)).size < inMem.length);
+                if (inMem && inMem.length > 0 && !inMemHasDupes && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
                     questions = inMem;
                 } else {
                     const topic = inMemory.topics.find(t => t.topicId === topicId) || { topicId, category: 'quantitative' };
                     questions = generateQuestionsForSet(topic, type, setNum);
                 }
 
-                // Auto-heal MongoDB in background so stale placeholders are permanently overwritten
+                // Auto-heal MongoDB in background so stale placeholders and duplicates are permanently overwritten
                 if (this.isMongoActive() && isStale) {
                     Promise.all(questions.map(q => AptitudeDBHandler.Questions.findOneAndUpdate(
                         { questionId: q.questionId },
@@ -528,11 +530,13 @@ export class AptitudeDBHandler {
                 questions = await AptitudeDBHandler.Questions.find({ topicId, type, setNumber: setNum }).sort({ questionNumber: 1 });
             }
 
-            const isStale = questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))));
+            const hasDuplicates = questions && questions.length > 1 && (new Set(questions.map(q => q.question)).size < questions.length);
+            const isStale = (questions && questions.some(q => q.question && (q.question.includes('primary analytical outcome') || (q.options && q.options.some(o => o.text && o.text.includes('condition 1')))))) || hasDuplicates;
             if (!questions || questions.length === 0 || isStale) {
                 const key = `${topicId}:${type}:${setNum}`;
                 const inMem = inMemory.questionsMap.get(key);
-                if (inMem && inMem.length > 0 && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
+                const inMemHasDupes = inMem && inMem.length > 1 && (new Set(inMem.map(q => q.question)).size < inMem.length);
+                if (inMem && inMem.length > 0 && !inMemHasDupes && !inMem.some(q => q.question && q.question.includes('primary analytical outcome'))) {
                     questions = inMem;
                 } else {
                     const topic = inMemory.topics.find(t => t.topicId === topicId) || { topicId, category: 'quantitative' };

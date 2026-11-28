@@ -78,6 +78,62 @@ body.aptitude-theme {
     min-height: 100vh;
 }
 
+/* Perfect light-theme sync matching Codigo Dashboard */
+body.light-theme.aptitude-theme,
+body.aptitude-theme:not(.dark-theme),
+body.light-theme .aptitude-main-wrapper,
+body.aptitude-theme:not(.dark-theme) .aptitude-main-wrapper {
+    background-color: #f4f5f8 !important;
+}
+
+body.light-theme .topic-card,
+body.aptitude-theme:not(.dark-theme) .topic-card {
+    background-color: #ffffff !important;
+    border: 1px solid #edf0f2 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+body.light-theme .topic-card:hover,
+body.aptitude-theme:not(.dark-theme) .topic-card:hover {
+    background-color: #fafbfc !important;
+    border-color: #e53935 !important;
+    box-shadow: 0 8px 20px -2px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-theme .topic-title-group h3,
+body.aptitude-theme:not(.dark-theme) .topic-title-group h3 {
+    color: #111827 !important;
+}
+
+body.light-theme .topic-desc,
+body.aptitude-theme:not(.dark-theme) .topic-desc {
+    color: #475569 !important;
+}
+
+body.light-theme .search-box input,
+body.aptitude-theme:not(.dark-theme) .search-box input {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+}
+
+/* Explicit Dark theme sync */
+body.dark-theme.aptitude-theme,
+body.dark-theme .aptitude-main-wrapper {
+    background-color: #0b0f19 !important;
+}
+
+body.dark-theme .topic-card {
+    background-color: #161e2e !important;
+    border: 1px solid #243048 !important;
+}
+
+body.dark-theme .search-box input {
+    background-color: #161e2e !important;
+    border: 1px solid #243048 !important;
+    color: #f8fafc !important;
+}
+
 .aptitude-main-wrapper {
     margin-left: 230px;
     width: calc(100% - 230px);
@@ -313,10 +369,10 @@ body.aptitude-theme {
     color: #ffffff;
 }
 
-/* Category Header Banner */
+/* Category Header Banner - Sleek High-Contrast Codigo Section Banner */
 .category-banner {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: linear-gradient(135deg, #181d27 0%, #11141a 100%) !important;
+    border: 1px solid rgba(229, 57, 53, 0.25) !important;
     border-radius: var(--radius-lg);
     padding: 28px 32px;
     margin-bottom: 28px;
@@ -325,19 +381,19 @@ body.aptitude-theme {
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .banner-left h1 {
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 8px;
-    color: var(--text-primary);
+    color: #ffffff !important;
     letter-spacing: -0.02em;
 }
 
 .banner-left p {
-    color: var(--text-secondary);
+    color: #94a3b8 !important;
     max-width: 680px;
     font-size: 0.94rem;
     line-height: 1.6;
@@ -356,12 +412,12 @@ body.aptitude-theme {
 .stat-item .stat-value {
     font-size: 1.6rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: #ffffff !important;
 }
 
 .stat-item .stat-label {
     font-size: 0.78rem;
-    color: var(--text-muted);
+    color: #94a3b8 !important;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.04em;

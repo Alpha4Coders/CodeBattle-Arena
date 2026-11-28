@@ -75,14 +75,8 @@ mongoose.connection.once('open', async () => {
     await userStatsService.migrateUsersForRealWorld().catch(console.error);
     try {
         const count = await AptitudeDBHandler.Topics.countDocuments();
-        const hasPlaceholders = await AptitudeDBHandler.Questions.findOne({
-            $or: [
-                { question: { $regex: /primary analytical outcome/i } },
-                { "options.text": { $regex: /condition 1/i } }
-            ]
-        });
-        if (count === 0 || hasPlaceholders) {
-            console.log("[Server] Seeding/Updating Aptitude topics and authentic question sets (stale/placeholder questions detected)...");
+        if (count === 0) {
+            console.log("[Server] Seeding Aptitude topics and question sets...");
             await seedAptitudeDatabase().catch(console.error);
         }
     } catch (err) {
